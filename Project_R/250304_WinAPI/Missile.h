@@ -12,7 +12,7 @@ private:
 	float moveSpeed;
 	float angle;
 	int size;
-
+	RECT rcCollision;
 	Image* image;
 	Rocket* target;
 
@@ -35,7 +35,7 @@ public:
 
 	inline void SetAngle(float angle) { this->angle = angle; }
 	inline int GetSize() { return size; }
-
+	inline RECT GetRect() { return rcCollision; }
 	Missile();
 	~Missile();
 

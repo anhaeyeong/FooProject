@@ -62,13 +62,13 @@ void Rocket::Render(HDC hdc)
 void Rocket::Move()
 {
 	if (InputManager::isMoveLeft())
-		pos.x -= TimerManager::GetInstance()->GetDeltaTime() * 100;
+		pos.x -= TimerManager::GetInstance()->GetDeltaTime() * 500;
 	if (InputManager::isMoveRight())
-		pos.x += TimerManager::GetInstance()->GetDeltaTime() * 100;
+		pos.x += TimerManager::GetInstance()->GetDeltaTime() * 500;
 	if (InputManager::isMoveUp())
-		pos.y -= TimerManager::GetInstance()->GetDeltaTime() * 100;
+		pos.y -= TimerManager::GetInstance()->GetDeltaTime() * 500;
 	if (InputManager::isMoveDown()) {
-		pos.y += TimerManager::GetInstance()->GetDeltaTime() * 100;
+		pos.y += TimerManager::GetInstance()->GetDeltaTime() * 500;
 		if (!pos.y > WINSIZE_Y)
 			pos.y = WINSIZE_Y - 100;
 	}

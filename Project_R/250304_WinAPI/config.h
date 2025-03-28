@@ -18,8 +18,8 @@ using namespace std;
 /*
 	컴파일러에서 해당 코드를 뒤에 정의된 코드로 변경한다. 
 */
-#define WINSIZE_X	720
-#define WINSIZE_Y	1080
+#define WINSIZE_X	600
+#define WINSIZE_Y	800
 #define DEG_TO_RAD(degree) ((3.14 / 180.0) * degree)
 #define RAD_TO_DEG(radian) ((180.0 / 3.14) * radian)
 

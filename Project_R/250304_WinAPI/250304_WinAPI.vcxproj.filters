@@ -43,6 +43,9 @@
     <Filter Include="MainGame\Rocket">
       <UniqueIdentifier>{1e79367b-4297-43cd-8931-cc5bed246cc1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="2D Framework\Collision">
+      <UniqueIdentifier>{651f316b-3b8e-4fbb-89f7-a9dee2b2e994}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -86,6 +89,12 @@
     </ClCompile>
     <ClCompile Include="Rocket.cpp">
       <Filter>MainGame\Rocket</Filter>
+    </ClCompile>
+    <ClCompile Include="ColliderManager.cpp">
+      <Filter>2D Framework\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Collider.cpp">
+      <Filter>2D Framework\Collision</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -136,6 +145,12 @@
     </ClInclude>
     <ClInclude Include="Rocket.h">
       <Filter>MainGame\Rocket</Filter>
+    </ClInclude>
+    <ClInclude Include="ColliderManager.h">
+      <Filter>2D Framework\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Collider.h">
+      <Filter>2D Framework\Collision</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
