@@ -26,6 +26,7 @@ public:
 	void Dead();
 	inline FPOINT GetPos() { return pos; }
 	inline RECT GetRect() { return rcCollision; }
+	inline int GetSize() { return size; }
 	Rocket();
 	~Rocket();
 };

@@ -4,7 +4,7 @@
 #include "EnemyManager.h"
 #include "Rocket.h"
 #include "MissileManager.h"
-
+#include "ColliderManager.h"
 /*
 실습1. z키를 입력해서 일반공격(미사일 1발씩 발사)
 	   x키를 입력해서 폭탄 공격(화면 내의 적과 미사일 모두 삭제)
@@ -39,10 +39,20 @@ void MainGame::Init()
 
 	rocket = new Rocket();
 	rocket->Init();
+
+	colliderManager = ColliderManager::GetInstance();
+	colliderManager->Init();
 }
 
 void MainGame::Release()
 {
+	if (colliderManager)
+	{
+		colliderManager->Release();
+		delete colliderManager;
+		colliderManager = nullptr;
+	}
+
 	if (enemyManager)
 	{
 		enemyManager->Release();
@@ -80,6 +90,7 @@ void MainGame::Update()
 {
 	enemyManager->Update();
 	rocket->Update();
+	colliderManager->Update();
 	InvalidateRect(g_hWnd, NULL, false);
 }
 
@@ -95,7 +106,7 @@ void MainGame::Render()
 
 	enemyManager->Render(hBackBufferDC);
 	rocket->Render(hBackBufferDC);
-
+	colliderManager->Render(hBackBufferDC);
 	TimerManager::GetInstance()->Render(hBackBufferDC);
 
 	// 백버퍼에 있는 내용을 메인 hdc에 복사

@@ -14,7 +14,7 @@ void Rocket::Init()
 
 	missileManager = new MissileManager();
 	missileManager->Init();
-
+	rcCollision = GetRectAtCenter(pos.x, pos.y, size, size); //테스트 충돌박스
 	image = ImageManager::GetInstance()->AddImage(
 		"rocket", TEXT("Image/rocket.bmp"), 52, 64, true, RGB(255, 0, 255));
 

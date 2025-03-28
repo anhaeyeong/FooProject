@@ -8,7 +8,7 @@ void Missile::Init()
 	isActived = false;
 	moveSpeed = 3.0f;
 	size = 10;
-	//rcCollision = 
+	rcCollision = GetRectAtCenter(pos.x, pos.y, size, size); //테스트 충돌박스
 	image = ImageManager::GetInstance()->AddImage(
 		"bullet", TEXT("Image/bullet.bmp"), 21, 21,
 		true, RGB(255, 0, 255));
