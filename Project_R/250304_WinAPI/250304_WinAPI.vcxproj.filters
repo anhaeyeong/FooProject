@@ -60,9 +60,6 @@
     <ClCompile Include="Missile.cpp">
       <Filter>MainGame\Missile</Filter>
     </ClCompile>
-    <ClCompile Include="MissileManager.cpp">
-      <Filter>MainGame\Missile</Filter>
-    </ClCompile>
     <ClCompile Include="Timer.cpp">
       <Filter>2D Framework\Time</Filter>
     </ClCompile>
@@ -87,6 +84,9 @@
     <ClCompile Include="Rocket.cpp">
       <Filter>MainGame\Rocket</Filter>
     </ClCompile>
+    <ClCompile Include="MissileFactory.cpp">
+      <Filter>MainGame\Missile</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="config.h">
@@ -108,9 +108,6 @@
       <Filter>MainGame\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="Missile.h">
-      <Filter>MainGame\Missile</Filter>
-    </ClInclude>
-    <ClInclude Include="MissileManager.h">
       <Filter>MainGame\Missile</Filter>
     </ClInclude>
     <ClInclude Include="Timer.h">
@@ -136,6 +133,9 @@
     </ClInclude>
     <ClInclude Include="Rocket.h">
       <Filter>MainGame\Rocket</Filter>
+    </ClInclude>
+    <ClInclude Include="MissileFactory.h">
+      <Filter>MainGame\Missile</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

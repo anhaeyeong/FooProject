@@ -29,8 +29,6 @@ void Enemy::Init(float posX, float posY)
 		"Normal_Enemy", TEXT("Image/ufo.bmp"), 530, 32, 10, 1,
 		true, RGB(255, 0, 255));
 
-	missileManager = new MissileManager();
-	missileManager->Init();
 }
 
 void Enemy::Release()
@@ -41,13 +39,6 @@ void Enemy::Release()
 		delete image;
 		image = nullptr;
 	}
-
-	if (missileManager)
-	{
-		missileManager->Release();
-		delete missileManager;
-		missileManager = nullptr;
-	}
 }
 
 void Enemy::Update()
@@ -56,7 +47,6 @@ void Enemy::Update()
 	{
 		Move();
 
-		missileManager->EnemyFire({ pos.x,pos.y }, - 90);
 
 		elapsedFrame++;
 		if (elapsedFrame > 5)
@@ -70,10 +60,6 @@ void Enemy::Update()
 		}
 	}
 
-	if (missileManager)
-	{
-		missileManager->Update();
-	}
 }
 
 void Enemy::Render(HDC hdc)
@@ -82,7 +68,6 @@ void Enemy::Render(HDC hdc)
 	{
 		image->Render(hdc, pos.x, pos.y, animationFrame);
 
-		missileManager->Render(hdc);
 	}
 }
 

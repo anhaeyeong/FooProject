@@ -2,7 +2,6 @@
 #include "CommonFunction.h"
 #include "Image.h"
 #include "InputManager.h"
-#include "MissileManager.h"
 
 void Rocket::Init()
 {
@@ -12,22 +11,16 @@ void Rocket::Init()
 	size = 40;
 	isAlive = true;
 
-	missileManager = new MissileManager();
-	missileManager->Init();
-
 	image = ImageManager::GetInstance()->AddImage(
 		"rocket", TEXT("Image/rocket.bmp"), 52, 64, true, RGB(255, 0, 255));
+
+	MissileFactory::Init();
 
 }
 
 void Rocket::Release()
 {
-	if (missileManager)
-	{
-		missileManager->Release();
-		delete missileManager;
-		missileManager = nullptr;
-	}
+	MissileFactory::Release();
 }
 
 void Rocket::Update()
@@ -41,11 +34,6 @@ void Rocket::Update()
 	{
 		Fire();
 	}
-
-	if (missileManager)
-	{
-		missileManager->Update();
-	}
 }
 
 void Rocket::Render(HDC hdc)
@@ -54,8 +42,6 @@ void Rocket::Render(HDC hdc)
 	{
 		image->Render(hdc, pos.x, pos.y);
 	}
-
-	missileManager->Render(hdc);
 
 }
 
@@ -76,7 +62,9 @@ void Rocket::Move()
 
 void Rocket::Fire()
 {
-	missileManager->Fire({ pos.x,pos.y }, 90); // 플레이어 위치에서 위쪽으로 발사
+	PlayerMissileFactory::GetInstance()->AddMissile(MissileType::NORMAL);
+	PlayerMissileFactory::GetInstance()->AddMissile(MissileType::SIGN);
+	PlayerMissileFactory::GetInstance()->AddMissile(MissileType::LAZER);
 }
 
 void Rocket::Dead()

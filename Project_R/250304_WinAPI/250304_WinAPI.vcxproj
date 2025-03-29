@@ -138,7 +138,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainGame.cpp" />
     <ClCompile Include="Missile.cpp" />
-    <ClCompile Include="MissileManager.cpp" />
+    <ClCompile Include="MissileFactory.cpp" />
     <ClCompile Include="Rocket.cpp" />
     <ClCompile Include="TimerManager.cpp" />
     <ClCompile Include="Timer.cpp" />
@@ -155,7 +155,7 @@
     <ClInclude Include="KeyManager.h" />
     <ClInclude Include="MainGame.h" />
     <ClInclude Include="Missile.h" />
-    <ClInclude Include="MissileManager.h" />
+    <ClInclude Include="MissileFactory.h" />
     <ClInclude Include="Rocket.h" />
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="TimerManager.h" />

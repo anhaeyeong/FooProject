@@ -1,8 +1,10 @@
 #pragma once
 #include "GameObject.h"
+#include "MissileFactory.h"
 
 class Image;
-class MissileManager;
+class MissileFactory;
+
 class Rocket : public GameObject
 {
 private:
@@ -14,7 +16,7 @@ private:
 	bool isAlive;
 
 	Image* image;
-	MissileManager* missileManager;
+	MissileFactory* missileFactory;
 
 public:
 	void Init();
