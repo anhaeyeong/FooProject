@@ -1,43 +1,59 @@
 #pragma once
-#include "GameObject.h"
-#include "Image.h"
+#include "config.h"
 
-class Rocket;
-class Missile : public GameObject
+enum class MissileOwner { PLAYER, ENEMY };
+enum class MissileType { NORMAL, SIGN, LAZER };
+
+
+class Missile
 {
-private:
-	FPOINT pos;
-	bool isActived;
-	COLORREF color;
-	float moveSpeed;
-	float angle;
-	int size;
-
-	Image* image;
-	Rocket* target;
+protected:
+    Image* image;
+    MissileOwner owner;
 
 public:
-	void Init();		
-	void Release();		
-	void Update();		
-	void Render(HDC hdc);
+    Missile(MissileOwner owner) : image(nullptr), owner(owner) {}
+    virtual ~Missile() = default;
 
-	void Move();
-	bool IsOutofScreen();
+    virtual void Move() = 0;
+    virtual void Notice() = 0;
+    virtual void loadImage() = 0;
 
-	// getter, setter
-	inline bool GetIsActived() { return isActived; }
-	inline void SetIsActived(bool isActived) {
-		this->isActived = isActived;	}
-
-	inline void SetPos(FPOINT pos) { this->pos = pos; }
-	inline FPOINT GetPos() { return pos; }
-
-	inline void SetAngle(float angle) { this->angle = angle; }
-	inline int GetSize() { return size; }
-
-	Missile();
-	~Missile();
-
+    MissileOwner GetOwner() const { return owner; }
 };
 
+class NoramlMissile : public Missile
+{
+private:
+    virtual void Move() override;
+    virtual void Notice() override;
+    virtual void loadImage() override;
+
+public:
+    NoramlMissile(MissileOwner owner) : Missile(owner) { loadImage(); }
+    virtual ~NoramlMissile() {}
+};
+
+class SignMissile : public Missile
+{
+private:
+    virtual void Move() override;
+    virtual void Notice() override;
+    virtual void loadImage() override;
+
+public:
+    SignMissile(MissileOwner owner) : Missile(owner) { loadImage(); }
+    virtual ~SignMissile() {}
+};
+
+class LazerMissile : public Missile
+{
+private:
+    virtual void Move() override;
+    virtual void Notice() override;
+    virtual void loadImage() override;
+
+public:
+    LazerMissile(MissileOwner owner) : Missile(owner) { loadImage(); }
+    virtual ~LazerMissile() {}
+};

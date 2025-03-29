@@ -8,6 +8,7 @@
 #include <iostream>
 #include <bitset>
 #include <map>
+#include <vector>
 
 using namespace std;
 

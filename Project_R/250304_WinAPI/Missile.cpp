@@ -1,81 +1,64 @@
 #include "Missile.h"
-#include "CommonFunction.h"
-#include "Rocket.h"
 
-void Missile::Init()
+void NoramlMissile::Move()
 {
-	pos = { 0, 0 };
-	isActived = false;
-	moveSpeed = 3.0f;
-	size = 10;
-
-	image = ImageManager::GetInstance()->AddImage(
-		"bullet", TEXT("Image/bullet.bmp"), 21, 21,
-		true, RGB(255, 0, 255));
+    std::cout << "일반 미사일 이동!" << std::endl;
 }
 
-void Missile::Release()
+void NoramlMissile::Notice()
 {
-
+    if (owner == MissileOwner::PLAYER)
+        std::cout << "플레이어가 일반 미사일 발사!" << std::endl;
+    else
+        std::cout << "적이 일반 미사일 발사!" << std::endl;
 }
 
-void Missile::Update()
+void NoramlMissile::loadImage()
 {
-	Move();
-	if (isActived && IsOutofScreen())
-	{
-		isActived = false;
-	}
+    std::string imageKey = (owner == MissileOwner::PLAYER) ? "Player_Normal_Missile" : "Enemy_Normal_Missile";
+    image = ImageManager::GetInstance()->AddImage(
+        imageKey, TEXT("Image/normal_missile.bmp"), 530, 32, 10, 1,
+        true, RGB(255, 0, 255));
 }
 
-void Missile::Render(HDC hdc)
+void SignMissile::Move()
 {
-	if (isActived)
-	{
-		image->Render(hdc, pos.x, pos.y);
-	}
+    std::cout << "일반 미사일 이동!" << std::endl;
 }
 
-
-void Missile::Move()
+void SignMissile::Notice()
 {
-	if (isActived)
-	{
-		pos.x += moveSpeed * TimerManager::GetInstance()->GetDeltaTime() * 100
-			* cosf(DEG_TO_RAD(angle));
-		pos.y -= moveSpeed * TimerManager::GetInstance()->GetDeltaTime() * 100
-			* sinf(DEG_TO_RAD(angle));
-		//pos.x += moveSpeed * cosf(DEG_TO_RAD(angle));
-		//pos.y -= moveSpeed * sinf(DEG_TO_RAD(angle));
-	}
-
-	if (target)
-	{
-		angle = GetAngle(pos, target->GetPos());
-
-		pos.x += cosf(angle) * TimerManager::GetInstance()->GetDeltaTime() * 100;
-		pos.y -= sinf(angle) * TimerManager::GetInstance()->GetDeltaTime() * 100;
-	}
+    if (owner == MissileOwner::PLAYER)
+        std::cout << "플레이어가 일반 미사일 발사!" << std::endl;
+    else
+        std::cout << "적이 일반 미사일 발사!" << std::endl;
 }
 
-bool Missile::IsOutofScreen()
+void SignMissile::loadImage()
 {
-	float right = pos.x + size / 2;
-	float left = pos.x - size / 2;
-	float top = pos.y - size / 2;
-	float bottom = pos.y + size / 2;
-
-	if (right < 0 || left > WINSIZE_X
-		|| bottom < 0 || top > WINSIZE_Y)
-		return true;
-
-	return false;
+    std::string imageKey = (owner == MissileOwner::PLAYER) ? "Player_Normal_Missile" : "Enemy_Normal_Missile";
+    image = ImageManager::GetInstance()->AddImage(
+        imageKey, TEXT("Image/normal_missile.bmp"), 530, 32, 10, 1,
+        true, RGB(255, 0, 255));
 }
 
-Missile::Missile()
+void LazerMissile::Move()
 {
+    std::cout << "일반 미사일 이동!" << std::endl;
 }
 
-Missile::~Missile()
+void LazerMissile::Notice()
 {
+    if (owner == MissileOwner::PLAYER)
+        std::cout << "플레이어가 일반 미사일 발사!" << std::endl;
+    else
+        std::cout << "적이 일반 미사일 발사!" << std::endl;
+}
+
+void LazerMissile::loadImage()
+{
+    std::string imageKey = (owner == MissileOwner::PLAYER) ? "Player_Normal_Missile" : "Enemy_Normal_Missile";
+    image = ImageManager::GetInstance()->AddImage(
+        imageKey, TEXT("Image/normal_missile.bmp"), 530, 32, 10, 1,
+        true, RGB(255, 0, 255));
 }
