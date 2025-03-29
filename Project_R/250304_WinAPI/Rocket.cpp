@@ -15,9 +15,10 @@ void Rocket::Init()
 	missileManager = new MissileManager();
 	missileManager->Init();
 
+	/*image = ImageManager::GetInstance()->AddImage(
+		"rocket", TEXT("Image/rocket.bmp"), 52, 64, true, RGB(255, 0, 255));*/
 	image = ImageManager::GetInstance()->AddImage(
-		"rocket", TEXT("Image/rocket.bmp"), 52, 64, true, RGB(255, 0, 255));
-
+		"scv", TEXT("Image/scv.bmp"), 34, 34, true, RGB(52, 63, 49));
 }
 
 void Rocket::Release()
@@ -62,13 +63,13 @@ void Rocket::Render(HDC hdc)
 void Rocket::Move()
 {
 	if (InputManager::isMoveLeft())
-		pos.x -= TimerManager::GetInstance()->GetDeltaTime() * 100;
+		pos.x -= TimerManager::GetInstance()->GetDeltaTime() * 500;
 	if (InputManager::isMoveRight())
-		pos.x += TimerManager::GetInstance()->GetDeltaTime() * 100;
+		pos.x += TimerManager::GetInstance()->GetDeltaTime() * 500;
 	if (InputManager::isMoveUp())
-		pos.y -= TimerManager::GetInstance()->GetDeltaTime() * 100;
+		pos.y -= TimerManager::GetInstance()->GetDeltaTime() * 500;
 	if (InputManager::isMoveDown()) {
-		pos.y += TimerManager::GetInstance()->GetDeltaTime() * 100;
+		pos.y += TimerManager::GetInstance()->GetDeltaTime() * 500;
 		if (!pos.y > WINSIZE_Y)
 			pos.y = WINSIZE_Y - 100;
 	}

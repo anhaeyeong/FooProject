@@ -27,7 +27,7 @@ void MainGame::Init()
 			TEXT("백버퍼 생성 실패"), TEXT("경고"), MB_OK);
 	}
 	backGround = new Image();
-	if (FAILED(backGround->Init(TEXT("Image/background1.bmp"), WINSIZE_X, WINSIZE_Y)))
+	if (FAILED(backGround->Init(TEXT("Image/background2.bmp"), WINSIZE_X, WINSIZE_Y)))
 	{
 		MessageBox(g_hWnd,
 			TEXT("Image/backGround.bmp 생성 실패"), TEXT("경고"), MB_OK);

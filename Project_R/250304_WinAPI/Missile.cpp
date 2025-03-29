@@ -10,8 +10,8 @@ void Missile::Init()
 	size = 10;
 
 	image = ImageManager::GetInstance()->AddImage(
-		"bullet", TEXT("Image/bullet.bmp"), 21, 21,
-		true, RGB(255, 0, 255));
+		"bullet", TEXT("Image/missile_scourge1.bmp"), 33, 29,
+		true, RGB(255, 255, 255));
 }
 
 void Missile::Release()
