@@ -34,11 +34,11 @@ Missile* PlayerMissileFactory::CreateMissile(MissileType type)
     switch (type)
     {
     case MissileType::NORMAL:
-        return new NoramlMissile(MissileOwner::PLAYER);
+        return new NoramlMissile(MissileOwner::ROCKET);
     case MissileType::SIGN:
-        return new SignMissile(MissileOwner::PLAYER);
+        return new SignMissile(MissileOwner::ROCKET);
     case MissileType::LAZER:
-        return new LazerMissile(MissileOwner::PLAYER);
+        return new LazerMissile(MissileOwner::ROCKET);
     default:
         return nullptr;
     }

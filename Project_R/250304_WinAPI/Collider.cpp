@@ -4,54 +4,57 @@
 void Collider::Init()
 {
     isCollision = false;
-    attackerRect = RECT{ 0, 0, 0, 0 };
-    targetRect = RECT{ 0, 0, 0, 0 };
+    isActive = true;
+    rect = RECT{ 0, 0, 0, 0 };
+    owner = nullptr;
+    type = eColliderType::ROCKET;
 }
 
 void Collider::Update()
 {
-    //충돌체크전에 플레이어,미사일,적한테 구조체(타입, 위치정보, RECT정보) 받아서 설정
-    CheckCollision();
+    //실제 충돌검사는 collidermanager에서 
 }
 
 void Collider::Render(HDC hdc)
 {
+    if (isActive)
+    {
+        //충돌 시 빨간색/ 아니면 녹색
+        HPEN pen = CreatePen(PS_SOLID, 2, isCollision ? RGB(255, 0, 0) : RGB(0, 255, 0));
+        HPEN oldPen = (HPEN)SelectObject(hdc, pen);
+        HBRUSH oldBrush = (HBRUSH)SelectObject(hdc, GetStockObject(NULL_BRUSH));
+
+        Rectangle(hdc, rect.left, rect.top, rect.right, rect.bottom);
+        SelectObject(hdc, oldPen);
+        SelectObject(hdc, oldBrush);
+        DeleteObject(pen);
+    }
 }
 
-Collider::Collider(eColliderType attacker, eColliderType target) :
-    attackerType{ attacker }, targetType{ target }, isCollision{ false }
+Collider::Collider()
 {
-
 }
 
 Collider::~Collider()
 {
 }
 
-bool Collider::CheckCollision()
+bool Collider::CheckCollision(const Collider* other) const
 {
-    //충돌박스가 유효한지 확인 (크기가 0이 아닌지)
-    if (attackerRect.left != attackerRect.right &&
-        attackerRect.top != attackerRect.bottom &&
-        targetRect.left != targetRect.right &&
-        targetRect.top != targetRect.bottom)
-    {
-        isCollision = RectInRect(attackerRect, targetRect);
-    }
-    else
-    {
-        isCollision = false;
-    }
+    if (other == nullptr) return false;
 
-    return isCollision;
+    // 두 충돌 영역이 유효한지 확인
+    if (rect.left != rect.right &&
+        rect.top != rect.bottom &&
+        other->rect.left != other->rect.right &&
+        other->rect.top != other->rect.bottom)
+    {
+        return RectInRect(rect, other->rect);
+    }
+    return false;
 }
 
-void Collider::UpdateAttackerRect(float x, float y, float width, float height)
+void Collider::UpdateRect(float x, float y, float width, float height)
 {
-    attackerRect = GetRectAtCenter(x, y, width, height);
-}
-
-void Collider::UpdateTargetRect(float x, float y, float width, float height)
-{
-    targetRect = GetRectAtCenter(x, y, width, height);
+    rect = GetRectAtCenter(x, y, width, height);
 }
