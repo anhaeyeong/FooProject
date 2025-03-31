@@ -22,7 +22,7 @@ public:
 class PlayerMissileFactory : public MissileFactory, public Singleton<PlayerMissileFactory>
 {
 public:
-    PlayerMissileFactory() : MissileFactory(MissileOwner::ROCKET) {}
+    PlayerMissileFactory() : MissileFactory(MissileOwner::PLAYER) {}
     virtual Missile* CreateMissile(MissileType type) override;
 };
 
