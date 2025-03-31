@@ -43,6 +43,9 @@
     <Filter Include="MainGame\Rocket">
       <UniqueIdentifier>{1e79367b-4297-43cd-8931-cc5bed246cc1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MainGame\Collider">
+      <UniqueIdentifier>{97152418-a94f-4b18-8211-880f3152f0d9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -86,6 +89,12 @@
     </ClCompile>
     <ClCompile Include="MissileFactory.cpp">
       <Filter>MainGame\Missile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\스타리소스\Collider\Collider.cpp">
+      <Filter>MainGame\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\스타리소스\Collider\ColliderManager.cpp">
+      <Filter>MainGame\Collider</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -136,6 +145,12 @@
     </ClInclude>
     <ClInclude Include="MissileFactory.h">
       <Filter>MainGame\Missile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\스타리소스\Collider\Collider.h">
+      <Filter>MainGame\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\스타리소스\Collider\ColliderManager.h">
+      <Filter>MainGame\Collider</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
