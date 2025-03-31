@@ -128,8 +128,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\스타리소스\Collider\Collider.cpp" />
-    <ClCompile Include="..\..\..\..\스타리소스\Collider\ColliderManager.cpp" />
+    <ClCompile Include="Collider.cpp" />
+    <ClCompile Include="Collider.h" />
+    <ClCompile Include="ColliderManager.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyManager.cpp" />
     <ClCompile Include="GameObject.cpp" />
@@ -146,8 +147,7 @@
     <ClCompile Include="Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\스타리소스\Collider\Collider.h" />
-    <ClInclude Include="..\..\..\..\스타리소스\Collider\ColliderManager.h" />
+    <ClInclude Include="ColliderManager.h" />
     <ClInclude Include="CommonFunction.h" />
     <ClInclude Include="config.h" />
     <ClInclude Include="Enemy.h" />
