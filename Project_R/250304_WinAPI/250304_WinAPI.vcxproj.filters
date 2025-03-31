@@ -90,10 +90,13 @@
     <ClCompile Include="MissileFactory.cpp">
       <Filter>MainGame\Missile</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\스타리소스\Collider\Collider.cpp">
+    <ClCompile Include="Collider.cpp">
       <Filter>MainGame\Collider</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\스타리소스\Collider\ColliderManager.cpp">
+    <ClCompile Include="ColliderManager.cpp">
+      <Filter>MainGame\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="Collider.h">
       <Filter>MainGame\Collider</Filter>
     </ClCompile>
   </ItemGroup>
@@ -146,10 +149,7 @@
     <ClInclude Include="MissileFactory.h">
       <Filter>MainGame\Missile</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\스타리소스\Collider\Collider.h">
-      <Filter>MainGame\Collider</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\스타리소스\Collider\ColliderManager.h">
+    <ClInclude Include="ColliderManager.h">
       <Filter>MainGame\Collider</Filter>
     </ClInclude>
   </ItemGroup>
