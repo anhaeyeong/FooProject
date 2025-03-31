@@ -3,6 +3,8 @@
 
 class Image;
 class MissileManager;
+class State;
+class AttackState;
 class Rocket : public GameObject
 {
 private:
@@ -13,6 +15,8 @@ private:
 	RECT rcCollision;
 	bool isAlive;
 
+	State* state;
+	AttackState* attackstate;
 	Image* image;
 	MissileManager* missileManager;
 

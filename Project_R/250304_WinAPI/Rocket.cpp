@@ -3,6 +3,7 @@
 #include "Image.h"
 #include "InputManager.h"
 #include "MissileManager.h"
+#include "State.h"
 
 void Rocket::Init()
 {
@@ -18,10 +19,24 @@ void Rocket::Init()
 	image = ImageManager::GetInstance()->AddImage(
 		"rocket", TEXT("Image/rocket.bmp"), 52, 64, true, RGB(255, 0, 255));
 
+	state = new IDLEState();
+	attackstate = nullptr;
 }
 
 void Rocket::Release()
 {
+	if (attackstate)
+	{
+		delete attackstate;
+		attackstate = nullptr;
+	}
+
+	if (state)
+	{
+		delete state;
+		state = nullptr;
+	}
+	
 	if (missileManager)
 	{
 		missileManager->Release();

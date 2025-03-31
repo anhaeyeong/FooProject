@@ -140,8 +140,10 @@
     <ClCompile Include="Missile.cpp" />
     <ClCompile Include="MissileManager.cpp" />
     <ClCompile Include="Rocket.cpp" />
+    <ClCompile Include="State.cpp" />
     <ClCompile Include="TimerManager.cpp" />
     <ClCompile Include="Timer.cpp" />
+    <ClCompile Include="UIManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonFunction.h" />
@@ -158,8 +160,10 @@
     <ClInclude Include="MissileManager.h" />
     <ClInclude Include="Rocket.h" />
     <ClInclude Include="Singleton.h" />
+    <ClInclude Include="State.h" />
     <ClInclude Include="TimerManager.h" />
     <ClInclude Include="Timer.h" />
+    <ClInclude Include="UIManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

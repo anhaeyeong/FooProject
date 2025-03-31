@@ -43,6 +43,12 @@
     <Filter Include="MainGame\Rocket">
       <UniqueIdentifier>{1e79367b-4297-43cd-8931-cc5bed246cc1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="2D Framework\State">
+      <UniqueIdentifier>{54391a58-97af-4d3d-9c11-97b515f95a75}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2D Framework\UI">
+      <UniqueIdentifier>{3ef6d51e-6752-4c6e-a8a8-aff8a921e276}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -86,6 +92,12 @@
     </ClCompile>
     <ClCompile Include="Rocket.cpp">
       <Filter>MainGame\Rocket</Filter>
+    </ClCompile>
+    <ClCompile Include="State.cpp">
+      <Filter>2D Framework\State</Filter>
+    </ClCompile>
+    <ClCompile Include="UIManager.cpp">
+      <Filter>2D Framework\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -136,6 +148,12 @@
     </ClInclude>
     <ClInclude Include="Rocket.h">
       <Filter>MainGame\Rocket</Filter>
+    </ClInclude>
+    <ClInclude Include="State.h">
+      <Filter>2D Framework\State</Filter>
+    </ClInclude>
+    <ClInclude Include="UIManager.h">
+      <Filter>2D Framework\UI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
