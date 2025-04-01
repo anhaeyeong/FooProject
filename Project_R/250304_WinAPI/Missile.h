@@ -32,6 +32,8 @@ public:
    FPOINT pos;  
    Image* image;  
 
+   inline FPOINT GetPos() { return pos; }
+   inline int GetSize() { return size; }
    MissileOwner GetOwner() const { return owner; }  
    MissileType GetType() const { return type; }  
 };  

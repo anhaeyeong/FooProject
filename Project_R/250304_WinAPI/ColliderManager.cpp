@@ -6,17 +6,21 @@
 
 void ColliderManager::Init()
 {
+	playerCollision.resize(50);
+	enemyCollision.resize(50);
+	missileCollision.resize(50);
+
 	for (auto& p : playerCollision)
 	{
-		*p = rocket->GetRect();
+		*p = GetRect(rocket->GetPos().x, rocket->GetPos().y, rocket->GetSize(), rocket->GetSize());
 	}
 	for (auto& e : enemyCollision)
 	{
-		*e = enemy->GetRect();
+		*e = GetRect(enemy->GetPos().x, enemy->GetPos().y, enemy->GetSize(), enemy->GetSize());
 	}
 	for (auto& m : missileCollision)
 	{
-		*m = missile->GetRect();
+		*m = GetRect(missile->GetPos().x, missile->GetPos().y, missile->GetSize(), missile->GetSize());
 	}
 }
 
@@ -49,15 +53,24 @@ void ColliderManager::Update()
 
 void ColliderManager::Render(HDC hdc)
 {
-	
+	//충돌: 빨간색 , 충돌하지 않음: 초록색
 	HPEN pen = CreatePen(PS_SOLID, 2, isCollision ? RGB(255, 0, 0) : RGB(0, 255, 0));
 
 	HPEN oldPen = (HPEN)SelectObject(hdc, pen);
 	HBRUSH oldBrush = (HBRUSH)SelectObject(hdc, GetStockObject(NULL_BRUSH));
 
-	Rectangle(hdc, enemy->GetRect().left, enemy->GetRect().top, enemy->GetRect().right, enemy->GetRect().bottom);
-	Rectangle(hdc, missile->GetRect().left, missile->GetRect().top, missile->GetRect().right, missile->GetRect().bottom);
-	Rectangle(hdc, rocket->GetRect().left, rocket->GetRect().top, rocket->GetRect().right, rocket->GetRect().bottom);
+	for (auto& p : playerCollision)
+	{
+		Rectangle(hdc, p->left, p->top, p->right, p->bottom);
+	}
+	for (auto& e : enemyCollision)
+	{
+		Rectangle(hdc, e->left, e->top, e->right, e->bottom);
+	}
+	for (auto& m : missileCollision)
+	{
+		Rectangle(hdc, m->left, m->top, m->right, m->bottom);
+	}
 
 	SelectObject(hdc, oldPen);
 	SelectObject(hdc, oldBrush);

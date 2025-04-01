@@ -46,7 +46,7 @@ public:
 	inline float GetDamage() const { return damage; }
 	inline int GetHP() const{ return hp; }
 	inline FPOINT GetPos() const { return pos; }
-
+	inline int GetSize() const { return size; }
 	void ChangeAnimation(AnimationType anim);
 	void ChangeState(State* newState);
 	inline FPOINT GetPos() { return pos; }

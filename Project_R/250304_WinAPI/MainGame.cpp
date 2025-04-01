@@ -3,6 +3,7 @@
 #include "Image.h"
 #include "EnemyManager.h"
 #include "Rocket.h"
+#include "ColliderManager.h"
 
 /*
 실습1. z키를 입력해서 일반공격(미사일 1발씩 발사)
@@ -16,6 +17,7 @@ void MainGame::Init()
 {
 	ImageManager::GetInstance()->Init();
 	KeyManager::GetInstance()->Init();
+	ColliderManager::GetInstance()->Init();
 
 	hdc = GetDC(g_hWnd);
 
@@ -72,6 +74,7 @@ void MainGame::Release()
 	}
 	ReleaseDC(g_hWnd, hdc);
 
+	ColliderManager::GetInstance()->Release();
 	KeyManager::GetInstance()->Release();
 	ImageManager::GetInstance()->Release();
 
