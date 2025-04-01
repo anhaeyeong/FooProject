@@ -36,9 +36,27 @@ void Missile::Render(HDC hdc) {
 
 bool Missile::IsOutofScreen()
 {
+    float right = pos.x + size / 2;
+    float left = pos.x - size / 2;
+    float top = pos.y - size / 2;
+    float bottom = pos.y + size / 2;
+
+    if (right < 0 || left > WINSIZE_X
+        || bottom < 0 || top > WINSIZE_Y)
+        return true;
+
     return false;
 }
 
+
+void NormalMissile::Render(HDC hdc) {
+    if (image) {
+        image->Render(hdc, pos.x, pos.y);
+    }
+    else {
+        std::cerr << "이미지가 로드되지 않았습니다." << std::endl;
+    }
+}
 
 
 void NormalMissile::Move() {
@@ -47,7 +65,7 @@ void NormalMissile::Move() {
 
 void NormalMissile::Notice() {
     if (owner == MissileOwner::PLAYER) {
-        pos = { 0, 0 };
+        //pos = { 0, 0 };
         isActived = true;
         moveSpeed = 3.0f;
         size = 10;
@@ -69,13 +87,22 @@ void NormalMissile::loadImage() {
    }
 }  
 
+void SignMissile::Render(HDC hdc) {
+    if (image) {
+        image->Render(hdc, pos.x, pos.y);
+    }
+    else {
+        std::cerr << "이미지가 로드되지 않았습니다." << std::endl;
+    }
+}
+
 void SignMissile::Move() {
 
 }
 
 void SignMissile::Notice() {
     if (owner == MissileOwner::PLAYER) {
-        pos = { 0, 0 };
+        //pos = { 0, 0 };
         isActived = true;
         moveSpeed = 3.0f;
         size = 10;
@@ -88,6 +115,15 @@ void SignMissile::loadImage() {
    image = ImageManager::GetInstance()->AddImage(  
        imageKey, imagePath.c_str(), 21, 21, 1, 1,  
        true, RGB(255, 0, 255));  
+}
+
+void LazerMissile::Render(HDC hdc) {
+    if (image) {
+        image->Render(hdc, pos.x, pos.y);
+    }
+    else {
+        std::cerr << "이미지가 로드되지 않았습니다." << std::endl;
+    }
 }
 
 void LazerMissile::Move() {

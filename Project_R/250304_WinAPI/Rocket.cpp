@@ -2,7 +2,7 @@
 #include "CommonFunction.h"
 #include "Image.h"
 #include "InputManager.h"
-#include "MissileManager.h"
+#include "MissileFactory.h"
 #include "State.h"
 
 
@@ -63,10 +63,10 @@ void Rocket::Update()
 
 void Rocket::Render(HDC hdc)
 {
+	missileFactory->Render(hdc);
 	if (isAlive)
 	{
 		image->Render(hdc, pos.x, pos.y);
-		missileFactory->Render(hdc);
 	}
 }
 
@@ -76,17 +76,17 @@ void Rocket::Move()
 	{
 		pos.x -= TimerManager::GetInstance()->GetDeltaTime() * 100;
 	}
-		
+
 	if (InputManager::isMoveRight())
 	{
 		pos.x += TimerManager::GetInstance()->GetDeltaTime() * 100;
 	}
-		
+
 	if (InputManager::isMoveUp())
 	{
 		pos.y -= TimerManager::GetInstance()->GetDeltaTime() * 100;
 	}
-		
+
 	if (InputManager::isMoveDown()) {
 		pos.y += TimerManager::GetInstance()->GetDeltaTime() * 100;
 		if (!pos.y > WINSIZE_Y)
@@ -98,29 +98,27 @@ void Rocket::HandleInput()
 {
 	if (InputManager::isMoveLeft())
 	{
-		if(state->GetName() != "Moving")
+		if (state->GetName() != "Moving")
 			ChangeState(new MovingState());
 	}
-
-	if (InputManager::isMoveRight())
+	else if (InputManager::isMoveRight())
+	{
+		if (state->GetName() != "Moving")
+			ChangeState(new MovingState());
+	}
+	else if (InputManager::isMoveUp())
 	{
 		if (state->GetName() != "Moving")
 			ChangeState(new MovingState());
 	}
 
-	if (InputManager::isMoveUp())
-	{
-		if (state->GetName() != "Moving")
-			ChangeState(new MovingState());
-	}
-
-	if (InputManager::isMoveDown()) {
+	else if (InputManager::isMoveDown()) {
 		if (state->GetName() != "Moving")
 			ChangeState(new MovingState());
 		if (!pos.y > WINSIZE_Y)
 			pos.y = WINSIZE_Y - 100;
 	}
-	if (KeyManager::GetInstance()->IsOnceKeyUp(VK_NUMPAD4) ||
+	else if (KeyManager::GetInstance()->IsOnceKeyUp(VK_NUMPAD4) ||
 		KeyManager::GetInstance()->IsOnceKeyUp(VK_NUMPAD5) ||
 		KeyManager::GetInstance()->IsOnceKeyUp(VK_NUMPAD6) ||
 		KeyManager::GetInstance()->IsOnceKeyUp(VK_NUMPAD8) ||
@@ -128,11 +126,12 @@ void Rocket::HandleInput()
 	{
 		ChangeState(new IDLEState());
 	}
+	
 	if (InputManager::isFire())
 	{
 		ChangeState(new AttackState());
 	}
-	if (KeyManager::GetInstance()->IsOnceKeyUp(VK_SPACE))
+	else if (KeyManager::GetInstance()->IsOnceKeyUp(VK_SPACE))
 	{
 		ChangeState(new IDLEState());
 	}
@@ -140,7 +139,7 @@ void Rocket::HandleInput()
 
 void Rocket::Fire()
 {
-	missileFactory->AddMissile(MissileType::NORMAL);
+	missileFactory->AddMissile(MissileType::NORMAL, { pos.x, pos.y });
 }
 
 void Rocket::Dead()

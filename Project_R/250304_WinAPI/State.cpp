@@ -62,7 +62,7 @@ void AttackState::Update(Rocket& player)
     //현재 설정된 미사일 발사
     //공격키가 떼졌는지 체크하면서 공격상태 유지
     player.Move(); //이동공격 가능하도록 이동로직 추가
-    if(InputManager::isFire())
+    //if(InputManager::isFire())
         player.Fire();
 }
 

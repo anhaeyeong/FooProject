@@ -30,18 +30,27 @@ public:
    int size;
    float angle;
    FPOINT pos;  
-   Image* image;  
+   Image* image;
+   RECT rect;
 
    inline FPOINT GetPos() { return pos; }
    inline int GetSize() { return size; }
    MissileOwner GetOwner() const { return owner; }  
-   MissileType GetType() const { return type; }  
+   MissileType GetType() const { return type; }
+   inline void SetPos(FPOINT pos) { this->pos = pos; }
+   inline FPOINT GetPos() { return pos; }
+
+   inline void SetAngle(float angle) { this->angle = angle; }
+   inline int GetSize() { return size; }
+
+   RECT GetRect() { return rect; }
 };  
 
 class NormalMissile : public Missile  
 {  
 private:  
-   virtual void Move() override;  
+   virtual void Render(HDC hdc);
+   virtual void Move() override;
    virtual void Notice() override;  
    virtual void loadImage() override;  
 
@@ -52,7 +61,8 @@ public:
 
 class SignMissile : public Missile  
 {  
-private:  
+private:
+   virtual void Render(HDC hdc);
    virtual void Move() override;  
    virtual void Notice() override;  
    virtual void loadImage() override;  
@@ -64,7 +74,8 @@ public:
 
 class LazerMissile : public Missile  
 {  
-private:  
+private:
+   virtual void Render(HDC hdc);
    virtual void Move() override;  
    virtual void Notice() override;  
    virtual void loadImage() override;  
