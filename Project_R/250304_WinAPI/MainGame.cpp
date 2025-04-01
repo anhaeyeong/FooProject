@@ -6,33 +6,41 @@
 #include "ColliderManager.h"
 
 /*
-½Ç½À1. zÅ°¸¦ ÀÔ·ÂÇØ¼­ ÀÏ¹Ý°ø°Ý(¹Ì»çÀÏ 1¹ß¾¿ ¹ß»ç)
-	   xÅ°¸¦ ÀÔ·ÂÇØ¼­ ÆøÅº °ø°Ý(È­¸é ³»ÀÇ Àû°ú ¹Ì»çÀÏ ¸ðµÎ »èÁ¦)
+ï¿½Ç½ï¿½1. zÅ°ï¿½ï¿½ ï¿½Ô·ï¿½ï¿½Ø¼ï¿½ ï¿½Ï¹Ý°ï¿½ï¿½ï¿½(ï¿½Ì»ï¿½ï¿½ï¿½ 1ï¿½ß¾ï¿½ ï¿½ß»ï¿½)
+	   xÅ°ï¿½ï¿½ ï¿½Ô·ï¿½ï¿½Ø¼ï¿½ ï¿½ï¿½Åº ï¿½ï¿½ï¿½ï¿½(È­ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ì»ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½)
 
-½Ç½À2. Æ¯Á¤ ¾ÆÀÌÅÛ È¹µæ ½Ã, zÅ°¸¦ ÀÔ·Â ÇßÀ» ¶§ ÀÏ¹Ý °ø°ÝÀÌ ¾÷±×·¹ÀÌµå(¹Ì»çÀÏ 2¹ß¾¿ ¹ß»ç)
-	   Æ¯Á¤ ¾ÆÀÌÅÛÀ» ÇÏ³ª ´õ È¹µæ ÇÏ¸é, ÇÑ¹ø ´õ ¾÷±×·¹ÀÌµå(¹Ì»çÀÏÀÌ 4¹ß¾¿ ¹ß»ç)
+ï¿½Ç½ï¿½2. Æ¯ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È¹ï¿½ï¿½ ï¿½ï¿½, zÅ°ï¿½ï¿½ ï¿½Ô·ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ï¹ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½×·ï¿½ï¿½Ìµï¿½(ï¿½Ì»ï¿½ï¿½ï¿½ 2ï¿½ß¾ï¿½ ï¿½ß»ï¿½)
+	   Æ¯ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï³ï¿½ ï¿½ï¿½ È¹ï¿½ï¿½ ï¿½Ï¸ï¿½, ï¿½Ñ¹ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½×·ï¿½ï¿½Ìµï¿½(ï¿½Ì»ï¿½ï¿½ï¿½ï¿½ï¿½ 4ï¿½ß¾ï¿½ ï¿½ß»ï¿½)
 */
 
 void MainGame::Init()
 {
 	ImageManager::GetInstance()->Init();
 	KeyManager::GetInstance()->Init();
-	ColliderManager::GetInstance()->Init();
+	UIManager::GetInstance()->Init();
+
+	UIManager::GetInstance()->AddText("Press 'S' to start", WINSIZE_X / 2, WINSIZE_Y / 2);
 
 	hdc = GetDC(g_hWnd);
-
+	sceneState = SceneState::Lobby;
 
 	backBuffer = new Image();
 	if (FAILED(backBuffer->Init(WINSIZE_X, WINSIZE_Y)))
 	{
 		MessageBox(g_hWnd,
-			TEXT("¹é¹öÆÛ »ý¼º ½ÇÆÐ"), TEXT("°æ°í"), MB_OK);
+			TEXT("ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½"), TEXT("ï¿½ï¿½ï¿½"), MB_OK);
+	}
+	Lobby = new Image();
+	if (FAILED(Lobby->Init(TEXT("Image/mainmenu.bmp"), WINSIZE_X, WINSIZE_Y)))
+	{
+		MessageBox(g_hWnd,
+			TEXT("Image/mainmenu.bmp ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½"), TEXT("ï¿½ï¿½ï¿½"), MB_OK);
 	}
 	backGround = new Image();
 	if (FAILED(backGround->Init(TEXT("Image/background1.bmp"), WINSIZE_X, WINSIZE_Y)))
 	{
 		MessageBox(g_hWnd,
-			TEXT("Image/backGround.bmp »ý¼º ½ÇÆÐ"), TEXT("°æ°í"), MB_OK);
+			TEXT("Image/backGround.bmp ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½"), TEXT("ï¿½ï¿½ï¿½"), MB_OK);
 	}
 
 
@@ -74,7 +82,7 @@ void MainGame::Release()
 	}
 	ReleaseDC(g_hWnd, hdc);
 
-	ColliderManager::GetInstance()->Release();
+	UIManager::GetInstance()->Release();
 	KeyManager::GetInstance()->Release();
 	ImageManager::GetInstance()->Release();
 
@@ -82,29 +90,47 @@ void MainGame::Release()
 
 void MainGame::Update()
 {
-	enemyManager->Update();
-	rocket->Update();
-	ColliderManager::GetInstance()->Update();
+	if (KeyManager::GetInstance()->IsOnceKeyDown(83))
+	{
+		UIManager::GetInstance()->Clear();
+		sceneState = SceneState::Main;
+	}
+	if (sceneState == SceneState::Main)
+	{
+		enemyManager->Update();
+		rocket->Update();
+	}
+	
 	InvalidateRect(g_hWnd, NULL, false);
 }
 
 void MainGame::Render()
 {
-	// ¹é¹öÆÛ¿¡ ¸ÕÀú º¹»ç
+	// ï¿½ï¿½ï¿½ï¿½Û¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	
 	HDC hBackBufferDC = backBuffer->GetMemDC();
+	switch (sceneState)
+	{
+	case SceneState::Lobby:
+		Lobby->Render(hBackBufferDC);
+		UIManager::GetInstance()->Render(hBackBufferDC);
+		break;
+	case SceneState::Main:
+		backGround->Render(hBackBufferDC);
 
-	backGround->Render(hBackBufferDC);
+		wsprintf(szText, TEXT("Mouse X : %d, Y : %d"), mousePosX, mousePosY);
+		TextOut(hBackBufferDC, 20, 60, szText, wcslen(szText));
 
-	wsprintf(szText, TEXT("Mouse X : %d, Y : %d"), mousePosX, mousePosY);
-	TextOut(hBackBufferDC, 20, 60, szText, wcslen(szText));
+		enemyManager->Render(hBackBufferDC);
+		rocket->Render(hBackBufferDC);
 
-	enemyManager->Render(hBackBufferDC);
-	rocket->Render(hBackBufferDC);
-	ColliderManager::GetInstance()->Render(hdc);
+		TimerManager::GetInstance()->Render(hBackBufferDC);
+		break;
+	case SceneState::End:
+		break;
+	}
 
-	TimerManager::GetInstance()->Render(hBackBufferDC);
-
-	// ¹é¹öÆÛ¿¡ ÀÖ´Â ³»¿ëÀ» ¸ÞÀÎ hdc¿¡ º¹»ç
+	// ï¿½ï¿½ï¿½ï¿½Û¿ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ hdcï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	backBuffer->Render(hdc);
 }
 

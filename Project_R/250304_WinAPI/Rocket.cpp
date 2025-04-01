@@ -14,27 +14,25 @@ void Rocket::Init()
 	size = 40;
 	isAlive = true;
 
-	image = ImageManager::GetInstance()->AddImage(
-		"rocket", TEXT("Image/rocket.bmp"), 52, 64, true, RGB(255, 0, 255));
 
 	missileFactory = PlayerMissileFactory::GetInstance();
 	missileFactory->Init();
 
 	ImageManager::GetInstance()->AddImage(
-		"rocket", TEXT("Image/rocket.bmp"), 52, 64, 1, 1, true, RGB(255, 0, 255));
+		"rocket", TEXT("Image/SCV_IDLE.bmp"), 35 * 2, 30 * 2, 1, 1, true, RGB(48, 64, 47));
 	ImageManager::GetInstance()->AddImage(
-		"MovingRocket", TEXT("Image/ufo.bmp"), 530, 32, 10, 1,
-		true, RGB(255, 0, 255));
+		"MovingRocket", TEXT("Image/SCV_IDLE.bmp"), 35 * 2, 30 * 2, 1, 1,
+		true, RGB(48, 64, 47));
 	ImageManager::GetInstance()->AddImage(
-		"AttackRocket", TEXT("Image/ufo.bmp"), 530, 32, 10, 1,
-		true, RGB(255, 0, 255));
+		"AttackRocket", TEXT("Image/SCV_Attack.bmp"), 40 * 2, 41 * 2, 1, 1,
+		true, RGB(48, 64, 47));
 	ImageManager::GetInstance()->AddImage(
 		"HitRocket", TEXT("Image/ufo.bmp"), 530, 32, 10, 1,
 		true, RGB(255, 0, 255));
 	ImageManager::GetInstance()->AddImage(
 		"DeadRocket", TEXT("Image/rocket.bmp"), 52, 64, true, RGB(255, 0, 255));
 	image = ImageManager::GetInstance()->FindImage("HitRocket");
-	state = new IDLEState();
+	state = new HitState();
 }
 
 void Rocket::Release()

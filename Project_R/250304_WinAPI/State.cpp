@@ -3,13 +3,13 @@
 
 void IDLEState::Enter(Rocket& player)
 {
-    //IDLE ¾Ö´Ï¸ÞÀÌ¼ÇÀ¸·Î º¯°æ
+    //IDLE ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     player.ChangeAnimation(AnimationType::IDLE);
 }
 
 void IDLEState::Update(Rocket& player)
 {
-    // ¾Ö´Ï¸ÞÀÌ¼Ç ¾÷µ¥ÀÌÆ®
+    // ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
 }
 
 void IDLEState::Exit(Rocket& player)
@@ -18,33 +18,32 @@ void IDLEState::Exit(Rocket& player)
 
 void DeadState::Enter(Rocket& player)
 {
-    //»ç¸Á ¾Ö´Ï¸ÞÀÌ¼ÇÀ¸·Î º¯°æ
+    //ï¿½ï¿½ï¿½ ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     player.ChangeAnimation(AnimationType::Dead);
 }
 
 void DeadState::Update(Rocket& player)
 {
-    //»ç¸Á ¾Ö´Ï¸ÞÀÌ¼Ç ¾÷µ¥ÀÌÆ®
-    //»ç¸Á ¾Ö´Ï¸ÞÀÌ¼Ç Á¾·á ½Ã °ÔÀÓ Á¾·á½ÃÄÑ¾ßÇÔ. player.isDead = true
+    //ï¿½ï¿½ï¿½ ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
+    //ï¿½ï¿½ï¿½ ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¾ï¿½ï¿½ï¿½. player.isDead = true
 }
 
 void DeadState::Exit(Rocket& player)
 {
-    //¹¹ÇØ¾ßµÇÁö
+    //ï¿½ï¿½ï¿½Ø¾ßµï¿½ï¿½ï¿½
 }
 
 void MovingState::Enter(Rocket& player)
 {
-    //ÀÌµ¿ ¾Ö´Ï¸ÞÀÌ¼ÇÀ¸·Î º¯°æ
+    //ï¿½Ìµï¿½ ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     player.ChangeAnimation(AnimationType::Moving);
 }
 
 void MovingState::Update(Rocket& player)
 {
-    // ½ÇÁ¦ Å°ÀÔ·Â¿¡ µû¸¥ Æ÷Áö¼Ç ¾÷µ¥ÀÌÆ®
-    // ÀÌµ¿ ¾Ö´Ï¸ÞÀÌ¼Ç ¾÷µ¥ÀÌÆ®
+    // ï¿½ï¿½ï¿½ï¿½ Å°ï¿½Ô·Â¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
+    // ï¿½Ìµï¿½ ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
     player.Move();
-    
 }
 
 void MovingState::Exit(Rocket& player)
@@ -53,17 +52,16 @@ void MovingState::Exit(Rocket& player)
 
 void AttackState::Enter(Rocket& player)
 {
-    //°ø°Ý¾Ö´Ï¸ÞÀÌ¼ÇÀ¸·Î º¯°æ
+    //ï¿½ï¿½ï¿½Ý¾Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     player.ChangeAnimation(AnimationType::Attack);
 }
 
 void AttackState::Update(Rocket& player)
 {
-    //ÇöÀç ¼³Á¤µÈ ¹Ì»çÀÏ ¹ß»ç
-    //°ø°ÝÅ°°¡ ¶¼Á³´ÂÁö Ã¼Å©ÇÏ¸é¼­ °ø°Ý»óÅÂ À¯Áö
-    player.Move(); //ÀÌµ¿°ø°Ý °¡´ÉÇÏµµ·Ï ÀÌµ¿·ÎÁ÷ Ãß°¡
-    //if(InputManager::isFire())
-        player.Fire();
+    //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì»ï¿½ï¿½ï¿½ ï¿½ß»ï¿½
+    //ï¿½ï¿½ï¿½ï¿½Å°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã¼Å©ï¿½Ï¸é¼­ ï¿½ï¿½ï¿½Ý»ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+    player.Move(); //ï¿½Ìµï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ïµï¿½ï¿½ï¿½ ï¿½Ìµï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½
+    player.Fire();
 }
 
 void AttackState::Exit(Rocket& player)
@@ -73,18 +71,18 @@ void AttackState::Exit(Rocket& player)
 
 void HitState::Enter(Rocket& player)
 {
-    //ÇÇ°Ý¾Ö´Ï¸ÞÀÌ¼Ç? ÀÖ³ª?
-    //¹«Àû½Ã°£ ÀÖ¾î¾ßÇÒµí ÇÃ·¹ÀÌ¾î ¹«Àû½Ã°£ ¼¼ÆÃ
+    //ï¿½Ç°Ý¾Ö´Ï¸ï¿½ï¿½Ì¼ï¿½? ï¿½Ö³ï¿½?
+    //ï¿½ï¿½ï¿½ï¿½ï¿½Ã°ï¿½ ï¿½Ö¾ï¿½ï¿½ï¿½Òµï¿½ ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ã°ï¿½ ï¿½ï¿½ï¿½ï¿½
     player.ChangeAnimation(AnimationType::Hit);
 }
 
 void HitState::Update(Rocket& player)
 {
-    //ÇÃ·¹ÀÌ¾î Ã¼·Â °¨¼Ò
-    //¹«Àû½Ã°£ °¨¼Ò ¾÷µ¥ÀÌÆ®
-    //¹«Àû½Ã°£ ³¡³ª¸é ´Ù½Ã IDLE»óÅÂ·Î º¹±Í
+    //ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ Ã¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+    //ï¿½ï¿½ï¿½ï¿½ï¿½Ã°ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
+    //ï¿½ï¿½ï¿½ï¿½ï¿½Ã°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù½ï¿½ IDLEï¿½ï¿½ï¿½Â·ï¿½ ï¿½ï¿½ï¿½ï¿½
     zonya += TimerManager::GetInstance()->GetDeltaTime();
-    if (zonya >= 1.0f)
+    if (zonya >= 0.5f)
         player.ChangeState(new IDLEState());
 }
 
