@@ -34,7 +34,7 @@ Missile* PlayerMissileFactory::CreateMissile(MissileType type)
     switch (type)
     {
     case MissileType::NORMAL:
-        return new NoramlMissile(MissileOwner::PLAYER);
+        return new NormalMissile(MissileOwner::PLAYER);
     case MissileType::SIGN:
         return new SignMissile(MissileOwner::PLAYER);
     case MissileType::LAZER:
@@ -46,5 +46,5 @@ Missile* PlayerMissileFactory::CreateMissile(MissileType type)
 
 Missile* EnemyMissileFactory::CreateMissile(MissileType type)
 {
-    return new NoramlMissile(MissileOwner::ENEMY);
+    return new NormalMissile(MissileOwner::ENEMY);
 }

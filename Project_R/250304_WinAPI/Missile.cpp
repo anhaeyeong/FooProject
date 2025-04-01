@@ -1,64 +1,102 @@
 #include "Missile.h"
 
-void NoramlMissile::Move()
-{
-    std::cout << "일반 미사일 이동!" << std::endl;
+void Missile::Init() {
+    pos = { 0, 0 };
+    isActived = false;
+    moveSpeed = 3.0f;
+    size = 10;
 }
 
-void NoramlMissile::Notice()
+void Missile::Release()
 {
-    if (owner == MissileOwner::PLAYER)
-        std::cout << "플레이어가 일반 미사일 발사!" << std::endl;
-    else
-        std::cout << "적이 일반 미사일 발사!" << std::endl;
+    if (image)
+    {
+        image->Release();
+        delete image;
+        image = nullptr;
+    }
 }
 
-void NoramlMissile::loadImage()
+void Missile::Update() {
+    Move();
+    if (isActived && IsOutofScreen()) {
+        isActived = false;
+    }
+}
+
+void Missile::Render(HDC hdc) {
+    if (isActived) {
+        image->Render(hdc, pos.x, pos.y);
+    }
+}
+
+bool Missile::IsOutofScreen()
 {
-    std::string imageKey = (owner == MissileOwner::PLAYER) ? "Player_Normal_Missile" : "Enemy_Normal_Missile";
+    return false;
+}
+
+
+
+
+void NormalMissile::Move() {
+
+}
+
+void NormalMissile::Notice() {
+    if (owner == MissileOwner::PLAYER) {
+        pos = { 0, 0 };
+        isActived = true;
+        moveSpeed = 3.0f;
+        size = 10;
+    }
+}
+
+void NormalMissile::loadImage() {  
+   string imageKey = (owner == MissileOwner::PLAYER) ? "" : "";  
+   wstring imagePath = (owner == MissileOwner::PLAYER) ? L"Image/.bmp" : L"Image/.bmp";  
+   image = ImageManager::GetInstance()->AddImage(  
+       imageKey, imagePath.c_str(), 530, 32, 10, 1,  
+       true, RGB(255, 0, 255));  
+}  
+
+void SignMissile::Move() {
+
+}
+
+void SignMissile::Notice() {
+    if (owner == MissileOwner::PLAYER) {
+        pos = { 0, 0 };
+        isActived = true;
+        moveSpeed = 3.0f;
+        size = 10;
+    }
+}
+
+void SignMissile::loadImage() {  
+   string imageKey = (owner == MissileOwner::PLAYER) ? "Player_ _Missile" : "Enemy_ _Missile";  
+   wstring imagePath = (owner == MissileOwner::PLAYER) ? L"Image/.bmp" : L"Image/.bmp";  
+   image = ImageManager::GetInstance()->AddImage(  
+       imageKey, imagePath.c_str(), 530, 32, 10, 1,  
+       true, RGB(255, 0, 255));  
+}
+
+void LazerMissile::Move() {
+
+}
+
+void LazerMissile::Notice() {
+    if (owner == MissileOwner::PLAYER) {
+        pos = { 0, 0 };
+        isActived = true;
+        moveSpeed = 3.5f;
+        size = 12;
+    }
+}
+
+void LazerMissile::loadImage() {
+    std::string imageKey = (owner == MissileOwner::PLAYER) ? "" : "";
+    std::wstring imagePath = (owner == MissileOwner::PLAYER) ? L"Image/.bmp" : L"Image/.bmp";
     image = ImageManager::GetInstance()->AddImage(
-        imageKey, TEXT("Image/normal_missile.bmp"), 530, 32, 10, 1,
-        true, RGB(255, 0, 255));
-}
-
-void SignMissile::Move()
-{
-    std::cout << "일반 미사일 이동!" << std::endl;
-}
-
-void SignMissile::Notice()
-{
-    if (owner == MissileOwner::PLAYER)
-        std::cout << "플레이어가 일반 미사일 발사!" << std::endl;
-    else
-        std::cout << "적이 일반 미사일 발사!" << std::endl;
-}
-
-void SignMissile::loadImage()
-{
-    std::string imageKey = (owner == MissileOwner::PLAYER) ? "Player_Normal_Missile" : "Enemy_Normal_Missile";
-    image = ImageManager::GetInstance()->AddImage(
-        imageKey, TEXT("Image/normal_missile.bmp"), 530, 32, 10, 1,
-        true, RGB(255, 0, 255));
-}
-
-void LazerMissile::Move()
-{
-    std::cout << "일반 미사일 이동!" << std::endl;
-}
-
-void LazerMissile::Notice()
-{
-    if (owner == MissileOwner::PLAYER)
-        std::cout << "플레이어가 일반 미사일 발사!" << std::endl;
-    else
-        std::cout << "적이 일반 미사일 발사!" << std::endl;
-}
-
-void LazerMissile::loadImage()
-{
-    std::string imageKey = (owner == MissileOwner::PLAYER) ? "Player_Normal_Missile" : "Enemy_Normal_Missile";
-    image = ImageManager::GetInstance()->AddImage(
-        imageKey, TEXT("Image/normal_missile.bmp"), 530, 32, 10, 1,
+        imageKey, imagePath.c_str(), 530, 32, 10, 1,
         true, RGB(255, 0, 255));
 }
