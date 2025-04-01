@@ -43,6 +43,9 @@
     <Filter Include="MainGame\Rocket">
       <UniqueIdentifier>{1e79367b-4297-43cd-8931-cc5bed246cc1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MainGame\Collider">
+      <UniqueIdentifier>{78d538d5-1c54-4703-98c6-222e2e023f89}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -86,6 +89,9 @@
     </ClCompile>
     <ClCompile Include="MissileFactory.cpp">
       <Filter>MainGame\Missile</Filter>
+    </ClCompile>
+    <ClCompile Include="ColliderManager.cpp">
+      <Filter>MainGame\Collider</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -136,6 +142,9 @@
     </ClInclude>
     <ClInclude Include="MissileFactory.h">
       <Filter>MainGame\Missile</Filter>
+    </ClInclude>
+    <ClInclude Include="ColliderManager.h">
+      <Filter>MainGame\Collider</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

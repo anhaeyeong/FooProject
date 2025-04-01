@@ -3,6 +3,9 @@
 enum class MissileOwner { PLAYER, ENEMY };
 enum class MissileType { NORMAL, SIGN, LAZER };
 
+enum class MissileOwner { PLAYER, ENEMY };
+enum class MissileType { NORMAL, SIGN, LAZER };
+
 class GameObject
 {
 public:

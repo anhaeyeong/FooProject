@@ -10,9 +10,10 @@ class Rocket : public GameObject
 private:
 	FPOINT pos;
 	int size;
+	int hp;
 	float damage;
 	string name;
-	RECT rcCollision;
+	RECT rect;
 	bool isAlive;
 
 	Image* image;
@@ -26,7 +27,11 @@ public:
 	void Move();
 	void Fire();
 	void Dead();
-	inline FPOINT GetPos() { return pos; }
+	
+	RECT GetRect() const { return rect; }
+	inline float GetDamage() const { return damage; }
+	inline int GetHP() const{ return hp; }
+	inline FPOINT GetPos() const { return pos; }
 	Rocket();
 	~Rocket();
 };
