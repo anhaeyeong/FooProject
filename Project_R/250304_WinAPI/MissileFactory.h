@@ -15,6 +15,7 @@ public:
     void AddMissile(MissileType type);
     static void Init();
     static void Release();
+    void loadImage();
     void Update();
     void Render(HDC hdc);
     virtual Missile* CreateMissile(MissileType type) = 0;
