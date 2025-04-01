@@ -6,6 +6,15 @@ class KOF_Iori;
 class EnemyManager;
 class Rocket;
 class MissileManager;
+
+
+enum SceneState
+{
+	Lobby,
+	Main,
+	End
+};
+
 class MainGame : public GameObject
 {
 private:
@@ -14,16 +23,18 @@ private:
 	int mousePosX = 0, mousePosY = 0;
 	FPOINT mousePos;
 	wchar_t szText[128];
+	SceneState sceneState;
 
 	Image* backBuffer;
+	Image* Lobby;
 	Image* backGround;
 	EnemyManager* enemyManager;
 	Rocket* rocket;
 	MissileManager* missileManager;
 
 public:
-	void Init();	// override (ºÎ¸ðÅ¬·¡½º¿Í °°Àº ÇÔ¼öÀÌ¸§, ·ÎÁ÷À» ´Ù¸£°Ô ±¸ÇöÇÏ°í ½ÍÀ» ¶§)
-	// <-> overload (°°Àº ÇÔ¼ö ÀÌ¸§, ¸Å°³º¯¼ö Å¸ÀÔ°ú °¹¼ö°¡ ´Ù¸£¸é ´Ù¸¥ ÇÔ¼ö·Î Ã³¸®)
+	void Init();	// override (ï¿½Î¸ï¿½Å¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ô¼ï¿½ï¿½Ì¸ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½)
+	// <-> overload (ï¿½ï¿½ï¿½ï¿½ ï¿½Ô¼ï¿½ ï¿½Ì¸ï¿½, ï¿½Å°ï¿½ï¿½ï¿½ï¿½ï¿½ Å¸ï¿½Ô°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù¸ï¿½ï¿½ï¿½ ï¿½Ù¸ï¿½ ï¿½Ô¼ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½)
 	void Release();
 	void Update();
 	void Render();

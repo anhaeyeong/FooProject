@@ -26,8 +26,8 @@ void Enemy::Init(float posX, float posY)
 
 
 	image = ImageManager::GetInstance()->AddImage(
-		"Normal_Enemy", TEXT("Image/ufo.bmp"), 530, 32, 10, 1,
-		true, RGB(255, 0, 255));
+		"Normal_Enemy", TEXT("Image/MutaliskAnimation1.bmp"), 63, 70, 1, 1,
+		true, RGB(255, 255, 255));
 
 	missileManager = new MissileManager();
 	missileManager->Init();
