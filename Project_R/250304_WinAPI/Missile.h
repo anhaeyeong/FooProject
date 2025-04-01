@@ -19,7 +19,7 @@ public:
    void Init();  
    void Release();
    void Update();
-   void Render(HDC hdc);
+   virtual void Render(HDC hdc) = 0;
    virtual void Move() = 0;  
    virtual void Notice() = 0;  
    virtual void loadImage() = 0;  

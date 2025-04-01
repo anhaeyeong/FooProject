@@ -34,6 +34,8 @@ void Rocket::Update()
 	{
 		Fire();
 	}
+
+	missileFactory->Update();
 }
 
 void Rocket::Render(HDC hdc)
@@ -41,8 +43,8 @@ void Rocket::Render(HDC hdc)
 	if (isAlive)
 	{
 		image->Render(hdc, pos.x, pos.y);
+		missileFactory->Render(hdc);
 	}
-
 }
 
 void Rocket::Move()

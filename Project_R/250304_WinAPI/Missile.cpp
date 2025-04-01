@@ -29,6 +29,9 @@ void Missile::Render(HDC hdc) {
     if (image) {
         image->Render(hdc, pos.x, pos.y);
     }
+    else {
+        std::cerr << "이미지가 로드되지 않았습니다." << std::endl;
+    }
 }
 
 bool Missile::IsOutofScreen()
@@ -49,7 +52,9 @@ void NormalMissile::Notice() {
         moveSpeed = 3.0f;
         size = 10;
         angle = 90.0f;
+
     }
+
 }
 
 void NormalMissile::loadImage() {  

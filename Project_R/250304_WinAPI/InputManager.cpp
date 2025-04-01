@@ -36,7 +36,7 @@ bool InputManager::isMoveDown(void)
 
 bool InputManager::isFire(void)
 {
-    if (KeyManager::GetInstance()->IsStayKeyDown(VK_SPACE)) {
+    if (KeyManager::GetInstance()->IsOnceKeyDown(VK_SPACE)) {
         return true;
     }
     return false;
