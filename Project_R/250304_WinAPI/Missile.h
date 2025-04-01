@@ -3,15 +3,12 @@
 #include "Image.h"
 #include "GameObject.h"
 
-enum class MissileOwner { PLAYER, ENEMY };  
-enum class MissileType { NORMAL, SIGN, LAZER };  
-
 class Missile : public GameObject
 {  
 protected:  
    MissileOwner owner;  
    MissileType type;  
-
+   RECT rect;
 public:  
    Missile(MissileOwner owner, MissileType type)  
        : image(nullptr), owner(owner), type(type), isActived(false), moveSpeed(3.0f), size(10), angle(90.0f), pos({0, 0}) {  
@@ -34,9 +31,13 @@ public:
    FPOINT pos;  
    Image* image;  
    float angle;  
+   int hp;
 
+   RECT GetRect() const { return rect; }
+   int GetHP() const{ return hp; }
    MissileOwner GetOwner() const { return owner; }  
    MissileType GetType() const { return type; }  
+   inline FPOINT GetPos() const { return pos; }
 };  
 
 class NormalMissile : public Missile  
