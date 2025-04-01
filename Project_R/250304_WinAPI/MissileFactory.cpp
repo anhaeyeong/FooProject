@@ -8,7 +8,7 @@ MissileFactory::~MissileFactory()
        delete missile;
    vecMissiles.clear();
 }
-
+    
 // 미사일 추가
 void MissileFactory::AddMissile(MissileType type)
 {
@@ -37,6 +37,14 @@ void MissileFactory::Release()
 {
    PlayerMissileFactory::GetInstance()->ReleaseInstance();
    EnemyMissileFactory::GetInstance()->ReleaseInstance();
+}
+
+void MissileFactory::loadImage() {
+    for (Missile* missile : vecMissiles) {
+        if (missile) {
+            missile->loadImage();
+        }
+    }
 }
 
 void MissileFactory::Update() {

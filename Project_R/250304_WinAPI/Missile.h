@@ -39,7 +39,8 @@ public:
 class NormalMissile : public Missile  
 {  
 private:  
-   virtual void Move() override;  
+   virtual void Render(HDC hdc);
+   virtual void Move() override;
    virtual void Notice() override;  
    virtual void loadImage() override;  
 
@@ -50,7 +51,8 @@ public:
 
 class SignMissile : public Missile  
 {  
-private:  
+private:
+   virtual void Render(HDC hdc);
    virtual void Move() override;  
    virtual void Notice() override;  
    virtual void loadImage() override;  
@@ -62,7 +64,8 @@ public:
 
 class LazerMissile : public Missile  
 {  
-private:  
+private:
+   virtual void Render(HDC hdc);
    virtual void Move() override;  
    virtual void Notice() override;  
    virtual void loadImage() override;  
