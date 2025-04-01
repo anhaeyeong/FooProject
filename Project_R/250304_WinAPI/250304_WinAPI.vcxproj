@@ -128,8 +128,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Collider.cpp" />
-    <ClCompile Include="Collider.h" />
     <ClCompile Include="ColliderManager.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyManager.cpp" />
