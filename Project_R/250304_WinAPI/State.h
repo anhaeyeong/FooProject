@@ -4,72 +4,79 @@
 class Rocket;
 class State
 {
+protected:
+	string StateName;
 public:
 	virtual void Enter(Rocket& player) {};
-	virtual void Update() = 0;
+	virtual void Update(Rocket& player) = 0;
 	virtual void Exit(Rocket& player) {};
+
+	inline string GetName() { return StateName; }
 
 	State() {};
 	virtual ~State() {};
 };
 
-class AttackState
-{
-public:
-	virtual void Enter(Rocket& player) {};
-	virtual void Update() = 0;
-	virtual void Exit(Rocket& player) {};
-
-	AttackState() {};
-	virtual ~AttackState() {};
-};
-
 class IDLEState : public State
 {
+public:
 	void Enter(Rocket& player) override;
-	void Update() override;
+	void Update(Rocket& player) override;
 	void Exit(Rocket& player) override;
+
+	IDLEState() {
+		StateName = "IDLE";
+	};
+	virtual ~IDLEState() {};
 };
 
 class DeadState : public State
 {
+public:
 	void Enter(Rocket& player) override;
-	void Update() override;
+	void Update(Rocket& player) override;
 	void Exit(Rocket& player) override;
+	DeadState() {
+		StateName = "Dead";
+	};
+	virtual ~DeadState() {};
 };
 
 class MovingState : public State
 {
+public:
 	void Enter(Rocket& player) override;
-	void Update() override;
+	void Update(Rocket& player) override;
 	void Exit(Rocket& player) override;
+	MovingState() {
+		StateName = "Moving";
+	};
+	virtual ~MovingState() {};
 };
 
-class AttackAkanState : public AttackState
+class AttackState : public State
 {
+public:
 	void Enter(Rocket& player) override;
-	void Update() override;
+	void Update(Rocket& player) override;
 	void Exit(Rocket& player) override;
-};
-
-class AttackCommandState : public AttackState
-{
-	void Enter(Rocket& player) override;
-	void Update() override;
-	void Exit(Rocket& player) override;
-};
-
-class AttackCivilState : public AttackState
-{
-	void Enter(Rocket& player) override;
-	void Update() override;
-	void Exit(Rocket& player) override;
+	AttackState() {
+		StateName = "Attack";
+	};
+	virtual ~AttackState() {};
 };
 
 class HitState : public State
 {
+private:
+	float zonya{0.0f};
+public:
 	void Enter(Rocket& player) override;
-	void Update() override;
+	void Update(Rocket& player) override;
 	void Exit(Rocket& player) override;
+	HitState() {
+		StateName = "Hit";
+	};
+	virtual ~HitState() {};
 };
 
