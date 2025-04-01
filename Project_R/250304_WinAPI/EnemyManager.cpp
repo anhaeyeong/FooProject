@@ -28,7 +28,6 @@ void EnemyManager::Update()
 {
     elapsedTime += 0.016f;
 
-    // 일정 시간이 지나면 새로운 적을 추가
     if (elapsedTime >= spawnInterval)
     {
         elapsedTime = 0.0f;  // 타이머 리셋
@@ -68,47 +67,40 @@ void EnemyManager::AddEnemy()
 
 void EnemyManager::SetSpawnPattern(int pattern)
 {
-
-    for (int i = 0; i < vecEnemys.size(); i++)      // 기존 적들 삭제
+    // 기존 적들 삭제
+    for (int i = 0; i < vecEnemys.size(); i++)
     {
         delete vecEnemys[i];
     }
     vecEnemys.clear();
 
+    // 패턴에 맞는 적 생성
     switch (pattern)
     {
-    case 0:
+    case 0:  // 일렬로 생성
         for (int i = 0; i < 10; i++)
         {
             vecEnemys.push_back(new Enemy());
-            vecEnemys[i]->Init(10.0f + 60.0f * (i % 5), 80.0f + 90.0f * (i / 5));
+            vecEnemys[i]->Init(10.0f + 60.0f * (i % 5), 80.0f + 90.0f * (i / 5), 0); // 일렬 패턴
         }
         break;
-    case 1:
+
+    case 1:  // 랜덤 패턴
         for (int i = 0; i < 10; i++)
         {
             vecEnemys.push_back(new Enemy());
-            float randomX = rand() % WINSIZE_X;
-            float randomY = rand() % WINSIZE_Y;
-            vecEnemys[i]->Init(randomX, randomY);
+            vecEnemys[i]->Init(rand() % WINSIZE_X, rand() % WINSIZE_Y, 1); // 랜덤 패턴
         }
         break;
-    case 2:
+
+    case 2:  // 지그재그 패턴
         for (int i = 0; i < 10; i++)
         {
             vecEnemys.push_back(new Enemy());
-            vecEnemys[i]->Init(50.0f * (i % 5), 100.0f + 50.0f * (i / 5));
-        }
-        break;
-    case 3:
-        for (int i = 0; i < 10; i++)
-        {
-            vecEnemys.push_back(new Enemy());
-            float randomX = 100.0f * i;
-            float randomY = (i % 2 == 0) ? 100.0f : 150.0f;
-            vecEnemys[i]->Init(randomX, randomY);
+            vecEnemys[i]->Init(50.0f * (i % 5), 100.0f + 50.0f * (i / 5), 2); // 지그재그 패턴
         }
         break;
     }
 }
+
 

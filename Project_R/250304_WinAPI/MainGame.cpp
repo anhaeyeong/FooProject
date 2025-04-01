@@ -108,16 +108,15 @@ LRESULT MainGame::MainProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lPara
         switch (wParam)
         {
         case 'q': case 'Q':
-            enemyManager->SetSpawnPattern(1);
+            enemyManager->SetSpawnPattern(0);
             break;
         case 'w': case 'W':
-            enemyManager->SetSpawnPattern(2);
+            enemyManager->SetSpawnPattern(1);
             break;
         case 'e': case 'E':
-            enemyManager->SetSpawnPattern(3);
+            enemyManager->SetSpawnPattern(2);
             break;
         case 'r': case 'R':
-            enemyManager->SetSpawnPattern(4);
             break;
         }
         break;

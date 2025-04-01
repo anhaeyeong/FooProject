@@ -2,34 +2,55 @@
 #include "CommonFunction.h"
 #include "Image.h"
 
-/*
-	STL (Standard Template Library) : Vector
-	동적배열을 제공하는 표준 템플릿 라이브러리 컨테이너
-	배열과 흡사하지만 크기가 자동으로 조절된다.
-
-	장점 : 임의접근 : 인덱스를 사용해서 O(1) 시간복잡도로
-	원소에 접근이 가능하다.
-
-	단점 : 배열과 같다. 중간에 원소를 삽입, 삭제 할 때 비용이
-	시간복잡도 O(n) 가 많이 든다.
-*/
-
-void Enemy::Init(float posX, float posY)
+void Enemy::Init(float posX, float posY, int pattern)
 {
-	pos = { posX, posY };
-	moveSpeed = 0.4f;
-	angle = -90.0f;
-	isAlive = true;
-	size = 30;
-	animationFrame = 0;
-	elapsedFrame = 0;
+    pos = { posX, posY };
+    moveSpeed = 0.4f;
+    isAlive = true;
+    size = 30;
+    animationFrame = 0;
+    elapsedFrame = 0;
+    spawnPattern = pattern;  // 패턴 초기화
 
-
-	image = ImageManager::GetInstance()->AddImage(
-		"Normal_Enemy", TEXT("Image/ufo.bmp"), 530, 32, 10, 1,
-		true, RGB(255, 0, 255));
-
+    image = ImageManager::GetInstance()->AddImage(
+        "Normal_Enemy", TEXT("Image/ufo.bmp"), 530, 32, 10, 1,
+        true, RGB(255, 0, 255));
 }
+
+void Enemy::Move()
+{
+    // 패턴에 따른 이동 방식 처리
+    switch (spawnPattern)
+    {
+    case 0:  // 일렬로 위아래로 이동
+        pos.y += moveSpeed;
+        if (pos.y > WINSIZE_Y - size) {
+            moveSpeed = -abs(moveSpeed);
+        }
+        else if (pos.y < size) {
+            moveSpeed = abs(moveSpeed);
+        }
+        break;
+
+    case 1:  // 랜덤한 위치로 이동 (간단히 이동 방향을 무작위로 설정)
+        pos.x += (rand() % 2 == 0 ? moveSpeed : -moveSpeed); // 좌우로 이동
+        pos.y += moveSpeed;
+        if (pos.x > WINSIZE_X - size) pos.x = WINSIZE_X - size;
+        if (pos.x < 0) pos.x = 0;
+        if (pos.y > WINSIZE_Y - size) pos.y = WINSIZE_Y - size;
+        break;
+
+    case 2:  // 지그재그 이동
+        pos.x += (rand() % 2 == 0 ? moveSpeed : -moveSpeed); // 좌우로 이동
+        pos.y += moveSpeed;
+        if (pos.x > WINSIZE_X - size || pos.x < 0) {
+            moveSpeed = -moveSpeed; // 벽에 닿으면 방향 반전
+        }
+        if (pos.y > WINSIZE_Y - size) pos.y = WINSIZE_Y - size;
+        break;
+    }
+}
+
 
 void Enemy::Release()
 {
@@ -68,19 +89,6 @@ void Enemy::Render(HDC hdc)
 	{
 		image->Render(hdc, pos.x, pos.y, animationFrame);
 
-	}
-}
-
-void Enemy::Move()
-{
-	pos.y += moveSpeed;  // Change x to y to move vertically
-
-	// Change the condition to check for vertical movement
-	if (pos.y > WINSIZE_Y - size) {  // If the enemy moves off the bottom of the screen
-		moveSpeed = -abs(moveSpeed);  // Reverse direction (move up)
-	}
-	else if (pos.y < size) {  // If the enemy moves off the top of the screen
-		moveSpeed = abs(moveSpeed);  // Reverse direction (move down)
 	}
 }
 
