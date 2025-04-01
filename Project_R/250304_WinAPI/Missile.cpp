@@ -5,6 +5,7 @@ void Missile::Init() {
     isActived = false;
     moveSpeed = 3.0f;
     size = 10;
+    angle = 90.0f;
 }
 
 void Missile::Release()
@@ -25,7 +26,7 @@ void Missile::Update() {
 }
 
 void Missile::Render(HDC hdc) {
-    if (isActived) {
+    if (image) {
         image->Render(hdc, pos.x, pos.y);
     }
 }
@@ -37,9 +38,8 @@ bool Missile::IsOutofScreen()
 
 
 
-
 void NormalMissile::Move() {
-
+        pos.y -= moveSpeed * angle * TimerManager::GetInstance()->GetDeltaTime() * 100;
 }
 
 void NormalMissile::Notice() {
@@ -48,15 +48,20 @@ void NormalMissile::Notice() {
         isActived = true;
         moveSpeed = 3.0f;
         size = 10;
+        angle = 90.0f;
     }
 }
 
 void NormalMissile::loadImage() {  
-   string imageKey = (owner == MissileOwner::PLAYER) ? "" : "";  
-   wstring imagePath = (owner == MissileOwner::PLAYER) ? L"Image/.bmp" : L"Image/.bmp";  
+   string imageKey = (owner == MissileOwner::PLAYER) ? "player_normal" : "enemy_normal";  
+   wstring imagePath = (owner == MissileOwner::PLAYER) ? L"Image/bullet.bmp" : L"Image/.bmp";
    image = ImageManager::GetInstance()->AddImage(  
-       imageKey, imagePath.c_str(), 530, 32, 10, 1,  
+       imageKey, imagePath.c_str(), 21, 21, 1, 1,  
        true, RGB(255, 0, 255));  
+
+   if (!image) {
+       std::cerr << "Failed to load image: " << std::string(imagePath.begin(), imagePath.end()) << std::endl;
+   }
 }  
 
 void SignMissile::Move() {
@@ -76,7 +81,7 @@ void SignMissile::loadImage() {
    string imageKey = (owner == MissileOwner::PLAYER) ? "Player_ _Missile" : "Enemy_ _Missile";  
    wstring imagePath = (owner == MissileOwner::PLAYER) ? L"Image/.bmp" : L"Image/.bmp";  
    image = ImageManager::GetInstance()->AddImage(  
-       imageKey, imagePath.c_str(), 530, 32, 10, 1,  
+       imageKey, imagePath.c_str(), 21, 21, 1, 1,  
        true, RGB(255, 0, 255));  
 }
 
@@ -97,6 +102,6 @@ void LazerMissile::loadImage() {
     std::string imageKey = (owner == MissileOwner::PLAYER) ? "" : "";
     std::wstring imagePath = (owner == MissileOwner::PLAYER) ? L"Image/.bmp" : L"Image/.bmp";
     image = ImageManager::GetInstance()->AddImage(
-        imageKey, imagePath.c_str(), 530, 32, 10, 1,
+        imageKey, imagePath.c_str(), 21, 21, 1, 1,
         true, RGB(255, 0, 255));
 }

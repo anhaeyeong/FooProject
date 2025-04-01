@@ -14,13 +14,13 @@ void Rocket::Init()
 	image = ImageManager::GetInstance()->AddImage(
 		"rocket", TEXT("Image/rocket.bmp"), 52, 64, true, RGB(255, 0, 255));
 
-	MissileFactory::Init();
-
+	missileFactory = PlayerMissileFactory::GetInstance();
+	missileFactory->Init();
 }
 
 void Rocket::Release()
 {
-	MissileFactory::Release();
+	missileFactory->Release();
 }
 
 void Rocket::Update()
@@ -62,9 +62,7 @@ void Rocket::Move()
 
 void Rocket::Fire()
 {
-	PlayerMissileFactory::GetInstance()->AddMissile(MissileType::NORMAL);
-	PlayerMissileFactory::GetInstance()->AddMissile(MissileType::SIGN);
-	PlayerMissileFactory::GetInstance()->AddMissile(MissileType::LAZER);
+	missileFactory->AddMissile(MissileType::NORMAL);
 }
 
 void Rocket::Dead()

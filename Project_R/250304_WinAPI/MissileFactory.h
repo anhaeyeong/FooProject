@@ -15,7 +15,7 @@ public:
     void AddMissile(MissileType type);
     static void Init();
     static void Release();
-
+   
     virtual Missile* CreateMissile(MissileType type) = 0;
 };
 

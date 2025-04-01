@@ -12,14 +12,21 @@ MissileFactory::~MissileFactory()
 void MissileFactory::AddMissile(MissileType type)
 {
     Missile* missile = CreateMissile(type);
-    vecMissiles.push_back(missile);
-    missile->Notice();
+    if (missile)
+    {
+        vecMissiles.push_back(missile);
+        missile->Notice();
+    }
+    else
+    {
+        std::cerr << "Failed to add missile: " << static_cast<int>(type) << std::endl;
+    }
 }
 
-void MissileFactory::Init()
-{
-    PlayerMissileFactory::GetInstance();
-    EnemyMissileFactory::GetInstance();
+void MissileFactory::Init()  
+{  
+   PlayerMissileFactory::GetInstance();
+   EnemyMissileFactory::GetInstance();  
 }
 
 void MissileFactory::Release()
@@ -30,19 +37,28 @@ void MissileFactory::Release()
 
 // MissileFactory.cpp
 Missile* PlayerMissileFactory::CreateMissile(MissileType type)
-{
+ {
+    Missile* missile = 0;
     switch (type)
     {
     case MissileType::NORMAL:
-        return new NormalMissile(MissileOwner::PLAYER);
+        missile = new NormalMissile(MissileOwner::PLAYER);
+        break;
     case MissileType::SIGN:
-        return new SignMissile(MissileOwner::PLAYER);
+        missile = new SignMissile(MissileOwner::PLAYER);
+        break;
     case MissileType::LAZER:
-        return new LazerMissile(MissileOwner::PLAYER);
+        missile = new LazerMissile(MissileOwner::PLAYER);
+        break;
     default:
-        return nullptr;
+        std::cerr << "Unknown MissileType: " << static_cast<int>(type) << std::endl;
+        break;
     }
+    if (!missile)
+        std::cerr << "Missile creation failed for type: " << static_cast<int>(type) << std::endl;
+    return missile;
 }
+
 
 Missile* EnemyMissileFactory::CreateMissile(MissileType type)
 {

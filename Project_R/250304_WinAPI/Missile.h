@@ -3,9 +3,6 @@
 #include "Image.h"
 #include "GameObject.h"
 
-enum class MissileOwner { PLAYER, ENEMY };  
-enum class MissileType { NORMAL, SIGN, LAZER };  
-
 class Missile : public GameObject
 {  
 protected:  
@@ -19,10 +16,10 @@ public:
 
    virtual ~Missile() = default;  
 
-   virtual void Init();  
-   virtual void Release();
-   virtual void Update();
-   virtual void Render(HDC hdc);
+   void Init();  
+   void Release();
+   void Update();
+   void Render(HDC hdc);
    virtual void Move() = 0;  
    virtual void Notice() = 0;  
    virtual void loadImage() = 0;  
@@ -30,10 +27,10 @@ public:
    bool IsOutofScreen();
    bool isActived;  
    float moveSpeed;  
-   int size;  
+   int size;
+   float angle;
    FPOINT pos;  
    Image* image;  
-   float angle;  
 
    MissileOwner GetOwner() const { return owner; }  
    MissileType GetType() const { return type; }  
@@ -47,7 +44,7 @@ private:
    virtual void loadImage() override;  
 
 public:  
-   NormalMissile(MissileOwner owner) : Missile(owner, MissileType::NORMAL) {}  
+    NormalMissile(MissileOwner owner) : Missile(owner, MissileType::NORMAL) {}
    virtual ~NormalMissile() {}  
 };  
 
