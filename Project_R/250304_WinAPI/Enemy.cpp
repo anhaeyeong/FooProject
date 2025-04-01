@@ -73,13 +73,14 @@ void Enemy::Render(HDC hdc)
 
 void Enemy::Move()
 {
-	pos.x += moveSpeed;
-	if (pos.x > WINSIZE_X - 60) {
-		moveSpeed = -abs(moveSpeed);
+	pos.y += moveSpeed;  // Change x to y to move vertically
+
+	// Change the condition to check for vertical movement
+	if (pos.y > WINSIZE_Y - size) {  // If the enemy moves off the bottom of the screen
+		moveSpeed = -abs(moveSpeed);  // Reverse direction (move up)
 	}
-	else if (pos.x < size)
-	{
-		moveSpeed = abs(moveSpeed);
+	else if (pos.y < size) {  // If the enemy moves off the top of the screen
+		moveSpeed = abs(moveSpeed);  // Reverse direction (move down)
 	}
 }
 
