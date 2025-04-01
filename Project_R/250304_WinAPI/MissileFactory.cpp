@@ -1,6 +1,6 @@
 #include "MissileFactory.h"
 #include "MainGame.h"
-
+#include "ColliderManager.h"
 // �̻��� ���丮 �Ҹ���
 MissileFactory::~MissileFactory()
 {
@@ -18,6 +18,7 @@ void MissileFactory::AddMissile(MissileType type,FPOINT pos)
        vecMissiles.push_back(missile);
        missile->Notice();
        missile->loadImage();
+       ColliderManager::GetInstance()->AddMissile(missile);
    }
    else
    {

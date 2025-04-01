@@ -58,6 +58,8 @@ void Enemy::Update()
 			}
 			elapsedFrame = 0;
 		}
+
+		UpdateCollisionRect();
 	}
 
 }
@@ -81,6 +83,11 @@ void Enemy::Move()
 	{
 		moveSpeed = abs(moveSpeed);
 	}
+}
+
+void Enemy::UpdateCollisionRect()
+{
+	rect = GetRectAtCenter(pos.x, pos.y, size, size);
 }
 
 Enemy::Enemy()

@@ -29,6 +29,7 @@ public:
 
 	void Move();
 
+	void UpdateCollisionRect();
 	inline void SetIsAlive(bool isAlive) { this->isAlive = isAlive; }
 	inline bool GetIsAlive() {	return isAlive;	}
 	RECT GetRect() const { return rect; }
@@ -37,6 +38,12 @@ public:
 	inline int GetSize() { return size; }
 	inline int GetHP() const { return hp; }
 	inline float GetDamage() const { return damage; }
+	inline RECT GetRectAtCenter(int x, int y, int width, int height)
+	{
+		RECT rc{ x - (width / 2), y - (height / 2),
+			x + (width / 2), y + (height / 2) };
+		return rc;
+	}
 	Enemy();
 	~Enemy();
 };

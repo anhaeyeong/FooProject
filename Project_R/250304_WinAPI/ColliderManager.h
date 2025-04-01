@@ -3,7 +3,7 @@
 #include "GameObject.h"
 #include <vector>
 
-//�浹�� Ž���ؼ� �浹�˻� ������ collider���� ���� 
+
 //enum class MissileOwner { PLAYER, ENEMY };
 //enum class MissileType { NORMAL, SIGN, LAZER };
 //enum class ItemType {A, B, C};
@@ -13,34 +13,30 @@ class Enemy;
 class ColliderManager: public Singleton<ColliderManager>
 {
 private:
-	vector<RECT*> playerCollision; //�÷��̾�<->��, �÷��̾� <-> �̻���
-	vector<RECT*> enemyCollision; //��<->�̻��� , �� <-> �÷��̾�
-	vector<RECT*> missileCollision; // �÷��̾� �̻���<-> ��, �� �̻���<-> �÷��̾�
+    Rocket* rocket;                 // 플레이어
+    vector<Enemy*> enemies;         // 적 객체들
+    vector<Missile*> missiles;      // 미사일 객체들
 
-	Missile* missileOwner; //getOwner�� ������ �÷��̾����� ����
+    bool isCollision;               // 충돌 발생 여부
 
-	Missile* missile;
-	Rocket* rocket;
-	Enemy* enemy;
-
-	bool isAlive;
-	bool isCollision;
-
-	MissileOwner owner;
-	MissileType type;
-	
 public:
-	
-	void Init();
-	void Release();
-	void Update();
-	void Render(HDC hdc);
+    ColliderManager() : rocket(nullptr), isCollision(false) { }
 
-	bool CheckCollision();
-	void SetOwner();
-	void isColliding(RECT* attacker, RECT* target);
+    void Init();
+    void Release();
+    void Update();
+    void Render(HDC hdc);
 
-	inline bool GetIsAlive() { return isAlive; }
-	inline bool GetIsCollision() { return isCollision; }
+    void SetRocket(Rocket* r) { rocket = r; }
+    void AddEnemy(Enemy* enemy) { if (enemy) enemies.push_back(enemy); }
+    void AddMissile(Missile* missile) { if (missile) missiles.push_back(missile); }
+
+    // 충돌 검사 함수들
+    bool CheckCollision();                          // 모든 충돌 검사
+    void CheckPlayerEnemyCollision();               // 플레이어-적 충돌
+    void CheckPlayerEnemyMissileCollision();        // 플레이어-적미사일 충돌
+    void CheckEnemyPlayerMissileCollision();        // 적-플레이어미사일 충돌
+
+    bool GetIsCollision() { return isCollision; }
 };
 

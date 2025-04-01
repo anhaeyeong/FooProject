@@ -4,7 +4,7 @@
 #include "InputManager.h"
 #include "MissileFactory.h"
 #include "State.h"
-
+#include "ColliderManager.h"
 
 void Rocket::Init()
 {
@@ -17,7 +17,7 @@ void Rocket::Init()
 
 	missileFactory = PlayerMissileFactory::GetInstance();
 	missileFactory->Init();
-
+	ColliderManager::GetInstance()->Init();
 	ImageManager::GetInstance()->AddImage(
 		"rocket", TEXT("Image/SCV_IDLE.bmp"), 35 * 2, 30 * 2, 1, 1, true, RGB(48, 64, 47));
 	ImageManager::GetInstance()->AddImage(
@@ -57,6 +57,7 @@ void Rocket::Update()
 		state->Update(*this);
 	}
 	missileFactory->Update();
+	UpdateCollisionRect();
 }
 
 void Rocket::Render(HDC hdc)
@@ -142,6 +143,11 @@ void Rocket::Fire()
 
 void Rocket::Dead()
 {
+}
+
+void Rocket::UpdateCollisionRect()
+{
+	rect = GetRectAtCenter(pos.x,pos.y, size, size);
 }
 
 void Rocket::ChangeAnimation(AnimationType anim)

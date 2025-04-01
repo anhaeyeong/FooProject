@@ -23,6 +23,7 @@ void Missile::Update() {
     if (isActived && IsOutofScreen()) {
         isActived = false;
     }
+    UpdateCollisionRect();
 }
 
 void Missile::Render(HDC hdc) {
@@ -30,7 +31,7 @@ void Missile::Render(HDC hdc) {
         image->Render(hdc, pos.x, pos.y);
     }
     else {
-        std::cerr << "�̹����� �ε���� �ʾҽ��ϴ�." << std::endl;
+        std::cerr << "." << std::endl;
     }
 }
 
@@ -48,6 +49,10 @@ bool Missile::IsOutofScreen()
     return false;
 }
 
+void Missile::UpdateCollisionRect()
+{
+    rect = GetRectAtCenter(pos.x, pos.y, size, size);
+}
 
 void NormalMissile::Render(HDC hdc) {
     if (image) {

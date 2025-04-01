@@ -1,5 +1,6 @@
 #include "EnemyManager.h"
 #include "Enemy.h"
+#include "ColliderManager.h"
 
 void EnemyManager::Init()
 {
@@ -26,6 +27,9 @@ void EnemyManager::Init()
 		vecEnemys[i] = new Enemy();
 		vecEnemys[i]->Init(10.0f + 60.0f * (i % 5) , 
 			80.0f + 90.0f * (i / 5));
+		// 초기 충돌 박스 설정
+		vecEnemys[i]->UpdateCollisionRect(); 
+		ColliderManager::GetInstance()->AddEnemy(vecEnemys[i]);
 	}
 }
 
@@ -61,5 +65,7 @@ void EnemyManager::AddEnemy(int size)
 	{
 		vecEnemys.push_back(new Enemy());
 		vecEnemys.back()->Init();
+		vecEnemys.back()->UpdateCollisionRect(); 
+		ColliderManager::GetInstance()->AddEnemy(vecEnemys.back());
 	}
 }

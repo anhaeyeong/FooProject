@@ -5,8 +5,8 @@
 class MissileFactory
 {
 protected:
-    vector<Missile*> vecMissiles; // �̻��� ����
-    MissileOwner ownerType;            // �÷��̾� or �� ����
+    vector<Missile*> vecMissiles; 
+    MissileOwner ownerType;          
 
 public:
     MissileFactory(MissileOwner owner) : ownerType(owner) {}

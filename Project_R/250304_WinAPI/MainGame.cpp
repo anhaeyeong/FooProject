@@ -28,27 +28,29 @@ void MainGame::Init()
 	if (FAILED(backBuffer->Init(WINSIZE_X, WINSIZE_Y)))
 	{
 		MessageBox(g_hWnd,
-			TEXT("����� ���� ����"), TEXT("���"), MB_OK);
+			TEXT(""), TEXT(""), MB_OK);
 	}
 	Lobby = new Image();
 	if (FAILED(Lobby->Init(TEXT("Image/mainmenu.bmp"), WINSIZE_X, WINSIZE_Y)))
 	{
 		MessageBox(g_hWnd,
-			TEXT("Image/mainmenu.bmp ���� ����"), TEXT("���"), MB_OK);
+			TEXT("Image/mainmenu.bmp "), TEXT(""), MB_OK);
 	}
 	backGround = new Image();
 	if (FAILED(backGround->Init(TEXT("Image/background1.bmp"), WINSIZE_X, WINSIZE_Y)))
 	{
 		MessageBox(g_hWnd,
-			TEXT("Image/backGround.bmp ���� ����"), TEXT("���"), MB_OK);
+			TEXT("Image/backGround.bmp "), TEXT(""), MB_OK);
 	}
 
+	ColliderManager::GetInstance()->Init();
 
 	enemyManager = new EnemyManager();
-	enemyManager->Init();
-
+;	enemyManager->Init();
+	
 	rocket = new Rocket();
 	rocket->Init();
+	ColliderManager::GetInstance()->SetRocket(rocket);
 }
 
 void MainGame::Release()
@@ -123,7 +125,7 @@ void MainGame::Render()
 
 		enemyManager->Render(hBackBufferDC);
 		rocket->Render(hBackBufferDC);
-
+		ColliderManager::GetInstance()->Render(hBackBufferDC);
 		TimerManager::GetInstance()->Render(hBackBufferDC);
 		break;
 	case SceneState::End:

@@ -33,16 +33,19 @@ public:
    Image* image;
    RECT rect;
 
+   void UpdateCollisionRect();
    inline FPOINT GetPos() { return pos; }
    inline int GetSize() { return size; }
    MissileOwner GetOwner() const { return owner; }  
    MissileType GetType() const { return type; }
    inline void SetPos(FPOINT pos) { this->pos = pos; }
-   inline FPOINT GetPos() { return pos; }
-
    inline void SetAngle(float angle) { this->angle = angle; }
-   inline int GetSize() { return size; }
-
+   inline RECT GetRectAtCenter(int x, int y, int width, int height)
+   {
+	   RECT rc{ x - (width / 2), y - (height / 2),
+		   x + (width / 2), y + (height / 2) };
+	   return rc;
+   }
    RECT GetRect() { return rect; }
 };  
 
