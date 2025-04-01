@@ -9,7 +9,7 @@ class MissileManager;
 class State;
 class AttackState;
 
-enum class AnimationType
+enum AnimationType
 {
 	IDLE,
 	Moving,
@@ -28,6 +28,9 @@ private:
 	string name;
 	RECT rect;
 	bool isAlive;
+	float ElapsedTime;
+	float HitTime;
+	int animationFrame;
 
 	State* state;
 	Image* image;
@@ -41,6 +44,7 @@ public:
 	void HandleInput();
 	void Fire();
 	void Dead();
+	void UpdateAnimation(int maxFrame);
 	
 	RECT GetRect() const { return rect; }
 	inline float GetDamage() const { return damage; }

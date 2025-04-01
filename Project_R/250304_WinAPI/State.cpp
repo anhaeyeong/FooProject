@@ -3,13 +3,13 @@
 
 void IDLEState::Enter(Rocket& player)
 {
-    //IDLE �ִϸ��̼����� ����
+    //IDLE animation
     player.ChangeAnimation(AnimationType::IDLE);
 }
 
 void IDLEState::Update(Rocket& player)
 {
-    // �ִϸ��̼� ������Ʈ
+    player.UpdateAnimation(1);
 }
 
 void IDLEState::Exit(Rocket& player)
@@ -18,32 +18,31 @@ void IDLEState::Exit(Rocket& player)
 
 void DeadState::Enter(Rocket& player)
 {
-    //��� �ִϸ��̼����� ����
+    //Dead Animation
     player.ChangeAnimation(AnimationType::Dead);
 }
 
 void DeadState::Update(Rocket& player)
 {
-    //��� �ִϸ��̼� ������Ʈ
-    //��� �ִϸ��̼� ���� �� ���� ������Ѿ���. player.isDead = true
+    //player.isDead = true
+    player.UpdateAnimation(4);
 }
 
 void DeadState::Exit(Rocket& player)
 {
-    //���ؾߵ���
 }
 
 void MovingState::Enter(Rocket& player)
 {
-    //�̵� �ִϸ��̼����� ����
+    //Move Animation
     player.ChangeAnimation(AnimationType::Moving);
 }
 
 void MovingState::Update(Rocket& player)
 {
-    // ���� Ű�Է¿� ���� ������ ������Ʈ
-    // �̵� �ִϸ��̼� ������Ʈ
+    //Move Logic
     player.Move();
+    player.UpdateAnimation(1);
 }
 
 void MovingState::Exit(Rocket& player)
@@ -52,16 +51,16 @@ void MovingState::Exit(Rocket& player)
 
 void AttackState::Enter(Rocket& player)
 {
-    //���ݾִϸ��̼����� ����
+    //Attack Animation
     player.ChangeAnimation(AnimationType::Attack);
 }
 
 void AttackState::Update(Rocket& player)
 {
-    //���� ������ �̻��� �߻�
-    //����Ű�� �������� üũ�ϸ鼭 ���ݻ��� ����
-    player.Move(); //�̵����� �����ϵ��� �̵����� �߰�
+    //Move Attack
+    player.Move(); //Attack while moving
     player.Fire();
+    player.UpdateAnimation(1);
 }
 
 void AttackState::Exit(Rocket& player)
@@ -71,19 +70,20 @@ void AttackState::Exit(Rocket& player)
 
 void HitState::Enter(Rocket& player)
 {
-    //�ǰݾִϸ��̼�? �ֳ�?
-    //�����ð� �־���ҵ� �÷��̾� �����ð� ����
+    //Hit Animation
     player.ChangeAnimation(AnimationType::Hit);
+    //player.Hit(CollisionManager::GetInstance()->GetCollision());
+    //hp update
 }
 
 void HitState::Update(Rocket& player)
 {
-    //�÷��̾� ü�� ����
-    //�����ð� ���� ������Ʈ
-    //�����ð� ������ �ٽ� IDLE���·� ����
+    player.UpdateAnimation(1);
     zonya += TimerManager::GetInstance()->GetDeltaTime();
     if (zonya >= 0.5f)
+    {
         player.ChangeState(new IDLEState());
+    }
 }
 
 void HitState::Exit(Rocket& player)

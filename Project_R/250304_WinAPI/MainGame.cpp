@@ -18,8 +18,7 @@ void MainGame::Init()
 	KeyManager::GetInstance()->Init();
 	UIManager::GetInstance()->Init();
 
-	UIManager::GetInstance()->AddText("Press 'S' to start", WINSIZE_X / 2, WINSIZE_Y / 2);
-
+	UIManager::GetInstance()->AddText("Press 'S' to start", WINSIZE_X / 2 - 50, 300);
 	hdc = GetDC(g_hWnd);
 	sceneState = SceneState::Lobby;
 
@@ -27,19 +26,19 @@ void MainGame::Init()
 	if (FAILED(backBuffer->Init(WINSIZE_X, WINSIZE_Y)))
 	{
 		MessageBox(g_hWnd,
-			TEXT("����� ���� ����"), TEXT("���"), MB_OK);
+			TEXT("BackBuffer Failed"), TEXT("Fail!"), MB_OK);
 	}
 	Lobby = new Image();
 	if (FAILED(Lobby->Init(TEXT("Image/mainmenu.bmp"), WINSIZE_X, WINSIZE_Y)))
 	{
 		MessageBox(g_hWnd,
-			TEXT("Image/mainmenu.bmp ���� ����"), TEXT("���"), MB_OK);
+			TEXT("Image/mainmenu.bmp"), TEXT("Fail!"), MB_OK);
 	}
 	backGround = new Image();
 	if (FAILED(backGround->Init(TEXT("Image/background1.bmp"), WINSIZE_X, WINSIZE_Y)))
 	{
 		MessageBox(g_hWnd,
-			TEXT("Image/backGround.bmp ���� ����"), TEXT("���"), MB_OK);
+			TEXT("Image/backGround.bmp"), TEXT("Fail!"), MB_OK);
 	}
 
 
@@ -105,8 +104,6 @@ void MainGame::Update()
 
 void MainGame::Render()
 {
-	// ����ۿ� ���� ����
-	
 	HDC hBackBufferDC = backBuffer->GetMemDC();
 	switch (sceneState)
 	{

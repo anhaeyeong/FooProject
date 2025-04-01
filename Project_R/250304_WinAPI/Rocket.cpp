@@ -13,7 +13,10 @@ void Rocket::Init()
 
 	size = 40;
 	isAlive = true;
-
+	hp = 3;
+	ElapsedTime = 0.0f;
+	HitTime = 0.0f;
+	animationFrame = 0;
 
 	missileFactory = PlayerMissileFactory::GetInstance();
 	missileFactory->Init();
@@ -30,9 +33,9 @@ void Rocket::Init()
 		"HitRocket", TEXT("Image/ufo.bmp"), 530, 32, 10, 1,
 		true, RGB(255, 0, 255));
 	ImageManager::GetInstance()->AddImage(
-		"DeadRocket", TEXT("Image/rocket.bmp"), 52, 64, true, RGB(255, 0, 255));
-	image = ImageManager::GetInstance()->FindImage("HitRocket");
-	state = new HitState();
+		"DeadRocket", TEXT("Image/SCV_Dead.bmp"), 435, 97, 5, 1, true, RGB(255, 255, 255));
+	image = ImageManager::GetInstance()->FindImage("rocket");
+	state = new IDLEState();
 }
 
 void Rocket::Release()
@@ -56,6 +59,13 @@ void Rocket::Update()
 	{
 		state->Update(*this);
 	}
+	HitTime += TimerManager::GetInstance()->GetDeltaTime();
+	if (HitTime >= 2.0f)
+	{
+		hp--;
+		HitTime = 0.0f;
+	}
+	
 	missileFactory->Update();
 }
 
@@ -64,7 +74,7 @@ void Rocket::Render(HDC hdc)
 	missileFactory->Render(hdc);
 	if (isAlive)
 	{
-		image->Render(hdc, pos.x, pos.y);
+		image->FrameRender(hdc, pos.x, pos.y, animationFrame, 0);
 	}
 }
 
@@ -133,6 +143,18 @@ void Rocket::HandleInput()
 	{
 		ChangeState(new IDLEState());
 	}
+
+	//CollisionManager
+	/*if (CollisionManager::GetInstance()->OnCollision(this->GetRect()))
+	{
+		ChangeState(new HitState());
+	}*/
+
+	//Dead
+	if (hp <= 0)
+	{
+		ChangeState(new DeadState());
+	}
 }
 
 void Rocket::Fire()
@@ -142,6 +164,21 @@ void Rocket::Fire()
 
 void Rocket::Dead()
 {
+}
+
+void Rocket::UpdateAnimation(int maxFrame)
+{
+	ElapsedTime += TimerManager::GetInstance()->GetDeltaTime();
+	if (ElapsedTime >= 0.2f)
+	{
+		animationFrame++;
+		if (animationFrame >= maxFrame)
+		{
+			if(state->GetName() != "Dead")
+				animationFrame = 0;
+		}
+		ElapsedTime = 0.0f;
+	}
 }
 
 void Rocket::ChangeAnimation(AnimationType anim)

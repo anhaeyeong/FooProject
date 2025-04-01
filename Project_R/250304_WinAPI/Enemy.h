@@ -18,6 +18,7 @@ private:
 	Image* image;
 	int animationFrame;
 	int elapsedFrame;
+	float elapsedTime;
 	int hp;
 	RECT rect;
 

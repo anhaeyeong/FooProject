@@ -2,6 +2,8 @@
 
 void UIManager::Init()
 {
+    UIManager::GetInstance()->AddText("Press 'S' to start", WINSIZE_X / 2 - 50, 300);
+    UIManager::GetInstance()->AddImage("hp", TEXT("Image/SCV_IDLE.bmp"), 20, WINSIZE_Y - 40, 35, 30, true, RGB(48, 64, 47));
 }
 
 void UIManager::Render(HDC hdc)
@@ -22,10 +24,10 @@ void UIManager::Render(HDC hdc)
 void UIManager::AddImage(string key, const wchar_t* filePath, int x, int y, int width, int height, bool isTransparent, COLORREF transColor)
 {
     ImageUI ui;
-    ui.image = ImageManager::GetInstance()->AddImage(key, filePath, x, y, width, height, isTransparent, transColor);
+    ui.image = ImageManager::GetInstance()->AddImage(key, filePath, width, height, isTransparent, transColor);
     ui.x = x;
     ui.y = y;
-    if (FAILED(ui.image->Init(filePath, x, y, width, height, isTransparent, transColor)))
+    if (FAILED(ui.image->Init(filePath, width, height, isTransparent, transColor)))
     {
         return;
     }
