@@ -26,7 +26,7 @@ void Enemy::Init(float posX, float posY)
 	elapsedTime = 0.0f;
 
 	image = ImageManager::GetInstance()->AddImage(
-		"Normal_Enemy", TEXT("Image/GuardianAnimation.bmp"), 80, 504, 1, 7,
+		"Normal_Enemy", TEXT("Image/MutaliskAnim.bmp"), 66, 365, 1, 5,
 		true, RGB(255, 255, 255));
 
 }
