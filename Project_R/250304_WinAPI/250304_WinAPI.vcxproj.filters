@@ -46,6 +46,12 @@
     <Filter Include="MainGame\Collider">
       <UniqueIdentifier>{78d538d5-1c54-4703-98c6-222e2e023f89}</UniqueIdentifier>
     </Filter>
+    <Filter Include="2D Framework\UI">
+      <UniqueIdentifier>{5ffbe2b4-3d9b-4a73-b167-031356932d2f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2D Framework\State">
+      <UniqueIdentifier>{cc212a0e-73c8-4d70-bb9a-03a93fe56c2e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -92,6 +98,12 @@
     </ClCompile>
     <ClCompile Include="ColliderManager.cpp">
       <Filter>MainGame\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="State.cpp">
+      <Filter>2D Framework\State</Filter>
+    </ClCompile>
+    <ClCompile Include="UIManager.cpp">
+      <Filter>2D Framework\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -145,6 +157,12 @@
     </ClInclude>
     <ClInclude Include="ColliderManager.h">
       <Filter>MainGame\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="State.h">
+      <Filter>2D Framework\State</Filter>
+    </ClInclude>
+    <ClInclude Include="UIManager.h">
+      <Filter>2D Framework\UI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
