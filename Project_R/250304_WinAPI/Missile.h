@@ -30,10 +30,12 @@ public:
    int size;
    float angle;
    FPOINT pos;  
-   Image* image;  
+   Image* image;
+   RECT rect;
 
    MissileOwner GetOwner() const { return owner; }  
-   MissileType GetType() const { return type; }  
+   MissileType GetType() const { return type; }
+   RECT GetRect() { return rect; }
 };  
 
 class NormalMissile : public Missile  

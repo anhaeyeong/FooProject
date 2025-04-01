@@ -2,7 +2,7 @@
 #include "CommonFunction.h"
 #include "Image.h"
 #include "InputManager.h"
-#include "MissileManager.h"
+#include "MissileFactory.h"
 #include "State.h"
 
 
