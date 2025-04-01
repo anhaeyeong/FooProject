@@ -1,50 +1,86 @@
-#include "MissileFactory.h"
-
-// ¹Ì»çÀÏ ÆÑÅä¸® ¼Ò¸êÀÚ
-MissileFactory::~MissileFactory()
-{
-    for (Missile* missile : vecMissiles)
-        delete missile;
-    vecMissiles.clear();
-}
-
-// ¹Ì»çÀÏ Ãß°¡
-void MissileFactory::AddMissile(MissileType type)
-{
-    Missile* missile = CreateMissile(type);
-    vecMissiles.push_back(missile);
-    missile->Notice();
-}
-
-void MissileFactory::Init()
-{
-    PlayerMissileFactory::GetInstance();
-    EnemyMissileFactory::GetInstance();
-}
-
-void MissileFactory::Release()
-{
-    PlayerMissileFactory::GetInstance()->ReleaseInstance();
-    EnemyMissileFactory::GetInstance()->ReleaseInstance();
-}
-
-// MissileFactory.cpp
-Missile* PlayerMissileFactory::CreateMissile(MissileType type)
-{
-    switch (type)
-    {
-    case MissileType::NORMAL:
-        return new NoramlMissile(MissileOwner::ROCKET);
-    case MissileType::SIGN:
-        return new SignMissile(MissileOwner::ROCKET);
-    case MissileType::LAZER:
-        return new LazerMissile(MissileOwner::ROCKET);
-    default:
-        return nullptr;
-    }
-}
-
-Missile* EnemyMissileFactory::CreateMissile(MissileType type)
-{
-    return new NoramlMissile(MissileOwner::ENEMY);
-}
+//#include "MissileFactory.h"
+//#include "MainGame.h"
+//
+//// ï¿½Ì»ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ä¸® ï¿½Ò¸ï¿½ï¿½ï¿½
+//MissileFactory::~MissileFactory()
+//{
+//   for (Missile* missile : vecMissiles)
+//       delete missile;
+//   vecMissiles.clear();
+//}
+//
+//// ï¿½Ì»ï¿½ï¿½ï¿½ ï¿½ß°ï¿½
+//void MissileFactory::AddMissile(MissileType type)
+//{
+//   Missile* missile = CreateMissile(type);
+//   if (missile)
+//   {
+//       vecMissiles.push_back(missile);
+//       missile->Notice();
+//       
+//   }
+//   else
+//   {
+//       std::cerr << "Failed to add missile: " << static_cast<int>(type) << std::endl;
+//   }
+//}
+//
+//
+//
+//void MissileFactory::Init()  
+//{  
+//  PlayerMissileFactory::GetInstance();
+//  EnemyMissileFactory::GetInstance();  
+//}
+//
+//void MissileFactory::Release()
+//{
+//   PlayerMissileFactory::GetInstance()->ReleaseInstance();
+//   EnemyMissileFactory::GetInstance()->ReleaseInstance();
+//}
+//
+//void MissileFactory::Update() {
+//    for (Missile* missile : vecMissiles) {
+//        if (missile) {
+//            missile->Update();
+//        }
+//    }
+//}
+//
+//void MissileFactory::Render(HDC hdc) {
+//    for (Missile* missile : vecMissiles) {
+//        if (missile) {
+//            missile->Render(hdc);
+//        }
+//    }
+//}
+//
+//// MissileFactory.cpp
+//Missile* PlayerMissileFactory::CreateMissile(MissileType type)
+//{
+//   Missile* missile = 0;
+//   switch (type)
+//   {
+//   case MissileType::NORMAL:
+//       missile = new NormalMissile(MissileOwner::PLAYER);
+//       break;
+//   case MissileType::SIGN:
+//       missile = new SignMissile(MissileOwner::PLAYER);
+//       break;
+//   case MissileType::LAZER:
+//       missile = new LazerMissile(MissileOwner::PLAYER);
+//       break;
+//   default:
+//       std::cerr << "Unknown MissileType: " << static_cast<int>(type) << std::endl;
+//       break;
+//   }
+//   if (!missile)
+//       std::cerr << "Missile creation failed for type: " << static_cast<int>(type) << std::endl;
+//   return missile;
+//}
+//
+//
+//Missile* EnemyMissileFactory::CreateMissile(MissileType type)
+//{
+//   return new NormalMissile(MissileOwner::ENEMY);
+//}

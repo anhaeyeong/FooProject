@@ -1,34 +1,35 @@
-#pragma once
-#include "Missile.h"
-#include "Singleton.h"
-
-class MissileFactory
-{
-protected:
-    vector<Missile*> vecMissiles; // ¹Ì»çÀÏ ÀúÀå
-    MissileOwner ownerType;            // ÇÃ·¹ÀÌ¾î or Àû ±¸ºÐ
-
-public:
-    MissileFactory(MissileOwner owner) : ownerType(owner) {}
-    virtual ~MissileFactory();
-
-    void AddMissile(MissileType type);
-    static void Init();
-    static void Release();
-
-    virtual Missile* CreateMissile(MissileType type) = 0;
-};
-
-class PlayerMissileFactory : public MissileFactory, public Singleton<PlayerMissileFactory>
-{
-public:
-    PlayerMissileFactory() : MissileFactory(MissileOwner::ROCKET) {}
-    virtual Missile* CreateMissile(MissileType type) override;
-};
-
-class EnemyMissileFactory : public MissileFactory, public Singleton<EnemyMissileFactory>
-{
-public:
-    EnemyMissileFactory() : MissileFactory(MissileOwner::ENEMY) {}
-    virtual Missile* CreateMissile(MissileType type) override;
-};
+//#pragma once
+//#include "Missile.h"
+//#include "Singleton.h"
+//
+//class MissileFactory
+//{
+//protected:
+//    vector<Missile*> vecMissiles; // ï¿½Ì»ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+//    MissileOwner ownerType;            // ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ or ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+//
+//public:
+//    MissileFactory(MissileOwner owner) : ownerType(owner) {}
+//    virtual ~MissileFactory();
+//
+//    void AddMissile(MissileType type);
+//    static void Init();
+//    static void Release();
+//    void Update();
+//    void Render(HDC hdc);
+//    virtual Missile* CreateMissile(MissileType type) = 0;
+//};
+//
+//class PlayerMissileFactory : public MissileFactory, public Singleton<PlayerMissileFactory>
+//{
+//public:
+//    PlayerMissileFactory() : MissileFactory(MissileOwner::PLAYER) {}
+//    virtual Missile* CreateMissile(MissileType type) override;
+//};
+//
+//class EnemyMissileFactory : public MissileFactory, public Singleton<EnemyMissileFactory>
+//{
+//public:
+//    EnemyMissileFactory() : MissileFactory(MissileOwner::ENEMY) {}
+//    virtual Missile* CreateMissile(MissileType type) override;
+//};

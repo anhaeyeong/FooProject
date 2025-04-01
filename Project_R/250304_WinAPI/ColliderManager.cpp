@@ -1,243 +1,160 @@
 #include "ColliderManager.h"
+#include "CommonFunction.h"
+#include "Rocket.h"
+#include "Missile.h"
+#include "Enemy.h"
 
 void ColliderManager::Init()
 {
-    colliders.resize(50);
-    for (auto& collider : colliders)
-    {
-        collider = new Collider();
-        collider->Init();
-        collider->SetActive(false); // ÃÊ±â¿¡´Â ºñÈ°¼ºÈ­
-    }
+	playerCollision.resize(50);
+	enemyCollision.resize(50);
+	missileCollision.resize(50);
 
-    InitCollisionMatrix();
+	for (auto& p : playerCollision)
+	{
+		*p = GetRect(rocket->GetPos().x, rocket->GetPos().y, rocket->GetSize(), rocket->GetSize());
+	}
+	for (auto& e : enemyCollision)
+	{
+		*e = GetRect(enemy->GetPos().x, enemy->GetPos().y, enemy->GetSize(), enemy->GetSize());
+	}
+	for (auto& m : missileCollision)
+	{
+		*m = GetRect(missile->GetPos().x, missile->GetPos().y, missile->GetSize(), missile->GetSize());
+	}
 }
 
 void ColliderManager::Release()
 {
-    if (colliders.empty()) return;
-
-    for (auto& collider : colliders)
-    {
-        if (collider)
-        {
-            collider->Release();
-            delete collider;
-            collider = nullptr;
-        }
-    }
-    colliders.clear();
-    collisionPairs.clear();
+	for (auto& p : playerCollision)
+	{
+		delete p;
+		p = nullptr;
+	}
+	playerCollision.clear();
+	for (auto& e : enemyCollision)
+	{
+		delete e;
+		e = nullptr;
+	}
+	enemyCollision.clear();
+	for (auto& m : missileCollision)
+	{
+		delete m;
+		m = nullptr;
+	}
+	missileCollision.clear();
 }
 
 void ColliderManager::Update()
 {
-    if (colliders.empty()) return;
-
-    // ¸ðµç Ãæµ¹Ã¼ÀÇ Ãæµ¹ »óÅÂ ÃÊ±âÈ­
-    for (auto& collider : colliders)
-    {
-        if (collider && collider->IsActive())
-        {
-            collider->SetCollision(false);
-        }
-    }
-
-    // Ãæµ¹ °Ë»ç
-    for (size_t i = 0; i < colliders.size(); i++)
-    {
-        if (!colliders[i] || !colliders[i]->IsActive()) continue;
-
-        for (size_t j = i + 1; j < colliders.size(); j++)
-        {
-            if (!colliders[j] || !colliders[j]->IsActive()) continue;
-
-            // Ãæµ¹ ¸ÅÆ®¸¯½º È®ÀÎ
-            if (IsValidCollisionPair(colliders[i]->GetType(), colliders[j]->GetType()))
-            {
-                if (colliders[i]->CheckCollision(colliders[j]))
-                {
-                    colliders[i]->SetCollision(true);
-                    colliders[j]->SetCollision(true);
-                }
-            }
-        }
-    }
+	CheckCollision();
 }
 
 void ColliderManager::Render(HDC hdc)
 {
-    if (colliders.empty()) return;
+	//ï¿½æµ¹: ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ , ï¿½æµ¹ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½: ï¿½Ê·Ï»ï¿½
+	HPEN pen = CreatePen(PS_SOLID, 2, isCollision ? RGB(255, 0, 0) : RGB(0, 255, 0));
 
-    for (auto& collider : colliders)
-    {
-        if (collider && collider->IsActive())
-        {
-            collider->Render(hdc);
-        }
-    }
+	HPEN oldPen = (HPEN)SelectObject(hdc, pen);
+	HBRUSH oldBrush = (HBRUSH)SelectObject(hdc, GetStockObject(NULL_BRUSH));
+
+	for (auto& p : playerCollision)
+	{
+		Rectangle(hdc, p->left, p->top, p->right, p->bottom);
+	}
+	for (auto& e : enemyCollision)
+	{
+		Rectangle(hdc, e->left, e->top, e->right, e->bottom);
+	}
+	for (auto& m : missileCollision)
+	{
+		Rectangle(hdc, m->left, m->top, m->right, m->bottom);
+	}
+
+	SelectObject(hdc, oldPen);
+	SelectObject(hdc, oldBrush);
+	DeleteObject(pen);
+
 }
 
-void ColliderManager::InitCollisionMatrix()
+bool ColliderManager::CheckCollision()
 {
-    // ÇÃ·¹ÀÌ¾î¿Í Ãæµ¹ÇÏ´Â Å¸ÀÔµé (ÇÃ·¹ÀÌ¾î - Àû, ÇÃ·¹ÀÌ¾î - Àû¹Ì»çÀÏ, ÇÃ·¹ÀÌ¾î - ¾ÆÀÌÅÛ)
-    AddCollisionPair(eColliderType::ROCKET, eColliderType::ENEMY_NORMAL);
-    AddCollisionPair(eColliderType::ROCKET, eColliderType::ENEMY_FAST);
-    AddCollisionPair(eColliderType::ROCKET, eColliderType::ENEMY_BOSS);
-    AddCollisionPair(eColliderType::ROCKET, eColliderType::MISSILE_ENEMY_NORMAL);
-    AddCollisionPair(eColliderType::ROCKET, eColliderType::ITEM_POWER);
-    AddCollisionPair(eColliderType::ROCKET, eColliderType::ITEM_SHIELD);
+	SetOwner();
 
-    // ÇÃ·¹ÀÌ¾î ¹Ì»çÀÏ°ú Ãæµ¹ÇÏ´Â Å¸ÀÔµé (ÇÃ·¹ÀÌ¾î ¹Ì»çÀÏ - Àû)
-    AddCollisionPair(eColliderType::MISSILE_PLAYER_NORMAL, eColliderType::ENEMY_NORMAL);
-    AddCollisionPair(eColliderType::MISSILE_PLAYER_NORMAL, eColliderType::ENEMY_FAST);
-    AddCollisionPair(eColliderType::MISSILE_PLAYER_NORMAL, eColliderType::ENEMY_BOSS);
-
-    AddCollisionPair(eColliderType::MISSILE_PLAYER_SIGN, eColliderType::ENEMY_NORMAL);
-    AddCollisionPair(eColliderType::MISSILE_PLAYER_SIGN, eColliderType::ENEMY_FAST);
-    AddCollisionPair(eColliderType::MISSILE_PLAYER_SIGN, eColliderType::ENEMY_BOSS);
-
-    AddCollisionPair(eColliderType::MISSILE_PLAYER_LAZER, eColliderType::ENEMY_NORMAL);
-    AddCollisionPair(eColliderType::MISSILE_PLAYER_LAZER, eColliderType::ENEMY_FAST);
-    AddCollisionPair(eColliderType::MISSILE_PLAYER_LAZER, eColliderType::ENEMY_BOSS);
-
-    // ¸Ê °æ°è¿ÍÀÇ Ãæµ¹
-    AddCollisionPair(eColliderType::ROCKET, eColliderType::MAP_BOUNDARY);
-    AddCollisionPair(eColliderType::ENEMY_NORMAL, eColliderType::MAP_BOUNDARY);
-    AddCollisionPair(eColliderType::ENEMY_FAST, eColliderType::MAP_BOUNDARY);
+	if (owner == MissileOwner::PLAYER && type == MissileType::LAZER)
+	{
+		for (auto& p : playerCollision)
+		{
+			for (auto& m : missileCollision)
+			{
+				isColliding(p, m);
+				return RectInRect(*p,*m);
+			}
+		}
+	}
+	else if (owner == MissileOwner::PLAYER && type == MissileType::NORMAL)
+	{
+		for (auto& p : playerCollision)
+		{
+			for (auto& m : missileCollision)
+			{
+				isColliding(p, m);
+				return RectInRect(*p, *m);
+			}
+		}
+	}
+	else if (owner == MissileOwner::PLAYER && type == MissileType::SIGN)
+	{
+		for (auto& p : playerCollision)
+		{
+			for (auto& m : missileCollision)
+			{
+				isColliding(p, m);
+				return RectInRect(*p, *m);
+			}
+		}
+	}
+	else if (owner == MissileOwner::ENEMY && type == MissileType::NORMAL)
+	{
+		for (auto& e : enemyCollision)
+		{
+			for (auto& m : missileCollision)
+			{
+				isColliding(e, m);
+				return RectInRect(*e, *m);
+			}
+		}
+	}
 }
 
-Collider* ColliderManager::CreateCollider(eColliderType type)
+void ColliderManager::SetOwner()
 {
-    // ºñÈ°¼º Ãæµ¹Ã¼ Ã£±â
-    for (auto& collider : colliders)
-    {
-        if (!collider->IsActive())
-        {
-            // ¼³Á¤ ÈÄ ¹ÝÈ¯
-            collider->SetActive(true);
-            collider->SetType(type);
-            return collider;
-        }
-    }
-
-    // ¸ðµç Ãæµ¹Ã¼°¡ »ç¿ë ÁßÀÌ¸é »õ·Î »ý¼º
-    Collider* newCollider = new Collider(type);
-    newCollider->Init();
-    newCollider->SetActive(true);
-    colliders.push_back(newCollider);
-
-    return newCollider;
+	owner = missileOwner->GetOwner();
+	type = missileOwner->GetType();
 }
 
-void ColliderManager::DestroyCollider(Collider* collider)
+void ColliderManager::isColliding(RECT* attacker, RECT* target)
 {
-    if (!collider) return;
+	if (attacker == nullptr || target == nullptr) return;
 
-    // ºñÈ°¼ºÈ­
-    collider->SetActive(false);
-    collider->SetCollision(false);
-    collider->SetOwner(nullptr);
+	// ï¿½ï¿½ ï¿½æµ¹ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¿ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½
+	if (attacker->left != target->right &&
+		attacker->top != target->bottom &&
+		target->left != attacker->right &&
+		target->top != attacker->bottom)
+	{
+		if (RectInRect(*attacker, *target))
+		{
+			isCollision = true;
+			isAlive = false;
+		}
+		else
+		{
+			isCollision = false;
+		}
+	}
 }
 
-void ColliderManager::AddCollisionPair(eColliderType type1, eColliderType type2)
-{
-    collisionPairs.push_back(CollisionPair(type1, type2));
-}
 
-bool ColliderManager::IsValidCollisionPair(eColliderType type1, eColliderType type2)
-{
-    for (const auto& pair : collisionPairs)
-    {
-        if ((pair.type1 == type1 && pair.type2 == type2) ||
-            (pair.type1 == type2 && pair.type2 == type1))
-        {
-            return true;
-        }
-    }
-    return false;
-}
 
-bool ColliderManager::IsColliding(GameObject* obj)
-{
-    if (!obj) return false;
-
-    // °´Ã¼ÀÇ Ãæµ¹Ã¼ Ã£±â
-    for (const auto& collider : colliders)
-    {
-        if (collider && collider->IsActive() && collider->GetOwner() == obj)
-        {
-            if (collider->IsColliding())
-            {
-                return true;
-            }
-        }
-    }
-
-    return false;
-}
-
-std::vector<GameObject*> ColliderManager::GetCollidingObjects(GameObject* obj)
-{
-    std::vector<GameObject*> result;
-
-    if (!obj) return result;
-
-    // °´Ã¼ÀÇ Ãæµ¹Ã¼ Ã£±â
-    Collider* objCollider = nullptr;
-
-    for (auto& collider : colliders)
-    {
-        if (collider && collider->IsActive() && collider->GetOwner() == obj)
-        {
-            objCollider = collider;
-            break;
-        }
-    }
-
-    if (!objCollider || !objCollider->IsColliding()) return result;
-
-    // Ãæµ¹ ÁßÀÎ ´Ù¸¥ °´Ã¼µé Ã£±â
-    for (auto& collider : colliders)
-    {
-        if (collider && collider->IsActive() && collider->IsColliding() &&
-            collider != objCollider && collider->GetOwner() != nullptr)
-        {
-            // ÀÌ µÎ Ãæµ¹Ã¼°¡ Ãæµ¹ °¡´ÉÇÑÁö È®ÀÎ
-            if (IsValidCollisionPair(objCollider->GetType(), collider->GetType()))
-            {
-                // Ãæµ¹ ¿©ºÎ ±¸Ã¼Àû È®ÀÎ
-                if (objCollider->CheckCollision(collider))
-                {
-                    result.push_back(collider->GetOwner());
-                }
-            }
-        }
-    }
-
-    return result;
-}
-
-std::vector<GameObject*> ColliderManager::GetCollidingObjectsByType(GameObject* obj, eColliderType targetType)
-{
-    std::vector<GameObject*> result;
-    std::vector<GameObject*> allCollisions = GetCollidingObjects(obj);
-
-    // Æ¯Á¤ Å¸ÀÔ¸¸ ÇÊÅÍ¸µ
-    for (auto& collider : colliders)
-    {
-        if (collider && collider->IsActive() && collider->GetType() == targetType)
-        {
-            for (auto collidingObj : allCollisions)
-            {
-                if (collider->GetOwner() == collidingObj)
-                {
-                    result.push_back(collidingObj);
-                    break;
-                }
-            }
-        }
-    }
-
-    return result;
-}

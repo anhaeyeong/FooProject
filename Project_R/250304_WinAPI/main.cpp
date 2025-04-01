@@ -26,7 +26,6 @@ bool RectInRect(RECT rc1, RECT rc2);
 // Update
 void UpdateRect(RECT& rc, FPOINT pt);
 
-
 LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam);
 
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
@@ -80,10 +79,11 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 		NULL, NULL, g_hInstance, NULL);
 
 	ShowWindow(g_hWnd, nCmdShow);
+	
 
 	TimerManager::GetInstance()->Init();
 	g_mainGame.Init();
-
+	PlaySound(TEXT("BGM.wav"), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP | SND_NODEFAULT);
 	MSG message;
 	while (true)
 	{

@@ -1,48 +1,46 @@
 #pragma once
 #include "Singleton.h"
-#include "Collider.h"
+#include "GameObject.h"
 #include <vector>
 
-//ColliderManager´Â ´©±¸¿Í Ãæµ¹ °Ë»ç¸¦ ÇÒÁö °áÁ¤
-//Àû,ÇÃ·¹ÀÌ¾î,¹Ì»çÀÏ¿¡°Ô Ãæµ¹Á¤º¸ Àü´Þ
-
-//Ãæµ¹ ½Ö
-struct CollisionPair
-{
-	eColliderType type1;
-	eColliderType type2;
-
-	CollisionPair(eColliderType t1, eColliderType t2): type1(t1), type2(t2) {}
-};
-
-class ColliderManager : public Singleton<typename ColliderManager>
+//ï¿½æµ¹ï¿½ï¿½ Å½ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½æµ¹ï¿½Ë»ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ colliderï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
+//enum class MissileOwner { PLAYER, ENEMY };
+//enum class MissileType { NORMAL, SIGN, LAZER };
+//enum class ItemType {A, B, C};
+class Missile;
+class Rocket;
+class Enemy;
+class ColliderManager: public Singleton<ColliderManager>
 {
 private:
-	std::vector<Collider*> colliders;
-	std::vector<CollisionPair> collisionPairs; 
+	vector<RECT*> playerCollision; //ï¿½Ã·ï¿½ï¿½Ì¾ï¿½<->ï¿½ï¿½, ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ <-> ï¿½Ì»ï¿½ï¿½ï¿½
+	vector<RECT*> enemyCollision; //ï¿½ï¿½<->ï¿½Ì»ï¿½ï¿½ï¿½ , ï¿½ï¿½ <-> ï¿½Ã·ï¿½ï¿½Ì¾ï¿½
+	vector<RECT*> missileCollision; // ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½Ì»ï¿½ï¿½ï¿½<-> ï¿½ï¿½, ï¿½ï¿½ ï¿½Ì»ï¿½ï¿½ï¿½<-> ï¿½Ã·ï¿½ï¿½Ì¾ï¿½
 
-	bool IsValidCollisionPair(eColliderType type1, eColliderType type2);
-	void InitCollisionMatrix();  // Ãæµ¹ ¸ÅÆ®¸¯½º¿¡ Ãæµ¹ °¡´ÉÇÑ ¸ðµç °æ¿ìÀÇ¼ö¸¦ ÃÊ±âÈ­
+	Missile* missileOwner; //getOwnerï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
+	Missile* missile;
+	Rocket* rocket;
+	Enemy* enemy;
+
+	bool isAlive;
+	bool isCollision;
+
+	MissileOwner owner;
+	MissileType type;
+	
 public:
+	
 	void Init();
 	void Release();
 	void Update();
 	void Render(HDC hdc);
 
-    // Ãæµ¹Ã¼ »ý¼º ¹× °ü¸®
-    Collider* CreateCollider(eColliderType type = eColliderType::ROCKET);
-    void DestroyCollider(Collider* collider);
+	bool CheckCollision();
+	void SetOwner();
+	void isColliding(RECT* attacker, RECT* target);
 
-    // Ãæµ¹ ½Ö µî·Ï
-    void AddCollisionPair(eColliderType type1, eColliderType type2);
-
-    // Æ¯Á¤ °´Ã¼¿Í Ãæµ¹ ÁßÀÎ °´Ã¼µé Ã£±â
-    std::vector<GameObject*> GetCollidingObjects(GameObject* obj);
-
-    // Æ¯Á¤ °´Ã¼¿Í Æ¯Á¤ Å¸ÀÔÀÇ °´Ã¼µé Áß Ãæµ¹ ÁßÀÎ °´Ã¼µé Ã£±â
-    std::vector<GameObject*> GetCollidingObjectsByType(GameObject* obj, eColliderType targetType);
-
-    // Ãæµ¹ ¿©ºÎ È®ÀÎ
-    bool IsColliding(GameObject* obj);
+	inline bool GetIsAlive() { return isAlive; }
+	inline bool GetIsCollision() { return isCollision; }
 };
+
