@@ -35,6 +35,12 @@ public:
 
    MissileOwner GetOwner() const { return owner; }  
    MissileType GetType() const { return type; }
+   inline void SetPos(FPOINT pos) { this->pos = pos; }
+   inline FPOINT GetPos() { return pos; }
+
+   inline void SetAngle(float angle) { this->angle = angle; }
+   inline int GetSize() { return size; }
+
    RECT GetRect() { return rect; }
 };  
 

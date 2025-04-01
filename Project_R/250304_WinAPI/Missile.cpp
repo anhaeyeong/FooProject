@@ -36,6 +36,15 @@ void Missile::Render(HDC hdc) {
 
 bool Missile::IsOutofScreen()
 {
+    float right = pos.x + size / 2;
+    float left = pos.x - size / 2;
+    float top = pos.y - size / 2;
+    float bottom = pos.y + size / 2;
+
+    if (right < 0 || left > WINSIZE_X
+        || bottom < 0 || top > WINSIZE_Y)
+        return true;
+
     return false;
 }
 
@@ -56,7 +65,7 @@ void NormalMissile::Move() {
 
 void NormalMissile::Notice() {
     if (owner == MissileOwner::PLAYER) {
-        pos = { 0, 0 };
+        //pos = { 0, 0 };
         isActived = true;
         moveSpeed = 3.0f;
         size = 10;
@@ -93,7 +102,7 @@ void SignMissile::Move() {
 
 void SignMissile::Notice() {
     if (owner == MissileOwner::PLAYER) {
-        pos = { 0, 0 };
+        //pos = { 0, 0 };
         isActived = true;
         moveSpeed = 3.0f;
         size = 10;
