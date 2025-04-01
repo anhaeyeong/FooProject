@@ -43,11 +43,14 @@
     <Filter Include="MainGame\Rocket">
       <UniqueIdentifier>{1e79367b-4297-43cd-8931-cc5bed246cc1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="2D Framework\State">
-      <UniqueIdentifier>{54391a58-97af-4d3d-9c11-97b515f95a75}</UniqueIdentifier>
+    <Filter Include="MainGame\Collider">
+      <UniqueIdentifier>{78d538d5-1c54-4703-98c6-222e2e023f89}</UniqueIdentifier>
     </Filter>
     <Filter Include="2D Framework\UI">
-      <UniqueIdentifier>{3ef6d51e-6752-4c6e-a8a8-aff8a921e276}</UniqueIdentifier>
+      <UniqueIdentifier>{5ffbe2b4-3d9b-4a73-b167-031356932d2f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2D Framework\State">
+      <UniqueIdentifier>{cc212a0e-73c8-4d70-bb9a-03a93fe56c2e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -64,9 +67,6 @@
       <Filter>MainGame\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="Missile.cpp">
-      <Filter>MainGame\Missile</Filter>
-    </ClCompile>
-    <ClCompile Include="MissileManager.cpp">
       <Filter>MainGame\Missile</Filter>
     </ClCompile>
     <ClCompile Include="Timer.cpp">
@@ -92,6 +92,12 @@
     </ClCompile>
     <ClCompile Include="Rocket.cpp">
       <Filter>MainGame\Rocket</Filter>
+    </ClCompile>
+    <ClCompile Include="MissileFactory.cpp">
+      <Filter>MainGame\Missile</Filter>
+    </ClCompile>
+    <ClCompile Include="ColliderManager.cpp">
+      <Filter>MainGame\Collider</Filter>
     </ClCompile>
     <ClCompile Include="State.cpp">
       <Filter>2D Framework\State</Filter>
@@ -122,9 +128,6 @@
     <ClInclude Include="Missile.h">
       <Filter>MainGame\Missile</Filter>
     </ClInclude>
-    <ClInclude Include="MissileManager.h">
-      <Filter>MainGame\Missile</Filter>
-    </ClInclude>
     <ClInclude Include="Timer.h">
       <Filter>2D Framework\Time</Filter>
     </ClInclude>
@@ -148,6 +151,12 @@
     </ClInclude>
     <ClInclude Include="Rocket.h">
       <Filter>MainGame\Rocket</Filter>
+    </ClInclude>
+    <ClInclude Include="MissileFactory.h">
+      <Filter>MainGame\Missile</Filter>
+    </ClInclude>
+    <ClInclude Include="ColliderManager.h">
+      <Filter>MainGame\Collider</Filter>
     </ClInclude>
     <ClInclude Include="State.h">
       <Filter>2D Framework\State</Filter>

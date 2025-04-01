@@ -3,7 +3,6 @@
 #include "Image.h"
 #include "EnemyManager.h"
 #include "Rocket.h"
-#include "MissileManager.h"
 
 /*
 �ǽ�1. zŰ�� �Է��ؼ� �Ϲݰ���(�̻��� 1�߾� �߻�)
@@ -17,7 +16,6 @@ void MainGame::Init()
 {
 	ImageManager::GetInstance()->Init();
 	KeyManager::GetInstance()->Init();
-
 	UIManager::GetInstance()->Init();
 
 	UIManager::GetInstance()->AddText("Press 'S' to start", WINSIZE_X / 2, WINSIZE_Y / 2);
@@ -86,6 +84,7 @@ void MainGame::Release()
 	UIManager::GetInstance()->Release();
 	KeyManager::GetInstance()->Release();
 	ImageManager::GetInstance()->Release();
+
 }
 
 void MainGame::Update()

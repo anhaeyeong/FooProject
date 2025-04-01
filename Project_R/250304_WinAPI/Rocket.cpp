@@ -2,8 +2,9 @@
 #include "CommonFunction.h"
 #include "Image.h"
 #include "InputManager.h"
-#include "MissileManager.h"
+#include "MissileFactory.h"
 #include "State.h"
+
 
 void Rocket::Init()
 {
@@ -16,7 +17,6 @@ void Rocket::Init()
 
 	missileFactory = PlayerMissileFactory::GetInstance();
 	missileFactory->Init();
-
 
 	ImageManager::GetInstance()->AddImage(
 		"rocket", TEXT("Image/SCV_IDLE.bmp"), 35 * 2, 30 * 2, 1, 1, true, RGB(48, 64, 47));
@@ -38,18 +38,15 @@ void Rocket::Init()
 void Rocket::Release()
 {
 
+	missileFactory->Release();
+
+
 	if (state)
 	{
 		delete state;
 		state = nullptr;
 	}
-	
-	if (missileManager)
-	{
-		missileManager->Release();
-		delete missileManager;
-		missileManager = nullptr;
-	}
+
 }
 
 void Rocket::Update()
@@ -59,20 +56,16 @@ void Rocket::Update()
 	{
 		state->Update(*this);
 	}
-	if (missileManager)
-	{
-		missileManager->Update();
-	}
+	missileFactory->Update();
 }
 
 void Rocket::Render(HDC hdc)
 {
+	missileFactory->Render(hdc);
 	if (isAlive)
 	{
-		image->FrameRender(hdc, pos.x, pos.y, 0, 0);
+		image->Render(hdc, pos.x, pos.y);
 	}
-
-	missileManager->Render(hdc);
 }
 
 void Rocket::Move()
@@ -81,17 +74,17 @@ void Rocket::Move()
 	{
 		pos.x -= TimerManager::GetInstance()->GetDeltaTime() * 100;
 	}
-		
+
 	if (InputManager::isMoveRight())
 	{
 		pos.x += TimerManager::GetInstance()->GetDeltaTime() * 100;
 	}
-		
+
 	if (InputManager::isMoveUp())
 	{
 		pos.y -= TimerManager::GetInstance()->GetDeltaTime() * 100;
 	}
-		
+
 	if (InputManager::isMoveDown()) {
 		pos.y += TimerManager::GetInstance()->GetDeltaTime() * 100;
 		if (!pos.y > WINSIZE_Y)
@@ -103,29 +96,27 @@ void Rocket::HandleInput()
 {
 	if (InputManager::isMoveLeft())
 	{
-		if(state->GetName() != "Moving")
+		if (state->GetName() != "Moving")
 			ChangeState(new MovingState());
 	}
-
-	if (InputManager::isMoveRight())
+	else if (InputManager::isMoveRight())
+	{
+		if (state->GetName() != "Moving")
+			ChangeState(new MovingState());
+	}
+	else if (InputManager::isMoveUp())
 	{
 		if (state->GetName() != "Moving")
 			ChangeState(new MovingState());
 	}
 
-	if (InputManager::isMoveUp())
-	{
-		if (state->GetName() != "Moving")
-			ChangeState(new MovingState());
-	}
-
-	if (InputManager::isMoveDown()) {
+	else if (InputManager::isMoveDown()) {
 		if (state->GetName() != "Moving")
 			ChangeState(new MovingState());
 		if (!pos.y > WINSIZE_Y)
 			pos.y = WINSIZE_Y - 100;
 	}
-	if (KeyManager::GetInstance()->IsOnceKeyUp(VK_NUMPAD4) ||
+	else if (KeyManager::GetInstance()->IsOnceKeyUp(VK_NUMPAD4) ||
 		KeyManager::GetInstance()->IsOnceKeyUp(VK_NUMPAD5) ||
 		KeyManager::GetInstance()->IsOnceKeyUp(VK_NUMPAD6) ||
 		KeyManager::GetInstance()->IsOnceKeyUp(VK_NUMPAD8) ||
@@ -133,11 +124,12 @@ void Rocket::HandleInput()
 	{
 		ChangeState(new IDLEState());
 	}
+	
 	if (InputManager::isFire())
 	{
 		ChangeState(new AttackState());
 	}
-	if (KeyManager::GetInstance()->IsOnceKeyUp(VK_SPACE))
+	else if (KeyManager::GetInstance()->IsOnceKeyUp(VK_SPACE))
 	{
 		ChangeState(new IDLEState());
 	}
@@ -145,7 +137,7 @@ void Rocket::HandleInput()
 
 void Rocket::Fire()
 {
-	missileManager->Fire({ pos.x,pos.y }, 90); // �÷��̾� ��ġ���� �������� �߻�
+	missileFactory->AddMissile(MissileType::NORMAL, { pos.x, pos.y });
 }
 
 void Rocket::Dead()

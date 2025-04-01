@@ -8,15 +8,19 @@
 #include <iostream>
 #include <bitset>
 #include <map>
+#include <vector>
 #include <mmsystem.h>
 
+
 using namespace std;
+
 
 typedef struct tagFPOINT
 {
 	float x;
 	float y;
 } FPOINT;
+
 
 #include "KeyManager.h"
 #include "ImageManager.h"

@@ -1,81 +1,148 @@
 #include "Missile.h"
-#include "CommonFunction.h"
-#include "Rocket.h"
 
-void Missile::Init()
-{
-	pos = { 0, 0 };
-	isActived = false;
-	moveSpeed = 3.0f;
-	size = 10;
-
-	image = ImageManager::GetInstance()->AddImage(
-		"bullet", TEXT("Image/bullet.bmp"), 21, 21,
-		true, RGB(255, 0, 255));
+void Missile::Init() {
+    pos = { 0, 0 };
+    isActived = false;
+    moveSpeed = 3.0f;
+    size = 10;
+    angle = 90.0f;
 }
 
 void Missile::Release()
 {
-
+    if (image)
+    {
+        image->Release();
+        delete image;
+        image = nullptr;
+    }
 }
 
-void Missile::Update()
-{
-	Move();
-	if (isActived && IsOutofScreen())
-	{
-		isActived = false;
-	}
+void Missile::Update() {
+    Move();
+    if (isActived && IsOutofScreen()) {
+        isActived = false;
+    }
 }
 
-void Missile::Render(HDC hdc)
-{
-	if (isActived)
-	{
-		image->Render(hdc, pos.x, pos.y);
-	}
-}
-
-
-void Missile::Move()
-{
-	if (isActived)
-	{
-		pos.x += moveSpeed * TimerManager::GetInstance()->GetDeltaTime() * 100
-			* cosf(DEG_TO_RAD(angle));
-		pos.y -= moveSpeed * TimerManager::GetInstance()->GetDeltaTime() * 100
-			* sinf(DEG_TO_RAD(angle));
-		//pos.x += moveSpeed * cosf(DEG_TO_RAD(angle));
-		//pos.y -= moveSpeed * sinf(DEG_TO_RAD(angle));
-	}
-
-	if (target)
-	{
-		angle = GetAngle(pos, target->GetPos());
-
-		pos.x += cosf(angle) * TimerManager::GetInstance()->GetDeltaTime() * 100;
-		pos.y -= sinf(angle) * TimerManager::GetInstance()->GetDeltaTime() * 100;
-	}
+void Missile::Render(HDC hdc) {
+    if (image) {
+        image->Render(hdc, pos.x, pos.y);
+    }
+    else {
+        std::cerr << "이미지가 로드되지 않았습니다." << std::endl;
+    }
 }
 
 bool Missile::IsOutofScreen()
 {
-	float right = pos.x + size / 2;
-	float left = pos.x - size / 2;
-	float top = pos.y - size / 2;
-	float bottom = pos.y + size / 2;
+    float right = pos.x + size / 2;
+    float left = pos.x - size / 2;
+    float top = pos.y - size / 2;
+    float bottom = pos.y + size / 2;
 
-	if (right < 0 || left > WINSIZE_X
-		|| bottom < 0 || top > WINSIZE_Y)
-		return true;
+    if (right < 0 || left > WINSIZE_X
+        || bottom < 0 || top > WINSIZE_Y)
+        return true;
 
-	return false;
+    return false;
 }
 
-Missile::Missile()
-{
+
+void NormalMissile::Render(HDC hdc) {
+    if (image) {
+        image->Render(hdc, pos.x, pos.y);
+    }
+    else {
+        std::cerr << "이미지가 로드되지 않았습니다." << std::endl;
+    }
 }
 
-Missile::~Missile()
-{
+
+void NormalMissile::Move() {
+        pos.y -= moveSpeed * angle * TimerManager::GetInstance()->GetDeltaTime() * 100;
+}
+
+void NormalMissile::Notice() {
+    if (owner == MissileOwner::PLAYER) {
+        //pos = { 0, 0 };
+        isActived = true;
+        moveSpeed = 3.0f;
+        size = 10;
+        angle = 90.0f;
+
+    }
+
+}
+
+void NormalMissile::loadImage() {  
+   string imageKey = (owner == MissileOwner::PLAYER) ? "player_normal" : "enemy_normal";  
+   wstring imagePath = (owner == MissileOwner::PLAYER) ? L"Image/bullet.bmp" : L"Image/.bmp";
+   image = ImageManager::GetInstance()->AddImage(  
+       imageKey, imagePath.c_str(), 21, 21, 1, 1,  
+       true, RGB(255, 0, 255));  
+
+   if (!image) {
+       std::cerr << "Failed to load image: " << std::string(imagePath.begin(), imagePath.end()) << std::endl;
+   }
+}  
+
+void SignMissile::Render(HDC hdc) {
+    if (image) {
+        image->Render(hdc, pos.x, pos.y);
+    }
+    else {
+        std::cerr << "이미지가 로드되지 않았습니다." << std::endl;
+    }
+}
+
+void SignMissile::Move() {
+
+}
+
+void SignMissile::Notice() {
+    if (owner == MissileOwner::PLAYER) {
+        //pos = { 0, 0 };
+        isActived = true;
+        moveSpeed = 3.0f;
+        size = 10;
+    }
+}
+
+void SignMissile::loadImage() {  
+   string imageKey = (owner == MissileOwner::PLAYER) ? "Player_ _Missile" : "Enemy_ _Missile";  
+   wstring imagePath = (owner == MissileOwner::PLAYER) ? L"Image/.bmp" : L"Image/.bmp";  
+   image = ImageManager::GetInstance()->AddImage(  
+       imageKey, imagePath.c_str(), 21, 21, 1, 1,  
+       true, RGB(255, 0, 255));  
+}
+
+void LazerMissile::Render(HDC hdc) {
+    if (image) {
+        image->Render(hdc, pos.x, pos.y);
+    }
+    else {
+        std::cerr << "이미지가 로드되지 않았습니다." << std::endl;
+    }
+}
+
+void LazerMissile::Move() {
+
+}
+
+void LazerMissile::Notice() {
+    if (owner == MissileOwner::PLAYER) {
+        pos = { 0, 0 };
+        isActived = true;
+        moveSpeed = 3.5f;
+        size = 12;
+    }
+}
+
+void LazerMissile::loadImage() {
+    std::string imageKey = (owner == MissileOwner::PLAYER) ? "" : "";
+    std::wstring imagePath = (owner == MissileOwner::PLAYER) ? L"Image/.bmp" : L"Image/.bmp";
+    image = ImageManager::GetInstance()->AddImage(
+        imageKey, imagePath.c_str(), 21, 21, 1, 1,
+        true, RGB(255, 0, 255));
 }
