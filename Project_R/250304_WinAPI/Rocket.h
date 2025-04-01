@@ -28,7 +28,7 @@ private:
 	string name;
 	RECT rect;
 	bool isAlive;
-
+	bool canMove;
 	State* state;
 	Image* image;
 	MissileFactory* missileFactory;
@@ -42,7 +42,9 @@ public:
 	void Fire();
 	void Dead();
 	
-	void UpdateCollisionRect(); 
+	void UpdateCollisionRect();
+	void SetCanMove(bool can) { canMove = can; }
+	bool GetCanMove() const { return canMove; }
 	RECT GetRect() const { return rect; }
 	inline float GetDamage() const { return damage; }
 	inline int GetHP() const{ return hp; }

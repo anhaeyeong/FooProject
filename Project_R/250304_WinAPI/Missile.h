@@ -34,6 +34,7 @@ public:
    RECT rect;
 
    void UpdateCollisionRect();
+   inline bool GetIsOutOfScreen() { return IsOutofScreen(); }
    inline FPOINT GetPos() { return pos; }
    inline int GetSize() { return size; }
    MissileOwner GetOwner() const { return owner; }  

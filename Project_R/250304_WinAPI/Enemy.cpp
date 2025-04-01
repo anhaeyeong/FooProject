@@ -59,9 +59,9 @@ void Enemy::Update()
 			elapsedFrame = 0;
 		}
 
-		UpdateCollisionRect();
+		
 	}
-
+	//UpdateCollisionRect();
 }
 
 void Enemy::Render(HDC hdc)

@@ -13,7 +13,7 @@ void Rocket::Init()
 
 	size = 40;
 	isAlive = true;
-
+	canMove = true;
 
 	missileFactory = PlayerMissileFactory::GetInstance();
 	missileFactory->Init();
@@ -71,23 +71,25 @@ void Rocket::Render(HDC hdc)
 
 void Rocket::Move()
 {
+	if (canMove = false) return;
+
 	if (InputManager::isMoveLeft())
 	{
-		pos.x -= TimerManager::GetInstance()->GetDeltaTime() * 100;
+		pos.x -= TimerManager::GetInstance()->GetDeltaTime() * 500;
 	}
 
 	if (InputManager::isMoveRight())
 	{
-		pos.x += TimerManager::GetInstance()->GetDeltaTime() * 100;
+		pos.x += TimerManager::GetInstance()->GetDeltaTime() * 500;
 	}
 
 	if (InputManager::isMoveUp())
 	{
-		pos.y -= TimerManager::GetInstance()->GetDeltaTime() * 100;
+		pos.y -= TimerManager::GetInstance()->GetDeltaTime() * 500;
 	}
 
 	if (InputManager::isMoveDown()) {
-		pos.y += TimerManager::GetInstance()->GetDeltaTime() * 100;
+		pos.y += TimerManager::GetInstance()->GetDeltaTime() * 500;
 		if (!pos.y > WINSIZE_Y)
 			pos.y = WINSIZE_Y - 100;
 	}

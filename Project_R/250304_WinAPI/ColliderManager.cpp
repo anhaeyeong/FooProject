@@ -13,10 +13,74 @@ void ColliderManager::Init()
     isCollision = false;
 }
 
+void ColliderManager::Release()
+{
+    if (rocket)
+    {
+        rocket->Release();
+        delete rocket;
+        rocket = nullptr;
+    }
+    
+    for (auto& e : enemies)
+    {
+        if (e->GetIsAlive() == false)
+        {
+            e->Release();
+            delete e;
+            e = nullptr;
+        }
+    }
+    enemies.clear();
+
+    for (auto& m : missiles)
+    {
+        if(m->GetIsOutOfScreen()== true)
+        m->Release();
+        delete m;
+        m = nullptr;
+    }
+    missiles.clear();
+}
+
 void ColliderManager::Update()
 {
     // 충돌 검사 수행
     CheckCollision();
+}
+
+void ColliderManager::Render(HDC hdc)
+{
+    // 충돌 상태: 빨간색 , 기본 상태: 초록색
+    HPEN pen = CreatePen(PS_SOLID, 2, isCollision ? RGB(255, 0, 0) : RGB(0, 255, 0));
+    HPEN oldPen = (HPEN)SelectObject(hdc, pen);
+    HBRUSH oldBrush = (HBRUSH)SelectObject(hdc, GetStockObject(NULL_BRUSH));
+
+    if (rocket)
+    {
+        RECT rc = rocket->GetRect();
+        Rectangle(hdc, rc.left, rc.top, rc.right, rc.bottom);
+    }
+
+    for (auto& enemy : enemies)
+    {
+        if (enemy == nullptr || enemy->GetIsAlive() == false) continue;
+
+        RECT rc = enemy->GetRect();
+        Rectangle(hdc, rc.left, rc.top, rc.right, rc.bottom);
+    }
+
+    for (auto& missile : missiles)
+    {
+        if (missile == nullptr || missile->isActived == false) continue;
+
+        RECT rc = missile->GetRect();
+        Rectangle(hdc, rc.left, rc.top, rc.right, rc.bottom);
+    }
+
+    SelectObject(hdc, oldPen);
+    SelectObject(hdc, oldBrush);
+    DeleteObject(pen);
 }
 
 bool ColliderManager::CheckCollision()
@@ -73,6 +137,23 @@ void ColliderManager::CheckPlayerEnemyMissileCollision()
             }
         }
     }
+
+    for (auto& enemy : enemies)
+    {
+        if (enemy == nullptr || enemy->GetIsAlive() == false) continue;
+
+        if (RectInRect(rocket->GetRect(), enemy->GetRect()))
+        {
+            isCollision = true;
+
+            // 충돌 발생 시 로켓의 이동 방지 플래그 설정
+            rocket->SetCanMove(false);
+
+            // 선택적으로 로켓의 상태 변경
+            rocket->ChangeState(new HitState());
+            return; // 첫 번째 충돌 후 함수 종료
+        }
+    }
 }
 
 void ColliderManager::CheckEnemyPlayerMissileCollision()
@@ -117,45 +198,4 @@ void ColliderManager::CheckEnemyPlayerMissileCollision()
             }
         }
     }
-}
-
-void ColliderManager::Render(HDC hdc)
-{
-    // 충돌 상태: 빨간색 , 기본 상태: 초록색
-    HPEN pen = CreatePen(PS_SOLID, 2, isCollision ? RGB(255, 0, 0) : RGB(0, 255, 0));
-    HPEN oldPen = (HPEN)SelectObject(hdc, pen);
-    HBRUSH oldBrush = (HBRUSH)SelectObject(hdc, GetStockObject(NULL_BRUSH));
-
-    if (rocket)
-    {
-        RECT rc = rocket->GetRect();
-        Rectangle(hdc, rc.left, rc.top, rc.right, rc.bottom);
-    }
-
-    for (auto& enemy : enemies)
-    {
-        if (enemy == nullptr || enemy->GetIsAlive() == false) continue;
-
-        RECT rc = enemy->GetRect();
-        Rectangle(hdc, rc.left, rc.top, rc.right, rc.bottom);
-    }
-
-    for (auto& missile : missiles)
-    {
-        if (missile == nullptr || missile->isActived == false) continue;
-
-        RECT rc = missile->GetRect();
-        Rectangle(hdc, rc.left, rc.top, rc.right, rc.bottom);
-    }
-
-    SelectObject(hdc, oldPen);
-    SelectObject(hdc, oldBrush);
-    DeleteObject(pen);
-}
-
-void ColliderManager::Release()
-{
-    rocket = nullptr;
-    enemies.clear();
-    missiles.clear();
 }
