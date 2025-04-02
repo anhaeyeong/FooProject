@@ -12,7 +12,32 @@ MissileFactory::~MissileFactory()
 // �̻��� �߰�
 void MissileFactory::AddMissile(MissileType type,FPOINT pos)
 {
-   Missile* missile = CreateMissile(type,pos);
+   /*Missile* missile = CreateMissile(type,pos);
+   if (missile)
+   {
+       vecMissiles.push_back(missile);
+       missile->Notice();
+       missile->loadImage();
+       ColliderManager::GetInstance()->AddMissile(missile);
+   }*/
+
+   // 활성화된 미사일 + 풀의 미사일 수가 최대치에 도달했는지 확인
+   if (vecMissiles.size() >= MAX_MISSILES)
+   {
+       // 풀 업데이트를 통해 비활성화된 미사일 회수
+       UpdateMissilePool();
+
+       // 여전히 공간이 없는 경우
+       if (vecMissiles.size() >= MAX_MISSILES)
+       {
+           std::cerr << "Max missile count reached. Cannot add more missiles." << std::endl;
+           return;
+       }
+   }
+
+   // 풀에서 미사일 가져오기
+   Missile* missile = GetMissileFromPool(type, pos);
+
    if (missile)
    {
        vecMissiles.push_back(missile);
@@ -20,16 +45,25 @@ void MissileFactory::AddMissile(MissileType type,FPOINT pos)
        missile->loadImage();
        ColliderManager::GetInstance()->AddMissile(missile);
    }
-   else
-   {
-       std::cerr << "Failed to add missile: " << static_cast<int>(type) << std::endl;
-   }
 }
 
 
 
 void MissileFactory::Init()  
 {  
+ vecMissiles.clear();
+ missilePool.clear();
+
+    // 초기 풀 생성 (사전에 일부 미사일 생성)
+for (int i = 0; i < 10; i++) // 초기에 10개만 미리 생성
+    {
+     Missile* missile = CreateMissile(MissileType::NORMAL, { 0, 0 });
+     if (missile)
+     {
+            missile->isActived = false;
+         missilePool.push_back(missile);
+     }
+}
   PlayerMissileFactory::GetInstance();
   EnemyMissileFactory::GetInstance();  
 }
@@ -38,6 +72,57 @@ void MissileFactory::Release()
 {
    PlayerMissileFactory::GetInstance()->ReleaseInstance();
    EnemyMissileFactory::GetInstance()->ReleaseInstance();
+}
+
+Missile* MissileFactory::GetMissileFromPool(MissileType type, FPOINT pos)
+{
+    // 풀에서 적합한 미사일 찾기
+    for (size_t i = 0; i < missilePool.size(); i++)
+    {
+        if (missilePool[i] && missilePool[i]->GetType() == type)
+        {
+            Missile* missile = missilePool[i];
+            missilePool.erase(missilePool.begin() + i);
+            missile->SetPos(pos);
+            missile->isActived = true;
+            return missile;
+        }
+    }
+
+    // 적합한 미사일이 없으면 새로 생성
+    if (vecMissiles.size() + missilePool.size() < MAX_MISSILES)
+    {
+        return CreateMissile(type, pos);
+    }
+
+    // 한계에 도달하면 null 반환
+    return nullptr;
+}
+
+void MissileFactory::ReturnMissileToPool(Missile* missile)
+{
+    if (missile)
+    {
+        missile->isActived = false;
+        missilePool.push_back(missile);
+    }
+}
+
+void MissileFactory::UpdateMissilePool()
+{
+    // 화면 밖으로 나간 미사일이나 비활성화된 미사일을 풀로 반환
+        for (auto it = vecMissiles.begin(); it != vecMissiles.end();)
+        {
+            if (*it && ((*it)->GetIsOutOfScreen() || !(*it)->isActived))
+            {
+                ReturnMissileToPool(*it);
+                it = vecMissiles.erase(it);
+            }
+            else
+            {
+                ++it;
+            }
+        }
 }
 
 void MissileFactory::loadImage() {
@@ -49,8 +134,21 @@ void MissileFactory::loadImage() {
 }
 
 void MissileFactory::Update() {
-    for (Missile* missile : vecMissiles) {
-        if (missile) {
+
+    //for (Missile* missile : vecMissiles) {
+    //    if (missile) {
+    //        missile->Update();
+    //    }
+    //}
+
+    // 화면 밖으로 나간 미사일 회수
+    UpdateMissilePool();
+
+    // 활성화된 미사일만 업데이트
+    for (auto& missile : vecMissiles)
+    {
+        if (missile && missile->isActived)
+        {
             missile->Update();
         }
     }

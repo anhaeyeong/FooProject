@@ -93,8 +93,7 @@ void MainGame::Update()
 		rocket->Update();
 		ColliderManager::GetInstance()->Update();
 	}
-	
-	ColliderManager::GetInstance()->Update();
+
 	InvalidateRect(g_hWnd, NULL, false);
 }
 
