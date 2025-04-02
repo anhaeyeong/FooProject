@@ -59,10 +59,10 @@ void EnemyManager::Update()
         }
     }
 
-    // for (int i = 0; i < vecEnemys.size(); i++)
-    // {
-    //     vecEnemys[i]->Update();
-    // }
+     for (int i = 0; i < vecEnemys.size(); i++)
+     {
+         vecEnemys[i]->Update();
+     }
 }
 
 void EnemyManager::Render(HDC hdc)
@@ -75,13 +75,13 @@ void EnemyManager::Render(HDC hdc)
 
 void EnemyManager::AddEnemy()
 {
-	for (int i = 0; i < size; i++)
+	/*for (int i = 0; i < size; i++)
 	{
 		vecEnemys.push_back(new Enemy());
 		vecEnemys.back()->Init();
 		vecEnemys.back()->UpdateCollisionRect(); 
 		ColliderManager::GetInstance()->AddEnemy(vecEnemys.back());
-	}
+	}*/
     Enemy* newEnemy = new Enemy();
     float spawnX = 0.0f;
     float spawnY = 0.0f;

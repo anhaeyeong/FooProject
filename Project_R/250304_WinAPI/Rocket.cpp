@@ -23,7 +23,7 @@ void Rocket::Init()
 
 	missileFactory = PlayerMissileFactory::GetInstance();
 	missileFactory->Init();
-	ColliderManager::GetInstance()->Init();
+
 	ImageManager::GetInstance()->AddImage(
 		"rocket", TEXT("Image/SCV_IDLE.bmp"), 35 * 2, 30 * 2, 1, 1, true, RGB(48, 64, 47));
 	ImageManager::GetInstance()->AddImage(
@@ -62,12 +62,12 @@ void Rocket::Update()
 	{
 		state->Update(*this);
 	}
-	HitTime += TimerManager::GetInstance()->GetDeltaTime();
+	/*HitTime += TimerManager::GetInstance()->GetDeltaTime();
 	if (HitTime >= 2.0f)
 	{
 		hp--;
 		HitTime = 0.0f;
-	}
+	}*/
 	
 	missileFactory->Update();
 	UpdateCollisionRect();
@@ -168,6 +168,11 @@ void Rocket::Fire()
 	missileFactory->AddMissile(MissileType::NORMAL, { pos.x, pos.y });
 }
 
+void Rocket::Hit()
+{
+	hp--;
+}
+
 void Rocket::Dead()
 {
 }
@@ -216,6 +221,10 @@ void Rocket::ChangeAnimation(AnimationType anim)
 
 void Rocket::ChangeState(State* newState)
 {
+	if (state->GetName() == newState->GetName())
+	{
+		return;
+	}
 	if (state)
 	{
 		state->Exit(*this);

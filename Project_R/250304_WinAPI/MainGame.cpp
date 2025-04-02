@@ -102,6 +102,7 @@ void MainGame::Update()
 	{
 		enemyManager->Update();
 		rocket->Update();
+		ColliderManager::GetInstance()->Update();
 	}
 	
 	InvalidateRect(g_hWnd, NULL, false);

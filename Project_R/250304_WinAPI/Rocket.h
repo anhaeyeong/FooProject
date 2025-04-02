@@ -46,6 +46,7 @@ public:
 	void Move();
 	void HandleInput();
 	void Fire();
+	void Hit();
 	void Dead();
 
 	void UpdateCollisionRect();

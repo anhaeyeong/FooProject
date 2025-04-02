@@ -30,6 +30,7 @@ public:
     void SetRocket(Rocket* r) { rocket = r; }
     void AddEnemy(Enemy* enemy) { if (enemy) enemies.push_back(enemy); }
     void AddMissile(Missile* missile) { if (missile) missiles.push_back(missile); }
+    void UpdateCollisionRects();
 
     // 충돌 검사 함수들
     bool CheckCollision();                          // 모든 충돌 검사
