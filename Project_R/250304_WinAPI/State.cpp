@@ -72,6 +72,7 @@ void HitState::Enter(Rocket& player)
 {
     //Hit Animation
     player.ChangeAnimation(AnimationType::Hit);
+    player.Hit();
     //player.Hit(CollisionManager::GetInstance()->GetCollision());
     //hp update
 }

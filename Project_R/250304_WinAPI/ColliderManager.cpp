@@ -47,6 +47,7 @@ void ColliderManager::Update()
 {
     UpdateCollisionRects();
     // 충돌 검사 수행
+    UpdateCollisionRects();
     CheckCollision();
 }
 
@@ -82,6 +83,33 @@ void ColliderManager::Render(HDC hdc)
     SelectObject(hdc, oldPen);
     SelectObject(hdc, oldBrush);
     DeleteObject(pen);
+}
+
+void ColliderManager::UpdateCollisionRects()
+{
+    // 모든 적의 충돌 RECT 업데이트
+    for (auto& enemy : enemies)
+    {
+        if (enemy && enemy->GetIsAlive())
+        {
+            enemy->UpdateCollisionRect();
+        }
+    }
+
+    // 모든 미사일의 충돌 RECT 업데이트
+    for (auto& missile : missiles)
+    {
+        if (missile && missile->isActived)
+        {
+            missile->UpdateCollisionRect();
+        }
+    }
+
+    // 로켓의 충돌 RECT 업데이트
+    if (rocket)
+    {
+        rocket->UpdateCollisionRect();
+    }
 }
 
 bool ColliderManager::CheckCollision()

@@ -61,12 +61,12 @@ void Rocket::Update()
 	{
 		state->Update(*this);
 	}
-	HitTime += TimerManager::GetInstance()->GetDeltaTime();
+	/*HitTime += TimerManager::GetInstance()->GetDeltaTime();
 	if (HitTime >= 2.0f)
 	{
 		hp--;
 		HitTime = 0.0f;
-	}
+	}*/
 	
 	missileFactory->Update();
 	UpdateCollisionRect();
@@ -168,6 +168,11 @@ void Rocket::Fire()
 	missileFactory->AddMissile(MissileType::NORMAL, { pos.x, pos.y });
 }
 
+void Rocket::Hit()
+{
+	hp--;
+}
+
 void Rocket::Dead()
 {
 }
@@ -220,7 +225,6 @@ void Rocket::ChangeState(State* newState)
 	{
 		return;
 	}
-
 	if (state)
 	{
 		state->Exit(*this);
