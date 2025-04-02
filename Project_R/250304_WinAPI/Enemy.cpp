@@ -194,12 +194,12 @@ void BigEnemy::Render(HDC hdc)
 void BigEnemy::loadImage()
 {
 	ImageManager::GetInstance()->AddImage(
-		"Normal_Enemy", TEXT("Image/MutaliskAnim.bmp"), 66, 365, 1, 5,
+		"Big_Enemy", TEXT("Image/GuardianAnimation.bmp"), 80, 504, 1, 7,
 		true, RGB(255, 255, 255));
 	ImageManager::GetInstance()->AddImage(
-		"Normal_Enemy_Dead", TEXT("Image/MutaliskAnim.bmp"), 66, 365, 1, 5,
+		"Big_enemy_Dead", TEXT("Image/GuardianAnimation.bmp"), 80, 504, 1, 7,
 		true, RGB(255, 255, 255));
-	image = ImageManager::GetInstance()->FindImage("Normal_Enemy");
+	image = ImageManager::GetInstance()->FindImage("Big_Enemy");
 	eState = new EnemyIDLEState();
 }
 

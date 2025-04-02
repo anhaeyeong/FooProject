@@ -10,7 +10,7 @@ void EnemyManager::Init()
     spawnPattern = 0;  
 
 	vecEnemys.resize(maxEnemies);
-    SetSpawnPattern(1);
+    SetSpawnPattern(0);
 }
 
 void EnemyManager::Release()
@@ -80,6 +80,7 @@ void EnemyManager::SetSpawnPattern(int pattern)
         {
             vecEnemys[i] = new BigEnemy();
             vecEnemys[i]->Init(rand() % WINSIZE_X, rand() % WINSIZE_Y, 1);
+            vecEnemys[i]->loadImage();
             vecEnemys[i]->UpdateCollisionRect();
             ColliderManager::GetInstance()->AddEnemy(vecEnemys[i]);
         }

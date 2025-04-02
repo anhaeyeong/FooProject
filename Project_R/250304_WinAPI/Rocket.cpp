@@ -61,12 +61,12 @@ void Rocket::Update()
 	{
 		state->Update(*this);
 	}
-	HitTime += TimerManager::GetInstance()->GetDeltaTime();
+	/*HitTime += TimerManager::GetInstance()->GetDeltaTime();
 	if (HitTime >= 2.0f)
 	{
 		hp--;
 		HitTime = 0.0f;
-	}
+	}*/
 	
 	missileFactory->Update();
 	UpdateCollisionRect();
