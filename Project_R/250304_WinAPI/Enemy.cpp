@@ -101,18 +101,6 @@ void Enemy::Render(HDC hdc)
 	}
 }
 
-void Enemy::Move()
-{
-	pos.x += moveSpeed;
-	if (pos.x > WINSIZE_X - 60) {
-		moveSpeed = -abs(moveSpeed);
-	}
-	else if (pos.x < size)
-	{
-		moveSpeed = abs(moveSpeed);
-	}
-}
-
 void Enemy::UpdateCollisionRect()
 {
 	rect = GetRectAtCenter(pos.x, pos.y, size, size);

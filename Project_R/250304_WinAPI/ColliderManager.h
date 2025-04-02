@@ -36,7 +36,7 @@ public:
     void CheckPlayerEnemyCollision();               // 플레이어-적 충돌
     void CheckPlayerEnemyMissileCollision();        // 플레이어-적미사일 충돌
     void CheckEnemyPlayerMissileCollision();        // 적-플레이어미사일 충돌
-
+    void UpdateCollisionRects();
     bool GetIsCollision() { return isCollision; }
 };
 

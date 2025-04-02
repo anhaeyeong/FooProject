@@ -45,6 +45,7 @@ void ColliderManager::Release()
 
 void ColliderManager::Update()
 {
+    UpdateCollisionRects();
     // 충돌 검사 수행
     CheckCollision();
 }
@@ -111,7 +112,7 @@ void ColliderManager::CheckPlayerEnemyCollision()
         {
             isCollision = true;
             // 플레이어와 적의 충돌 처리
-            rocket->ChangeState(new HitState());
+            //rocket->ChangeState(new HitState());
             // 적의 체력 감소 또는 상태 변경 등 필요한 처리
         }
     }
@@ -133,7 +134,7 @@ void ColliderManager::CheckPlayerEnemyMissileCollision()
                 isCollision = true;
                 missile->isActived = false;
                 // 플레이어 피격 처리
-                rocket->ChangeState(new HitState());
+                //rocket->ChangeState(new HitState());
             }
         }
     }
@@ -150,7 +151,7 @@ void ColliderManager::CheckPlayerEnemyMissileCollision()
             rocket->SetCanMove(false);
 
             // 선택적으로 로켓의 상태 변경
-            rocket->ChangeState(new HitState());
+            //rocket->ChangeState(new HitState());
             return; // 첫 번째 충돌 후 함수 종료
         }
     }
@@ -197,5 +198,31 @@ void ColliderManager::CheckEnemyPlayerMissileCollision()
                 }
             }
         }
+    }
+}
+void ColliderManager::UpdateCollisionRects()
+{
+    // 모든 적의 충돌 RECT 업데이트
+    for (auto& enemy : enemies)
+    {
+        if (enemy && enemy->GetIsAlive())
+        {
+            enemy->UpdateCollisionRect();
+        }
+    }
+
+    // 모든 미사일의 충돌 RECT 업데이트
+    for (auto& missile : missiles)
+    {
+        if (missile && missile->isActived)
+        {
+            missile->UpdateCollisionRect();
+        }
+    }
+
+    // 로켓의 충돌 RECT 업데이트
+    if (rocket)
+    {
+        rocket->UpdateCollisionRect();
     }
 }

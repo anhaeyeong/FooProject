@@ -32,7 +32,6 @@ public:
 	inline void SetIsAlive(bool isAlive) { this->isAlive = isAlive; }
 	inline bool GetIsAlive() {	return isAlive;	}
 	RECT GetRect() const { return rect; }
-	inline void SetTarget(Tank* target) { this->target = target; }
 	inline FPOINT GetPos() { return pos; }
 	inline int GetSize() { return size; }
 	inline int GetHP() const { return hp; }

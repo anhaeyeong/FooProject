@@ -23,7 +23,6 @@ void Rocket::Init()
 
 	missileFactory = PlayerMissileFactory::GetInstance();
 	missileFactory->Init();
-	ColliderManager::GetInstance()->Init();
 	ImageManager::GetInstance()->AddImage(
 		"rocket", TEXT("Image/SCV_IDLE.bmp"), 35 * 2, 30 * 2, 1, 1, true, RGB(48, 64, 47));
 	ImageManager::GetInstance()->AddImage(
@@ -161,6 +160,7 @@ void Rocket::HandleInput()
 	{
 		ChangeState(new DeadState());
 	}
+
 }
 
 void Rocket::Fire()
@@ -216,6 +216,11 @@ void Rocket::ChangeAnimation(AnimationType anim)
 
 void Rocket::ChangeState(State* newState)
 {
+	if (state->GetName() == newState->GetName())
+	{
+		return;
+	}
+
 	if (state)
 	{
 		state->Exit(*this);
