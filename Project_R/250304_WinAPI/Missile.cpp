@@ -122,7 +122,7 @@ void SignMissile::Notice() {
 
 void SignMissile::loadImage() {  
    string imageKey = (owner == MissileOwner::PLAYER) ? "player_civil_missile" : "enemy_civil_missile";  
-   wstring imagePath = (owner == MissileOwner::PLAYER) ? L"Image/bullet.bmp" : L"Image/bullet.bmp";  
+   wstring imagePath = (owner == MissileOwner::PLAYER) ? L"Image/civil.bmp" : L"Image/civil.bmp";  
    image = ImageManager::GetInstance()->AddImage(
        imageKey, imagePath.c_str(), 23, 166, 1, 5,
        true, RGB(255, 255, 255));
