@@ -27,7 +27,7 @@ typedef struct tagFPOINT
 #include "TimerManager.h"
 #include "InputManager.h"
 #include "UIManager.h"
-
+#include "EnemyManager.h"
 
 #define WINSIZE_X	1280
 #define WINSIZE_Y	960

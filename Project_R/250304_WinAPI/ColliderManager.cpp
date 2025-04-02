@@ -8,7 +8,7 @@
 void ColliderManager::Init()
 {
     rocket = nullptr;
-    enemies.clear();
+    EnemyManager::GetInstance()->Init();
     missiles.clear();
     isCollision = false;
 }
@@ -31,7 +31,7 @@ void ColliderManager::Release()
             e = nullptr;
         }
     }
-    enemies.clear();
+    EnemyManager::GetInstance()->Release();
 
     for (auto& m : missiles)
     {
