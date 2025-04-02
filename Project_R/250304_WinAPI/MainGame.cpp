@@ -5,13 +5,6 @@
 #include "Rocket.h"
 #include "ColliderManager.h"
 
-/*
-�ǽ�1. zŰ�� �Է��ؼ� �Ϲݰ���(�̻��� 1�߾� �߻�)
-	   xŰ�� �Է��ؼ� ��ź ����(ȭ�� ���� ���� �̻��� ��� ����)
-
-�ǽ�2. Ư�� ������ ȹ�� ��, zŰ�� �Է� ���� �� �Ϲ� ������ ���׷��̵�(�̻��� 2�߾� �߻�)
-	   Ư�� �������� �ϳ� �� ȹ�� �ϸ�, �ѹ� �� ���׷��̵�(�̻����� 4�߾� �߻�)
-*/
 
 void MainGame::Init()
 {
@@ -43,9 +36,6 @@ void MainGame::Init()
 	}
 
 	ColliderManager::GetInstance()->Init();
-
-	enemyManager = new EnemyManager();
-;	enemyManager->Init();
 	
 	rocket = new Rocket();
 	rocket->Init();
@@ -86,7 +76,6 @@ void MainGame::Release()
 	UIManager::GetInstance()->Release();
 	KeyManager::GetInstance()->Release();
 	ImageManager::GetInstance()->Release();
-
     KeyManager::GetInstance()->Release();
     ImageManager::GetInstance()->Release();
 }
@@ -100,7 +89,7 @@ void MainGame::Update()
 	}
 	if (sceneState == SceneState::Main)
 	{
-		enemyManager->Update();
+		EnemyManager::GetInstance()->Update();
 		rocket->Update();
 		ColliderManager::GetInstance()->Update();
 	}
@@ -123,7 +112,7 @@ void MainGame::Render()
 		wsprintf(szText, TEXT("Mouse X : %d, Y : %d"), mousePosX, mousePosY);
 		TextOut(hBackBufferDC, 20, 60, szText, wcslen(szText));
 
-		enemyManager->Render(hBackBufferDC);
+		EnemyManager::GetInstance()->Render(hBackBufferDC);
 		rocket->Render(hBackBufferDC);
 		ColliderManager::GetInstance()->Render(hBackBufferDC);
 		TimerManager::GetInstance()->Render(hBackBufferDC);
@@ -139,6 +128,7 @@ LRESULT MainGame::MainProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lPara
     switch (iMessage)
     {
 	case WM_KEYDOWN:
+
         break;
 
     case WM_LBUTTONDOWN:

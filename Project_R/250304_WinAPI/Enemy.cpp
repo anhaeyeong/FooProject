@@ -12,7 +12,6 @@ void Enemy::Init(float posX, float posY, int pattern)
 	size = 30;
 	animationFrame = 0;
 	elapsedFrame = 0;
-
 	spawnPattern = pattern;
 	elapsedTime = 0.0f;
 
@@ -29,10 +28,9 @@ void Enemy::Init(float posX, float posY, int pattern)
 
 void Enemy::Move()
 {
-    // ���Ͽ� ���� �̵� ��� ó��
     switch (spawnPattern)
     {
-    case 0:  // �Ϸķ� ���Ʒ��� �̵�
+    case 0:
         pos.y += moveSpeed;
         if (pos.y > WINSIZE_Y - size) {
             moveSpeed = -abs(moveSpeed);
@@ -42,19 +40,19 @@ void Enemy::Move()
         }
         break;
 
-    case 1:  // ������ ��ġ�� �̵� (������ �̵� ������ �������� ����)
-        pos.x += (rand() % 2 == 0 ? moveSpeed : -moveSpeed); // �¿�� �̵�
+    case 1:
+        pos.x += (rand() % 2 == 0 ? moveSpeed : -moveSpeed);
         pos.y += moveSpeed;
         if (pos.x > WINSIZE_X - size) pos.x = WINSIZE_X - size;
         if (pos.x < 0) pos.x = 0;
         if (pos.y > WINSIZE_Y - size) pos.y = WINSIZE_Y - size;
         break;
 
-    case 2:  // ������� �̵�
-        pos.x += (rand() % 2 == 0 ? moveSpeed : -moveSpeed); // �¿�� �̵�
+    case 2:
+        pos.x += (rand() % 2 == 0 ? moveSpeed : -moveSpeed);
         pos.y += moveSpeed;
         if (pos.x > WINSIZE_X - size || pos.x < 0) {
-            moveSpeed = -moveSpeed; // ���� ������ ���� ����
+            moveSpeed = -moveSpeed;
         }
         if (pos.y > WINSIZE_Y - size) pos.y = WINSIZE_Y - size;
         break;
