@@ -9,7 +9,7 @@ class MissileManager;
 class State;
 class AttackState;
 
-enum class AnimationType
+enum AnimationType
 {
 	IDLE,
 	Moving,
@@ -28,7 +28,13 @@ private:
 	string name;
 	RECT rect;
 	bool isAlive;
+
 	bool canMove;
+
+	float ElapsedTime;
+	float HitTime;
+	int animationFrame;
+
 	State* state;
 	Image* image;
 	MissileFactory* missileFactory;
@@ -41,8 +47,10 @@ public:
 	void HandleInput();
 	void Fire();
 	void Dead();
-	
+
 	void UpdateCollisionRect();
+	void UpdateAnimation(int maxFrame);
+	
 	void SetCanMove(bool can) { canMove = can; }
 	bool GetCanMove() const { return canMove; }
 	RECT GetRect() const { return rect; }

@@ -12,10 +12,13 @@ void Enemy::Init(float posX, float posY, int pattern)
 	size = 30;
 	animationFrame = 0;
 	elapsedFrame = 0;
+
 	spawnPattern = pattern;
+	elapsedTime = 0.0f;
+
 
 	image = ImageManager::GetInstance()->AddImage(
-		"Normal_Enemy", TEXT("Image/MutaliskAnimation1.bmp"), 63, 70, 1, 1,
+		"Normal_Enemy", TEXT("Image/MutaliskAnim.bmp"), 66, 365, 1, 5,
 		true, RGB(255, 255, 255));
 }
 
@@ -72,14 +75,16 @@ void Enemy::Update()
 
 
 		elapsedFrame++;
-		if (elapsedFrame > 5)
+		elapsedTime += TimerManager::GetInstance()->GetDeltaTime();
+
+		if (elapsedTime > 0.1f)
 		{
 			animationFrame++;
-			if (animationFrame >= image->GetMaxFrameX())
+			if (animationFrame >= image->GetMaxFrameY())
 			{
 				animationFrame = 0;
 			}
-			elapsedFrame = 0;
+			elapsedTime = 0.0f;
 		}
 
 		
@@ -91,7 +96,7 @@ void Enemy::Render(HDC hdc)
 {
 	if (isAlive)
 	{
-		image->Render(hdc, pos.x, pos.y, animationFrame);
+		image->FrameRender(hdc, pos.x, pos.y, 0, animationFrame);
 
 	}
 }

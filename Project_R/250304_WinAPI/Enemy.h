@@ -5,22 +5,23 @@
 class Enemy : public GameObject
 {
 private:
-    FPOINT pos;
-    float moveSpeed;
-    bool isAlive;
-    int size;
-    int animationFrame;
-    int elapsedFrame;
-    int hp;
-    RECT rect;
 
-    // �߰��� ���� ����
-    int spawnPattern;  // ���� ��ȣ (0: �Ϸ�, 1: ����, 2: �������)
-
-    Image* image;
+	FPOINT pos;
+	float moveSpeed;		//5.0f
+	float angle;
+	float damage;
+	bool isAlive;
+	int size;
+	Image* image;
+	int spawnPattern;
+	int animationFrame;
+	int elapsedFrame;
+	float elapsedTime;
+	int hp;
+	RECT rect;
 
 public:
-    void Init(float posX, float posY, int pattern = 0);  // ������ �߰��� Init �Լ�
+    void Init(float posX, float posY, int pattern = 0);
     void Release();
     void Update();
     void Render(HDC hdc);
