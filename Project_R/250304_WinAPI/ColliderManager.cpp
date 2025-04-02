@@ -137,10 +137,14 @@ void ColliderManager::CheckPlayerEnemyCollision()
 
         if (RectInRect(rocket->GetRect(), enemy->GetRect()))
         {
-            isCollision = true;
-            // 플레이어와 적의 충돌 처리
-            rocket->ChangeState(new HitState());
-            // 적의 체력 감소 또는 상태 변경 등 필요한 처리
+            string currState = rocket->GetState();
+            if (currState != "Hit" && currState != "Dead")
+            {
+                isCollision = true;
+                // 플레이어와 적의 충돌 처리
+                rocket->ChangeState(new HitState());
+                // 적의 체력 감소 또는 상태 변경 등 필요한 처리
+            }
         }
     }
 }

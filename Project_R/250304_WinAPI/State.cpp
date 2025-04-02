@@ -81,7 +81,7 @@ void HitState::Update(Rocket& player)
 {
     player.UpdateAnimation(1);
     zonya += TimerManager::GetInstance()->GetDeltaTime();
-    if (zonya >= 0.5f)
+    if (zonya >= 0.8f)
     {
         player.ChangeState(new IDLEState());
     }

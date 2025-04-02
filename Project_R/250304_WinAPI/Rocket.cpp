@@ -111,19 +111,22 @@ void Rocket::HandleInput()
 {
 	if (InputManager::isMoveLeft())
 	{
-		ChangeState(new MovingState());
+		if(state->GetName() != "Hit")
+			ChangeState(new MovingState());
 	}
 	else if (InputManager::isMoveRight())
 	{
-		ChangeState(new MovingState());
+		if (state->GetName() != "Hit")
+			ChangeState(new MovingState());
 	}
 	else if (InputManager::isMoveUp())
 	{
-		ChangeState(new MovingState());
+		if (state->GetName() != "Hit")
+			ChangeState(new MovingState());
 	}
 	else if (InputManager::isMoveDown()) {
-		ChangeState(new MovingState());
-			
+		if (state->GetName() != "Hit")
+			ChangeState(new MovingState());
 		if (!pos.y > WINSIZE_Y)
 			pos.y = WINSIZE_Y - 100;
 	}
@@ -134,7 +137,8 @@ void Rocket::HandleInput()
 		KeyManager::GetInstance()->IsOnceKeyUp(VK_NUMPAD8) ||
 		KeyManager::GetInstance()->IsOnceKeyUp(VK_SPACE))
 	{
-		ChangeState(new IDLEState());
+		if (state->GetName() != "Hit")
+			ChangeState(new IDLEState());
 	}
 	
 	if (InputManager::isFire())
@@ -187,8 +191,13 @@ void Rocket::UpdateAnimation(int maxFrame)
 		animationFrame++;
 		if (animationFrame >= maxFrame)
 		{
-			if(state->GetName() != "Dead")
+			if (state->GetName() != "Dead")
 				animationFrame = 0;
+			else
+			{
+				if (animationFrame >= maxFrame + 30)
+					isAlive = false;
+			}
 		}
 		ElapsedTime = 0.0f;
 	}
@@ -229,6 +238,11 @@ void Rocket::ChangeState(State* newState)
 		state = newState;
 		state->Enter(*this);
 	}
+}
+
+string Rocket::GetState()
+{
+	return state->GetName();
 }
 
 Rocket::Rocket()

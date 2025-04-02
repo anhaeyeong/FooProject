@@ -28,6 +28,7 @@ void MainGame::Init()
 		MessageBox(g_hWnd,
 			TEXT("Image/mainmenu.bmp"), TEXT("Fail!"), MB_OK);
 	}
+	ImageManager::GetInstance()->AddImage("Ending", TEXT("Image/mainmenu.bmp"), WINSIZE_X, WINSIZE_Y);
 	backGround = new Image();
 	if (FAILED(backGround->Init(TEXT("Image/background1.bmp"), WINSIZE_X, WINSIZE_Y)))
 	{
@@ -93,6 +94,11 @@ void MainGame::Update()
 		rocket->Update();
 		ColliderManager::GetInstance()->Update();
 	}
+	if (!rocket->GetIsAlive())
+	{
+		sceneState = SceneState::End;
+		Lobby = ImageManager::GetInstance()->FindImage("Ending");
+	}
 	
 	ColliderManager::GetInstance()->Update();
 	InvalidateRect(g_hWnd, NULL, false);
@@ -119,6 +125,7 @@ void MainGame::Render()
 		TimerManager::GetInstance()->Render(hBackBufferDC);
 		break;
 	case SceneState::End:
+		Lobby->Render(hBackBufferDC);
 		break;
 	}
 	backBuffer->Render(hdc);
