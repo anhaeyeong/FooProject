@@ -1,6 +1,13 @@
 #pragma once
 #include "GameObject.h"
 #include "ImageManager.h"
+#include "EnemyState.h"
+
+enum EnemyAnimType
+{
+	EIDLE,
+	EDead
+};
 
 class Enemy : public GameObject
 {
@@ -19,6 +26,7 @@ private:
 	float elapsedTime;
 	int hp;
 	RECT rect;
+	EnemyState* eState;
 
 public:
     void Init(float posX, float posY, int pattern = 0);
@@ -27,8 +35,11 @@ public:
     void Render(HDC hdc);
 
     void Move();
+	void ChangeAnimation(EnemyAnimType eAnimation);
+	void ChangeState(EnemyState* newState);
 
 	void UpdateCollisionRect();
+	void UpdateAnimation(int maxFrame);
 	inline void SetIsAlive(bool isAlive) { this->isAlive = isAlive; }
 	inline bool GetIsAlive() {	return isAlive;	}
 	RECT GetRect() const { return rect; }

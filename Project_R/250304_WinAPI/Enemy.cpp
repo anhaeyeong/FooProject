@@ -17,9 +17,14 @@ void Enemy::Init(float posX, float posY, int pattern)
 	elapsedTime = 0.0f;
 
 
-	image = ImageManager::GetInstance()->AddImage(
+	ImageManager::GetInstance()->AddImage(
 		"Normal_Enemy", TEXT("Image/MutaliskAnim.bmp"), 66, 365, 1, 5,
 		true, RGB(255, 255, 255));
+	ImageManager::GetInstance()->AddImage(
+		"Normal_Enemy_Dead", TEXT("Image/MutaliskAnim.bmp"), 66, 365, 1, 5,
+		true, RGB(255, 255, 255));
+	image = ImageManager::GetInstance()->FindImage("Normal_Enemy");
+	eState = new EnemyIDLEState();
 }
 
 void Enemy::Move()
@@ -56,6 +61,34 @@ void Enemy::Move()
     }
 }
 
+void Enemy::ChangeAnimation(EnemyAnimType eAnimation)
+{
+	switch (eAnimation)
+	{
+	case EnemyAnimType::EIDLE:
+		image = ImageManager::GetInstance()->FindImage("Normal_Enemy");
+		break;
+	case EnemyAnimType::EDead:
+		image = ImageManager::GetInstance()->FindImage("Normal_Enemy_Dead");
+		break;
+	}
+}
+
+void Enemy::ChangeState(EnemyState* newState)
+{
+	if (eState->GetName() == newState->GetName())
+	{
+		return;
+	}
+	if (eState)
+	{
+		eState->Exit(*this);
+		delete eState;
+		eState = newState;
+		eState->Enter(*this);
+	}
+}
+
 
 void Enemy::Release()
 {
@@ -71,25 +104,10 @@ void Enemy::Update()
 {
 	if (isAlive)
 	{
-		Move();
-
-
-		elapsedFrame++;
-		elapsedTime += TimerManager::GetInstance()->GetDeltaTime();
-
-		if (elapsedTime > 0.1f)
-		{
-			animationFrame++;
-			if (animationFrame >= image->GetMaxFrameY())
-			{
-				animationFrame = 0;
-			}
-			elapsedTime = 0.0f;
-		}
-
-		
+		UpdateCollisionRect();
+		eState->Update(*this);
 	}
-	//UpdateCollisionRect();
+	
 }
 
 void Enemy::Render(HDC hdc)
@@ -97,13 +115,27 @@ void Enemy::Render(HDC hdc)
 	if (isAlive)
 	{
 		image->FrameRender(hdc, pos.x, pos.y, 0, animationFrame);
-
 	}
 }
 
 void Enemy::UpdateCollisionRect()
 {
 	rect = GetRectAtCenter(pos.x, pos.y, size, size);
+}
+
+void Enemy::UpdateAnimation(int maxFrame)
+{
+	elapsedTime += TimerManager::GetInstance()->GetDeltaTime();
+	if (elapsedTime > 0.1f)
+	{
+		animationFrame++;
+		if (animationFrame >= maxFrame)
+		{
+			if(eState->GetName() != "Dead")
+				animationFrame = 0;
+		}
+		elapsedTime = 0.0f;
+	}
 }
 Enemy::Enemy()
 {

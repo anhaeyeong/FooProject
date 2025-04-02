@@ -112,27 +112,24 @@ void Rocket::HandleInput()
 {
 	if (InputManager::isMoveLeft())
 	{
-		if (state->GetName() != "Moving")
-			ChangeState(new MovingState());
+		ChangeState(new MovingState());
 	}
 	else if (InputManager::isMoveRight())
 	{
-		if (state->GetName() != "Moving")
-			ChangeState(new MovingState());
+		ChangeState(new MovingState());
 	}
 	else if (InputManager::isMoveUp())
 	{
-		if (state->GetName() != "Moving")
-			ChangeState(new MovingState());
+		ChangeState(new MovingState());
 	}
-
 	else if (InputManager::isMoveDown()) {
-		if (state->GetName() != "Moving")
-			ChangeState(new MovingState());
+		ChangeState(new MovingState());
+			
 		if (!pos.y > WINSIZE_Y)
 			pos.y = WINSIZE_Y - 100;
 	}
-	else if (KeyManager::GetInstance()->IsOnceKeyUp(VK_NUMPAD4) ||
+
+	if (KeyManager::GetInstance()->IsOnceKeyUp(VK_NUMPAD4) ||
 		KeyManager::GetInstance()->IsOnceKeyUp(VK_NUMPAD5) ||
 		KeyManager::GetInstance()->IsOnceKeyUp(VK_NUMPAD6) ||
 		KeyManager::GetInstance()->IsOnceKeyUp(VK_NUMPAD8) ||
