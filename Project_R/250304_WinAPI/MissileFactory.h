@@ -6,7 +6,9 @@ class MissileFactory
 {
 protected:
     vector<Missile*> vecMissiles; 
+    vector<Missile*> missilePool;  // 비활성화된 미사일 풀
     MissileOwner ownerType;          
+    const size_t MAX_MISSILES = 50;
 
 public:
     MissileFactory(MissileOwner owner) : ownerType(owner) {}
@@ -15,6 +17,9 @@ public:
     void AddMissile(MissileType type, FPOINT pos);
     void Init();
     void Release();
+    Missile* GetMissileFromPool(MissileType type, FPOINT pos);
+    void ReturnMissileToPool(Missile* missile);
+    void UpdateMissilePool(); // 화면 밖으로 나간 미사일을 풀로 반환
     void loadImage();
     void Update();
     void Render(HDC hdc);
