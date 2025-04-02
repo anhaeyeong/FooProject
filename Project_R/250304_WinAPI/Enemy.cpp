@@ -1,6 +1,7 @@
 #include "Enemy.h"
 #include "CommonFunction.h"
 #include "Image.h"
+#include "ColliderManager.h"
 
 /*
 	STL (Standard Template Library) : Vector

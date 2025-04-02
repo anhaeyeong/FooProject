@@ -28,8 +28,9 @@ void EnemyManager::Init()
 		vecEnemys[i]->Init(10.0f + 60.0f * (i % 5) , 
 			80.0f + 90.0f * (i / 5));
 		// 초기 충돌 박스 설정
-		vecEnemys[i]->UpdateCollisionRect(); 
+		vecEnemys[i]->UpdateCollisionRect();
 		ColliderManager::GetInstance()->AddEnemy(vecEnemys[i]);
+		
 	}
 }
 
