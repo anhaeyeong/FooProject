@@ -89,34 +89,63 @@ void NormalMissile::loadImage() {
        std::cerr << "Failed to load image: " << std::string(imagePath.begin(), imagePath.end()) << std::endl;
    }
 }  
-
+//SignMissile
 void SignMissile::Render(HDC hdc) {
     if (image) {
-        image->Render(hdc, pos.x, pos.y);
+        image->FrameRender(hdc, pos.x, pos.y, 0, currFrame);
     }
     else {
+        RECT rc = GetRectAtCenter(pos.x, pos.y, size, size);
+        Rectangle(hdc, rc.left, rc.top, rc.right, rc.bottom);
         std::cerr << "이미지가 로드되지 않았습니다." << std::endl;
     }
 }
 
 void SignMissile::Move() {
+    float deltatime = TimerManager::GetInstance()->GetDeltaTime();
+    pos.y -= moveSpeed * deltatime * 100;
+    pos.x = initialPosX + 50 * sin(pos.y / 30.0f);
 
+    SignUpdate();
 }
 
 void SignMissile::Notice() {
     if (owner == MissileOwner::PLAYER) {
         isActived = true;
-        moveSpeed = 3.0f;
+        moveSpeed = 50.0f;
         size = 10;
+        initialPosX = pos.x;
+        currFrame = 0; 
+        animElapsedTime = 0.0f;
     }
 }
 
 void SignMissile::loadImage() {  
-   string imageKey = (owner == MissileOwner::PLAYER) ? "Player_ _Missile" : "Enemy_ _Missile";  
-   wstring imagePath = (owner == MissileOwner::PLAYER) ? L"Image/.bmp" : L"Image/.bmp";  
-   image = ImageManager::GetInstance()->AddImage(  
-       imageKey, imagePath.c_str(), 21, 21, 1, 1,  
-       true, RGB(255, 0, 255));  
+   string imageKey = (owner == MissileOwner::PLAYER) ? "player_civil_missile" : "enemy_civil_missile";  
+   wstring imagePath = (owner == MissileOwner::PLAYER) ? L"Image/bullet.bmp" : L"Image/bullet.bmp";  
+   image = ImageManager::GetInstance()->AddImage(
+       imageKey, imagePath.c_str(), 23, 166, 1, 5,
+       true, RGB(255, 255, 255));
+   if (!image) {
+       std::cerr << "Failed to load image: " << std::string(imagePath.begin(), imagePath.end()) << std::endl;
+   }
+}
+
+void SignMissile::SignUpdate()
+{
+    animElapsedTime += TimerManager::GetInstance()->GetDeltaTime();
+    if (animElapsedTime >= 0.1f)
+    {
+        currFrame++;
+        if (currFrame >= 5) {
+            currFrame = 0;
+        }
+        animElapsedTime = 0.0f;
+    }
+    if (IsOutofScreen()) {
+        isActived = false;
+    }
+    UpdateCollisionRect();
 }
 
 void LazerMissile::Render(HDC hdc) {

@@ -25,6 +25,7 @@ private:
 	int size;
 	int hp;
 	float damage;
+	float angle;
 	string name;
 	RECT rect;
 	bool isAlive;

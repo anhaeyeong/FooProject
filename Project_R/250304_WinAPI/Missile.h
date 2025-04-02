@@ -8,7 +8,8 @@ class Missile : public GameObject
 protected:  
    MissileOwner owner;  
    MissileType type;  
-
+   int currFrame;
+   float animElapsedTime;
 public:  
    Missile(MissileOwner owner, MissileType type)  
        : image(nullptr), owner(owner), type(type), isActived(false), moveSpeed(3.0f), size(10), angle(90.0f), pos({0, 0}) {  
@@ -65,14 +66,21 @@ public:
 
 class SignMissile : public Missile  
 {  
+public:
+
 private:
    virtual void Render(HDC hdc);
    virtual void Move() override;  
    virtual void Notice() override;  
    virtual void loadImage() override;  
+   void SignUpdate();
+
+   int initialPosX;
+   int currFrame;          // 현재 프레임
+   float animElapsedTime;  // 애니메이션 타이머
 
 public:  
-   SignMissile(MissileOwner owner) : Missile(owner, MissileType::SIGN) {}  
+   SignMissile(MissileOwner owner) : Missile(owner, MissileType::SIGN) ,currFrame(0),animElapsedTime(0.0f) {}
    virtual ~SignMissile() {}  
 };  
 

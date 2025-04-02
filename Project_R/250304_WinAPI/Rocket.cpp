@@ -162,7 +162,7 @@ void Rocket::HandleInput()
 
 void Rocket::Fire()
 {
-	missileFactory->AddMissile(MissileType::NORMAL, { pos.x, pos.y });
+	missileFactory->AddMissile(MissileType::SIGN, { pos.x, pos.y });
 }
 
 void Rocket::Hit()
