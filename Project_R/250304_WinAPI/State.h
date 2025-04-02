@@ -12,7 +12,6 @@ public:
 	virtual void Exit(Rocket& player) {};
 
 	inline string GetName() { return StateName; }
-
 	State() {};
 	virtual ~State() {};
 };

@@ -142,15 +142,16 @@ LRESULT MainGame::MainProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lPara
     case WM_KEYDOWN:
         switch (wParam)
         {
+		//여기가 문제입니다
         case 'q': case 'Q':
             enemyManager->SetSpawnPattern(0);
             break;
         case 'w': case 'W':
             enemyManager->SetSpawnPattern(1);
             break;
-        case 'e': case 'E':
+        /*case 'e': case 'E':
             enemyManager->SetSpawnPattern(2);
-            break;
+            break;*/
         case 'r': case 'R':
             break;
         }

@@ -61,12 +61,12 @@ void Rocket::Update()
 	{
 		state->Update(*this);
 	}
-	/*HitTime += TimerManager::GetInstance()->GetDeltaTime();
+	HitTime += TimerManager::GetInstance()->GetDeltaTime();
 	if (HitTime >= 2.0f)
 	{
 		hp--;
 		HitTime = 0.0f;
-	}*/
+	}
 	
 	missileFactory->Update();
 	UpdateCollisionRect();
@@ -126,10 +126,10 @@ void Rocket::HandleInput()
 	}
 
 	else if (InputManager::isMoveDown()) {
-		if (state->GetName() != "Moving")
-			ChangeState(new MovingState());
-		if (!pos.y > WINSIZE_Y)
-			pos.y = WINSIZE_Y - 100;
+		//if (state->GetName() != "Moving")
+			//ChangeState(new MovingState());
+		/*if (!pos.y > WINSIZE_Y)
+			pos.y = WINSIZE_Y - 100;*/
 	}
 	else if (KeyManager::GetInstance()->IsOnceKeyUp(VK_NUMPAD4) ||
 		KeyManager::GetInstance()->IsOnceKeyUp(VK_NUMPAD5) ||
