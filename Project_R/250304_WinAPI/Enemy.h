@@ -2,32 +2,30 @@
 #include "GameObject.h"
 #include "ImageManager.h"
 
-class Tank;
-class Image;
-
-class Enemy : public GameObject	// is-a
+class Enemy : public GameObject
 {
 private:
-	FPOINT pos;
-	float moveSpeed;		//5.0f 1ÇÁ·¹ÀÓ´ç ÀÌµ¿°Å¸®    ¹°¸®¿¡¼­ÀÇ ¼Óµµ = ½Ã°£´ç ÀÌµ¿°Å¸®
-	float angle;
-	float damage;
-	bool isAlive;
-	int size;
-	Tank* target;
-	Image* image;
-	int animationFrame;
-	int elapsedFrame;
-	int hp;
-	RECT rect;
+    FPOINT pos;
+    float moveSpeed;
+    bool isAlive;
+    int size;
+    int animationFrame;
+    int elapsedFrame;
+    int hp;
+    RECT rect;
+
+    // ï¿½ß°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+    int spawnPattern;  // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È£ (0: ï¿½Ï·ï¿½, 1: ï¿½ï¿½ï¿½ï¿½, 2: ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½)
+
+    Image* image;
 
 public:
-	void Init(float posX = 0.0f, float posY = 0.0f);
-	void Release();
-	void Update();
-	void Render(HDC hdc);
+    void Init(float posX, float posY, int pattern = 0);  // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½ï¿½ï¿½ Init ï¿½Ô¼ï¿½
+    void Release();
+    void Update();
+    void Render(HDC hdc);
 
-	void Move();
+    void Move();
 
 	void UpdateCollisionRect();
 	inline void SetIsAlive(bool isAlive) { this->isAlive = isAlive; }
@@ -47,4 +45,3 @@ public:
 	Enemy();
 	~Enemy();
 };
-

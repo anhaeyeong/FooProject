@@ -4,16 +4,14 @@
 
 void EnemyManager::Init()
 {
-	// 1. ¹è¿­
-	//enemys = new Enemy[10];
-	//for (int i = 0; i < 10; i++)
-	//{
-	//	enemys[i].Init();
-	//}
+    spawnInterval = 2;       // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö±ï¿½ (ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½)
+    elapsedTime = 0.0f;      // ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½
+    maxEnemies = 10;         // ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç´ï¿½ ï¿½ï¿½ ï¿½ï¿½
+    spawnPattern = 0;        // ï¿½âº»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï·Ä·ï¿½ ï¿½ï¿½ï¿½ï¿½
 
 	// 2. vector
 	/*
-		push_back() ÇÔ¼öÀÇ ´ÜÁ¡ : 
+		push_back() ï¿½Ô¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ : 
 	*/
 	//for (int i = 0; i < 10; i++)
 	//{
@@ -27,40 +25,55 @@ void EnemyManager::Init()
 		vecEnemys[i] = new Enemy();
 		vecEnemys[i]->Init(10.0f + 60.0f * (i % 5) , 
 			80.0f + 90.0f * (i / 5));
-		// ÃÊ±â Ãæµ¹ ¹Ú½º ¼³Á¤
+		// ï¿½Ê±ï¿½ ï¿½æµ¹ ï¿½Ú½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		vecEnemys[i]->UpdateCollisionRect();
 		ColliderManager::GetInstance()->AddEnemy(vecEnemys[i]);
 		
 	}
+
+    // for (int i = 0; i < maxEnemies; i++)
+    // {
+    //     AddEnemy();  // ï¿½ï¿½ ï¿½ß°ï¿½
+    // }
 }
 
 void EnemyManager::Release()
 {
-	for (int i = 0; i < 10; i++)
-	{
-		delete vecEnemys[i];
-	}
-	vecEnemys.clear();	// ¿ø¼Ò°¡ ¸ðµÎ Á¦°ÅµÇ°í capacity´Â À¯ÁöµÈ´Ù.
+    for (int i = 0; i < vecEnemys.size(); i++)
+    {
+        delete vecEnemys[i];
+    }
+    vecEnemys.clear();
 }
 
 void EnemyManager::Update()
 {
+    elapsedTime += 0.016f;
 
-	for (int i = 0; i < vecEnemys.size(); i++)
-	{
-		vecEnemys[i]->Update();
-	}
+    if (elapsedTime >= spawnInterval)
+    {
+        elapsedTime = 0.0f;  // Å¸ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½
+        if (vecEnemys.size() < maxEnemies)  // ï¿½Ö´ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+        {
+            AddEnemy();
+        }
+    }
+
+    // for (int i = 0; i < vecEnemys.size(); i++)
+    // {
+    //     vecEnemys[i]->Update();
+    // }
 }
 
 void EnemyManager::Render(HDC hdc)
 {
-	for (int i = 0; i < vecEnemys.size(); i++)
-	{
-		vecEnemys[i]->Render(hdc);
-	}
+    for (int i = 0; i < vecEnemys.size(); i++)
+    {
+        vecEnemys[i]->Render(hdc);
+    }
 }
 
-void EnemyManager::AddEnemy(int size)
+void EnemyManager::AddEnemy()
 {
 	for (int i = 0; i < size; i++)
 	{
@@ -69,4 +82,53 @@ void EnemyManager::AddEnemy(int size)
 		vecEnemys.back()->UpdateCollisionRect(); 
 		ColliderManager::GetInstance()->AddEnemy(vecEnemys.back());
 	}
+    Enemy* newEnemy = new Enemy();
+    float spawnX = 0.0f;
+    float spawnY = 0.0f;
+
+    spawnX = 10.0f + (rand() % 5) * 60.0f;  // X ï¿½ï¿½Ç¥ ï¿½ï¿½ï¿½ï¿½È­ (ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½)
+    spawnY = 80.0f + (rand() % 3) * 90.0f; // Y ï¿½ï¿½Ç¥ ï¿½ï¿½ï¿½ï¿½È­ (ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½)
+
+    newEnemy->Init(spawnX, spawnY);
+    vecEnemys.push_back(newEnemy);
 }
+
+void EnemyManager::SetSpawnPattern(int pattern)
+{
+    // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+    for (int i = 0; i < vecEnemys.size(); i++)
+    {
+        delete vecEnemys[i];
+    }
+    vecEnemys.clear();
+
+    // ï¿½ï¿½ï¿½Ï¿ï¿½ ï¿½Â´ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+    switch (pattern)
+    {
+    case 0:  // ï¿½Ï·Ä·ï¿½ ï¿½ï¿½ï¿½ï¿½
+        for (int i = 0; i < 10; i++)
+        {
+            vecEnemys.push_back(new Enemy());
+            vecEnemys[i]->Init(10.0f + 60.0f * (i % 5), 80.0f + 90.0f * (i / 5), 0); // ï¿½Ï·ï¿½ ï¿½ï¿½ï¿½ï¿½
+        }
+        break;
+
+    case 1:  // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+        for (int i = 0; i < 10; i++)
+        {
+            vecEnemys.push_back(new Enemy());
+            vecEnemys[i]->Init(rand() % WINSIZE_X, rand() % WINSIZE_Y, 1); // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+        }
+        break;
+
+    case 2:  // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+        for (int i = 0; i < 10; i++)
+        {
+            vecEnemys.push_back(new Enemy());
+            vecEnemys[i]->Init(50.0f * (i % 5), 100.0f + 50.0f * (i / 5), 2); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+        }
+        break;
+    }
+}
+
+

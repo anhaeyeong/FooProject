@@ -55,26 +55,26 @@ void MainGame::Init()
 
 void MainGame::Release()
 {
-	if (enemyManager)
-	{
-		enemyManager->Release();
-		delete enemyManager;
-		enemyManager = nullptr;
-	}
+    if (enemyManager)
+    {
+        enemyManager->Release();
+        delete enemyManager;
+        enemyManager = nullptr;
+    }
 
-	if (rocket)
-	{
-		rocket->Release();
-		delete rocket;
-		rocket = nullptr;
-	}
+    if (rocket)
+    {
+        rocket->Release();
+        delete rocket;
+        rocket = nullptr;
+    }
 
-	if (backGround)
-	{
-		backGround->Release();
-		delete backGround;
-		backGround = nullptr;
-	}
+    if (backGround)
+    {
+        backGround->Release();
+        delete backGround;
+        backGround = nullptr;
+    }
 
 	if (backBuffer)
 	{
@@ -88,6 +88,8 @@ void MainGame::Release()
 	KeyManager::GetInstance()->Release();
 	ImageManager::GetInstance()->Release();
 
+    KeyManager::GetInstance()->Release();
+    ImageManager::GetInstance()->Release();
 }
 
 void MainGame::Update()
@@ -138,36 +140,47 @@ void MainGame::Render()
 
 LRESULT MainGame::MainProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 {
-	switch (iMessage)
-	{
-	case WM_KEYDOWN:
-		switch (wParam)
-		{
-		case 'a': case 'A':
-			break;
-		case 'd': case 'D':
-			break;
-		}
-		break;
-	case WM_LBUTTONDOWN:
-		mousePosX = LOWORD(lParam);
-		mousePosY = HIWORD(lParam);
-		break;
-	case WM_LBUTTONUP:
-		break;
-	case WM_MOUSEMOVE:
-		mousePosX = LOWORD(lParam);
-		mousePosY = HIWORD(lParam);
+    switch (iMessage)
+    {
+    case WM_KEYDOWN:
+        switch (wParam)
+        {
+        case 'q': case 'Q':
+            enemyManager->SetSpawnPattern(0);
+            break;
+        case 'w': case 'W':
+            enemyManager->SetSpawnPattern(1);
+            break;
+        case 'e': case 'E':
+            enemyManager->SetSpawnPattern(2);
+            break;
+        case 'r': case 'R':
+            break;
+        }
+        break;
 
-		mousePos.x = LOWORD(lParam);
-		mousePos.y = HIWORD(lParam);
-		break;
-	case WM_DESTROY:
-		PostQuitMessage(0);
-		break;
-	}
+    case WM_LBUTTONDOWN:
+        mousePosX = LOWORD(lParam);
+        mousePosY = HIWORD(lParam);
+        break;
 
-	return DefWindowProc(hWnd, iMessage, wParam, lParam);
+    case WM_LBUTTONUP:
+        break;
+
+    case WM_MOUSEMOVE:
+        mousePosX = LOWORD(lParam);
+        mousePosY = HIWORD(lParam);
+
+        mousePos.x = LOWORD(lParam);
+        mousePos.y = HIWORD(lParam);
+        break;
+
+    case WM_DESTROY:
+        PostQuitMessage(0);
+        break;
+    }
+
+    return DefWindowProc(hWnd, iMessage, wParam, lParam);
 }
 
 MainGame::MainGame()

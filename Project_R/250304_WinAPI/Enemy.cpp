@@ -3,19 +3,7 @@
 #include "Image.h"
 #include "ColliderManager.h"
 
-/*
-	STL (Standard Template Library) : Vector
-	µ¿Àû¹è¿­À» Á¦°øÇÏ´Â Ç¥ÁØ ÅÛÇÃ¸´ ¶óÀÌºê·¯¸® ÄÁÅ×ÀÌ³Ê
-	¹è¿­°ú Èí»çÇÏÁö¸¸ Å©±â°¡ ÀÚµ¿À¸·Î Á¶ÀýµÈ´Ù.
-
-	ÀåÁ¡ : ÀÓÀÇÁ¢±Ù : ÀÎµ¦½º¸¦ »ç¿ëÇØ¼­ O(1) ½Ã°£º¹Àâµµ·Î
-	¿ø¼Ò¿¡ Á¢±ÙÀÌ °¡´ÉÇÏ´Ù.
-
-	´ÜÁ¡ : ¹è¿­°ú °°´Ù. Áß°£¿¡ ¿ø¼Ò¸¦ »ðÀÔ, »èÁ¦ ÇÒ ¶§ ºñ¿ëÀÌ
-	½Ã°£º¹Àâµµ O(n) °¡ ¸¹ÀÌ µç´Ù.
-*/
-
-void Enemy::Init(float posX, float posY)
+void Enemy::Init(float posX, float posY, int pattern)
 {
 	pos = { posX, posY };
 	moveSpeed = 0.4f;
@@ -24,13 +12,47 @@ void Enemy::Init(float posX, float posY)
 	size = 30;
 	animationFrame = 0;
 	elapsedFrame = 0;
-
+	spawnPattern = pattern;
 
 	image = ImageManager::GetInstance()->AddImage(
 		"Normal_Enemy", TEXT("Image/MutaliskAnimation1.bmp"), 63, 70, 1, 1,
 		true, RGB(255, 255, 255));
-
 }
+
+void Enemy::Move()
+{
+    // ï¿½ï¿½ï¿½Ï¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½
+    switch (spawnPattern)
+    {
+    case 0:  // ï¿½Ï·Ä·ï¿½ ï¿½ï¿½ï¿½Æ·ï¿½ï¿½ï¿½ ï¿½Ìµï¿½
+        pos.y += moveSpeed;
+        if (pos.y > WINSIZE_Y - size) {
+            moveSpeed = -abs(moveSpeed);
+        }
+        else if (pos.y < size) {
+            moveSpeed = abs(moveSpeed);
+        }
+        break;
+
+    case 1:  // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½Ìµï¿½ (ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½)
+        pos.x += (rand() % 2 == 0 ? moveSpeed : -moveSpeed); // ï¿½Â¿ï¿½ï¿½ ï¿½Ìµï¿½
+        pos.y += moveSpeed;
+        if (pos.x > WINSIZE_X - size) pos.x = WINSIZE_X - size;
+        if (pos.x < 0) pos.x = 0;
+        if (pos.y > WINSIZE_Y - size) pos.y = WINSIZE_Y - size;
+        break;
+
+    case 2:  // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½
+        pos.x += (rand() % 2 == 0 ? moveSpeed : -moveSpeed); // ï¿½Â¿ï¿½ï¿½ ï¿½Ìµï¿½
+        pos.y += moveSpeed;
+        if (pos.x > WINSIZE_X - size || pos.x < 0) {
+            moveSpeed = -moveSpeed; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+        }
+        if (pos.y > WINSIZE_Y - size) pos.y = WINSIZE_Y - size;
+        break;
+    }
+}
+
 
 void Enemy::Release()
 {
@@ -90,7 +112,6 @@ void Enemy::UpdateCollisionRect()
 {
 	rect = GetRectAtCenter(pos.x, pos.y, size, size);
 }
-
 Enemy::Enemy()
 {
 }
