@@ -70,12 +70,10 @@ void NormalMissile::Move() {
 
 void NormalMissile::Notice() {
     if (owner == MissileOwner::PLAYER) {
-        //pos = { 0, 0 };
         isActived = true;
         moveSpeed = 3.0f;
         size = 10;
         angle = 90.0f;
-
     }
 
 }
@@ -107,7 +105,6 @@ void SignMissile::Move() {
 
 void SignMissile::Notice() {
     if (owner == MissileOwner::PLAYER) {
-        //pos = { 0, 0 };
         isActived = true;
         moveSpeed = 3.0f;
         size = 10;
@@ -137,7 +134,6 @@ void LazerMissile::Move() {
 
 void LazerMissile::Notice() {
     if (owner == MissileOwner::PLAYER) {
-        pos = { 0, 0 };
         isActived = true;
         moveSpeed = 3.5f;
         size = 12;

@@ -10,7 +10,7 @@ void EnemyManager::Init()
     spawnPattern = 0;  
 
 	vecEnemys.resize(maxEnemies);
-    SetSpawnPattern(0);
+    SetSpawnPattern(1);
 }
 
 void EnemyManager::Release()
@@ -56,13 +56,7 @@ void EnemyManager::AddEnemy()
 
     spawnX = 10.0f + (rand() % 5) * 60.0f;
     spawnY = 80.0f + (rand() % 3) * 90.0f;
-	for (int i = 0; i < vecEnemys.size(); i++)
-	{
-		vecEnemys.push_back(new Enemy());
-		vecEnemys.back()->Init(spawnX, spawnY);
-		vecEnemys.back()->UpdateCollisionRect(); 
-		ColliderManager::GetInstance()->AddEnemy(vecEnemys.back());
-	}
+    SetSpawnPattern(1);
 }
 
 void EnemyManager::SetSpawnPattern(int pattern)
@@ -72,7 +66,7 @@ void EnemyManager::SetSpawnPattern(int pattern)
     case 0:
         for (int i = 0; i < maxEnemies; i++)
         {
-            vecEnemys[i] = new Enemy();
+            vecEnemys[i] = new SmallEnemy();
             vecEnemys[i]->Init(10.0f + 60.0f * (i % 5),
                 80.0f + 90.0f * (i / 5));
             vecEnemys[i]->UpdateCollisionRect();
@@ -84,7 +78,7 @@ void EnemyManager::SetSpawnPattern(int pattern)
     case 1:
         for (int i = 0; i < maxEnemies; i++)
         {
-            vecEnemys[i] = new Enemy();
+            vecEnemys[i] = new BigEnemy();
             vecEnemys[i]->Init(rand() % WINSIZE_X, rand() % WINSIZE_Y, 1);
             vecEnemys[i]->UpdateCollisionRect();
             ColliderManager::GetInstance()->AddEnemy(vecEnemys[i]);
@@ -94,7 +88,7 @@ void EnemyManager::SetSpawnPattern(int pattern)
     case 2:
         for (int i = 0; i < maxEnemies; i++)
         {
-            vecEnemys[i] = new Enemy();
+            vecEnemys[i] = new BossEnemy();
             vecEnemys[i]->Init(50.0f * (i % 5), 100.0f + 50.0f * (i / 5), 2);
             vecEnemys[i]->UpdateCollisionRect();
             ColliderManager::GetInstance()->AddEnemy(vecEnemys[i]);

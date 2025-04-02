@@ -75,12 +75,12 @@ Missile* PlayerMissileFactory::CreateMissile(MissileType type, FPOINT pos)
       break;  
   case MissileType::SIGN:  
       missile = new SignMissile(MissileOwner::PLAYER);  
-      missile->SetPos(pos);  
-      break;  
-  case MissileType::LAZER:  
+      missile->SetPos(pos);
+      break;
+  case MissileType::LAZER:
       missile = new LazerMissile(MissileOwner::PLAYER);  
-      missile->SetPos(pos);  
-      break;  
+      missile->SetPos(pos);
+      break;
   default:  
       std::cerr << "Unknown MissileType: " << static_cast<int>(type) << std::endl;  
       break;  

@@ -11,48 +11,88 @@ enum EnemyAnimType
 
 class Enemy : public GameObject
 {
-private:
-
+protected:
 	FPOINT pos;
-	float moveSpeed;		//5.0f
+	float moveSpeed;
 	float angle;
 	float damage;
-	bool isAlive;
 	int size;
-	Image* image;
+	int hp;
+	bool isAlive;
 	int spawnPattern;
 	int animationFrame;
 	int elapsedFrame;
 	float elapsedTime;
-	int hp;
+	Image* image;
 	RECT rect;
 	EnemyState* eState;
 
 public:
-    void Init(float posX, float posY, int pattern = 0);
-    void Release();
-    void Update();
-    void Render(HDC hdc);
+	Enemy();
+	virtual ~Enemy();
 
-    void Move();
+	void Init(float posX, float posY, int pattern = 0);
+	void Release();
+	void Update();
 	void ChangeAnimation(EnemyAnimType eAnimation);
 	void ChangeState(EnemyState* newState);
 
+	virtual void Notice() = 0;
+	virtual void Move() = 0;
+	virtual void Render(HDC hdc) = 0;
+	virtual void loadImage() = 0;
+
 	void UpdateCollisionRect();
 	void UpdateAnimation(int maxFrame);
-	inline void SetIsAlive(bool isAlive) { this->isAlive = isAlive; }
-	inline bool GetIsAlive() {	return isAlive;	}
+
+	void SetIsAlive(bool isAlive) { this->isAlive = isAlive; }
+	bool GetIsAlive() const { return isAlive; }
 	RECT GetRect() const { return rect; }
-	inline FPOINT GetPos() { return pos; }
-	inline int GetSize() { return size; }
-	inline int GetHP() const { return hp; }
-	inline float GetDamage() const { return damage; }
-	inline RECT GetRectAtCenter(int x, int y, int width, int height)
+	FPOINT GetPos() const { return pos; }
+	int GetSize() const { return size; }
+	int GetHP() const { return hp; }
+	float GetDamage() const { return damage; }
+
+	static RECT GetRectAtCenter(int x, int y, int width, int height)
 	{
 		RECT rc{ x - (width / 2), y - (height / 2),
-			x + (width / 2), y + (height / 2) };
+				 x + (width / 2), y + (height / 2) };
 		return rc;
 	}
-	Enemy();
-	~Enemy();
+};
+
+class SmallEnemy : public Enemy
+{
+public:
+	SmallEnemy() : Enemy() {}
+	virtual ~SmallEnemy() {}
+
+	virtual void Notice() override;
+	virtual void Move() override;
+	virtual void Render(HDC hdc) override;
+	virtual void loadImage() override;
+};
+
+class BigEnemy : public Enemy
+{
+public:
+	BigEnemy() : Enemy() {}
+	virtual ~BigEnemy() {}
+
+	virtual void Notice() override;
+	virtual void Move() override;
+	virtual void Render(HDC hdc) override;
+	virtual void loadImage() override;
+};
+
+class BossEnemy : public Enemy
+{
+public:
+	BossEnemy() : Enemy() {}
+	virtual ~BossEnemy() {}
+
+	virtual void Notice() override;
+	virtual void Move() override;
+	virtual void Render(HDC hdc) override;
+	virtual void loadImage() override;
 };
