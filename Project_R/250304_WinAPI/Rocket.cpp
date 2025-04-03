@@ -109,6 +109,7 @@ void Rocket::Move()
 
 void Rocket::HandleInput()
 {
+	if (state->GetName() == "Dead") return;
 	if (InputManager::isMoveLeft())
 	{
 		if (state->GetName() != "Hit")
