@@ -166,7 +166,7 @@ void Rocket::HandleInput()
 
 void Rocket::Fire()
 {
-	missileFactory->AddMissile(MissileType::SIGN, { pos.x, pos.y });
+	missileFactory->AddMissile(MissileType::LAZER, { pos.x, pos.y });
 }
 
 void Rocket::Hit()
