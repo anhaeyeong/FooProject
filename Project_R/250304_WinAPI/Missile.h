@@ -101,3 +101,24 @@ public:
    LazerMissile(MissileOwner owner) : Missile(owner, MissileType::LAZER), animationFrame(0), elapsedTime(0.0f), remainTime(0.5f) {}  
    virtual ~LazerMissile() {}  
 };
+
+
+class BossMissile : public Missile
+{
+private:
+	virtual void Render(HDC hdc);
+	virtual void Move() override;
+	virtual void Notice() override;
+	virtual void loadImage() override;
+	void UpdateCollisionRect() override;
+
+	int animationFrame;
+	float elapsedTime;
+	float remainTime;
+
+	void BossUpdateAnim();
+
+public:
+	BossMissile(MissileOwner owner) : Missile(owner, MissileType::BOSS), animationFrame(0), elapsedTime(0.0f), remainTime(0.5f) {}
+	virtual ~BossMissile() {}
+};

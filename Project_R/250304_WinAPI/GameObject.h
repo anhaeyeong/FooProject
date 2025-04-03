@@ -1,7 +1,7 @@
 #pragma once
 #include "config.h"
 enum class MissileOwner { PLAYER, ENEMY };
-enum class MissileType { NORMAL, SIGN, LAZER };
+enum class MissileType { NORMAL, SIGN, LAZER, BOSS };
 
 class GameObject
 {

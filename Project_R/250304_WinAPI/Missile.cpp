@@ -232,3 +232,59 @@ void LazerMissile::UpdateAnim()
 		remainTime = 0.5f;
 	}*/
 }
+
+void BossMissile::Render(HDC hdc)
+{
+	if (image) {
+		image->Render(hdc, pos.x, pos.y);
+	}
+	else {
+		std::cerr << "이미지가 로드되지 않았습니다." << std::endl;
+	}
+}
+
+void BossMissile::Move()
+{
+	float deltaTime = TimerManager::GetInstance()->GetDeltaTime();
+	pos.y += moveSpeed * deltaTime * 10;
+	angle += 15.0f * deltaTime;
+}
+
+
+
+void BossMissile::Notice()
+{
+	if (owner == MissileOwner::PLAYER) {
+		moveSpeed = 3.0f;
+		size = 10;
+		angle = 90.0f;
+	}
+	else if (owner == MissileOwner::ENEMY) {
+		moveSpeed = 3.0f;
+		size = 10;
+		angle = -90.0f;
+	}
+}
+
+void BossMissile::loadImage()
+{
+	string imageKey = (owner == MissileOwner::PLAYER) ? "player_normal" : "enemy_normal";
+	wstring imagePath = (owner == MissileOwner::PLAYER) ? L"Image/bullet.bmp" : L"Image/bullet.bmp";
+	image = ImageManager::GetInstance()->AddImage(
+		imageKey, imagePath.c_str(), 21, 21, 1, 1,
+		true, RGB(255, 0, 255));
+
+	if (!image) {
+		std::cerr << "Failed to load image: " << std::string(imagePath.begin(), imagePath.end()) << std::endl;
+	}
+}
+
+void BossMissile::UpdateCollisionRect()
+{
+	rect = GetRectAtCenter(pos.x, pos.y, size, size);
+}
+
+void BossMissile::BossUpdateAnim()
+{
+
+}

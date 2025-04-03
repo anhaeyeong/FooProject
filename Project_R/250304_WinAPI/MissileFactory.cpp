@@ -233,6 +233,9 @@ Missile* EnemyMissileFactory::CreateMissile(MissileType type,FPOINT pos)
     case MissileType::LAZER:
         missile = new LazerMissile(MissileOwner::ENEMY);
         break;
+    case MissileType::BOSS:
+        missile = new BossMissile(MissileOwner::ENEMY);
+        break;
     default:
         std::cerr << "Unknown MissileType: " << static_cast<int>(type) << std::endl;
         break;
