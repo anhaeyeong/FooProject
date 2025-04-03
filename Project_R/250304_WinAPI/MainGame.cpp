@@ -44,6 +44,7 @@ void MainGame::Init()
 		MessageBox(g_hWnd,
 			TEXT("Image/backGround.bmp"), TEXT("Fail!"), MB_OK);
 	}
+	sign = ImageManager::GetInstance()->AddImage("Sign", TEXT("Image/Sign.bmp"), 30, 20);
 
 	ColliderManager::GetInstance()->Init();
 	
@@ -132,7 +133,9 @@ void MainGame::Update()
 		ColliderManager::GetInstance()->Update();
 		if (!rocket->GetIsAlive())
 		{
+			UIManager::GetInstance()->Clear();
 			sceneState = SceneState::End;
+			UIManager::GetInstance()->AddImage("Sign", TEXT("Image/Sign.bmp"), WINSIZE_X - 100, WINSIZE_Y - 80, 100, 80);
 			Lobby = ImageManager::GetInstance()->FindImage("Ending");
 		}
 		break;
@@ -169,6 +172,7 @@ void MainGame::Render()
 		break;
 	case SceneState::End:
 		Lobby->Render(hBackBufferDC);
+		UIManager::GetInstance()->Render(hBackBufferDC);
 		break;
 	}
 	backBuffer->Render(hdc);

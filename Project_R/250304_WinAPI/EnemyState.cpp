@@ -8,7 +8,7 @@ void EnemyIDLEState::Enter(Enemy& enemy)
 }  
 
 void EnemyIDLEState::Update(Enemy& enemy)  
-{  
+{
    enemy.UpdateAnimation(5);  
    enemy.Move();  
 }  
