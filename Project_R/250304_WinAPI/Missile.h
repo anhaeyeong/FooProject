@@ -32,7 +32,7 @@ public:
    Image* image;
    RECT rect;
 
-   void UpdateCollisionRect();
+   virtual void UpdateCollisionRect();
    inline bool GetIsOutOfScreen() { return IsOutofScreen(); }
    inline FPOINT GetPos() { return pos; }
    inline int GetSize() { return size; }
@@ -89,8 +89,15 @@ private:
    virtual void Move() override;  
    virtual void Notice() override;  
    virtual void loadImage() override;  
+   void UpdateCollisionRect() override;
+
+   int animationFrame;
+   float elapsedTime;
+   float remainTime;
+
+   void UpdateAnim();
 
 public:  
-   LazerMissile(MissileOwner owner) : Missile(owner, MissileType::LAZER) {}  
+   LazerMissile(MissileOwner owner) : Missile(owner, MissileType::LAZER), animationFrame(0), elapsedTime(0.0f), remainTime(0.5f) {}  
    virtual ~LazerMissile() {}  
 };

@@ -35,7 +35,7 @@ private:
 	float ElapsedTime;
 	float HitTime;
 	int animationFrame;
-	MissileType currentMissileType;
+	MissileType currMissile;
 
 	State* state;
 	Image* image;
@@ -63,6 +63,7 @@ public:
 	inline int GetSize() const { return size; }
 	void ChangeAnimation(AnimationType anim);
 	void ChangeState(State* newState);
+	void ChangeMissile(MissileType newMissileType);
 	inline FPOINT GetPos() { return pos; }
 	inline RECT GetRectAtCenter(int x, int y, int width, int height)
 	{
@@ -73,7 +74,7 @@ public:
 	inline bool GetIsAlive() { return isAlive; }
 	string GetState();
 	void ChangeMissileType(MissileType newType);
-	// ÇöÀç ¹Ì»çÀÏ Å¸ÀÔ °¡Á®¿À±â
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½Ì»ï¿½ï¿½ï¿½ Å¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	MissileType GetCurrentMissileType() const { return currentMissileType; }
 	Rocket();
 	~Rocket();

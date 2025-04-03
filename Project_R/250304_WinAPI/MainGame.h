@@ -32,6 +32,7 @@ private:
 	Image* Lobby;
 	Image* startMenu;
 	Image* backGround;
+	Image* sign;
 	EnemyManager* enemyManager;
 	Rocket* rocket;
 	ItemManager* itemManager;

@@ -59,7 +59,13 @@ void AttackState::Update(Rocket& player)
 {
     //Move Attack
     player.Move(); //Attack while moving
-    player.Fire();
+    cooltime -= TimerManager::GetInstance()->GetDeltaTime();
+    
+    if (cooltime <= 0)
+    {
+        player.Fire();
+        cooltime = 0.1f;
+    }
     player.UpdateAnimation(1);
 }
 
