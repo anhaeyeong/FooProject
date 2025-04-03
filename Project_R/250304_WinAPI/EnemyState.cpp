@@ -1,31 +1,31 @@
 #include "EnemyState.h"
 #include "Enemy.h"
 
-void EnemyIDLEState::Enter(Enemy& player)
+void EnemyIDLEState::Enter(Enemy& enemy)
 {
-	player.ChangeAnimation(EnemyAnimType::EIDLE);
+	enemy.ChangeAnimation(EnemyAnimType::EIDLE);
 }
 
-void EnemyIDLEState::Update(Enemy& player)
+void EnemyIDLEState::Update(Enemy& enemy)
 {
-	player.UpdateAnimation(5);
-	player.Move();
+	enemy.UpdateAnimation(5);
+	enemy.Move();
 }
 
-void EnemyIDLEState::Exit(Enemy& player)
+void EnemyIDLEState::Exit(Enemy& enemy)
 {
 }
 
-void EnemyDeadState::Enter(Enemy& player)
+void EnemyDeadState::Enter(Enemy& enemy)
 {
-	player.ChangeAnimation(EnemyAnimType::EDead);
+	enemy.ChangeAnimation(EnemyAnimType::EDead);
 }
 
-void EnemyDeadState::Update(Enemy& player)
+void EnemyDeadState::Update(Enemy& enemy)
 {
-	player.UpdateAnimation(3);
+	enemy.UpdateAnimation(9);
 }
 
-void EnemyDeadState::Exit(Enemy& player)
+void EnemyDeadState::Exit(Enemy& enemy)
 {
 }

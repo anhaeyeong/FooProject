@@ -4,6 +4,7 @@
 #include "Missile.h"
 #include "Enemy.h"
 #include "State.h"
+#include "EnemyState.h"
 
 void ColliderManager::Init()
 {
@@ -211,17 +212,17 @@ void ColliderManager::CheckEnemyPlayerMissileCollision()
                     {
                     case MissileType::NORMAL:
                         // 일반 미사일 처리
-                        enemy->SetIsAlive(false);
+                        enemy->ChangeState(new EnemyDeadState());
                         //적 체력 감소
                         break;
                     case MissileType::SIGN:
                         // 특수 미사일 처리 
-                        enemy->SetIsAlive(false);
+                        enemy->ChangeState(new EnemyDeadState());
                         //범위 데미지
                         break;
                     case MissileType::LAZER:
                         // 레이저 미사일 처리 
-                        enemy->SetIsAlive(false);
+                        enemy->ChangeState(new EnemyDeadState());
                         missile->isActived = true;
                         //관통효과
                         break;

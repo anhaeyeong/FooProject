@@ -34,7 +34,7 @@ public:
 	void Init(float posX, float posY, int pattern = 0);
 	void Release();
 	void Update();
-	void ChangeAnimation(EnemyAnimType eAnimation);
+	virtual void ChangeAnimation(EnemyAnimType eAnimation) = 0;
 	void ChangeState(EnemyState* newState);
 
 	virtual void Notice() = 0;
@@ -67,6 +67,8 @@ public:
 	SmallEnemy() : Enemy() {}
 	virtual ~SmallEnemy() {}
 
+	void ChangeAnimation(EnemyAnimType eAnimation) override;
+
 	virtual void Notice() override;
 	virtual void Move() override;
 	virtual void Render(HDC hdc) override;
@@ -79,6 +81,8 @@ public:
 	BigEnemy() : Enemy() {}
 	virtual ~BigEnemy() {}
 
+	void ChangeAnimation(EnemyAnimType eAnimation) override;
+
 	virtual void Notice() override;
 	virtual void Move() override;
 	virtual void Render(HDC hdc) override;
@@ -90,6 +94,8 @@ class BossEnemy : public Enemy
 public:
 	BossEnemy() : Enemy() {}
 	virtual ~BossEnemy() {}
+
+	void ChangeAnimation(EnemyAnimType eAnimation) override;
 
 	virtual void Notice() override;
 	virtual void Move() override;

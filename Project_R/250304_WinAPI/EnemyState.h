@@ -20,9 +20,9 @@ public:
 class EnemyIDLEState : public EnemyState
 {
 public:
-	void Enter(Enemy& player) override;
-	void Update(Enemy& player) override;
-	void Exit(Enemy& player) override;
+	void Enter(Enemy& enemy) override;
+	void Update(Enemy& enemy) override;
+	void Exit(Enemy& enemy) override;
 
 	EnemyIDLEState() {
 		StateName = "IDLE";
@@ -32,9 +32,10 @@ public:
 
 class EnemyDeadState : public EnemyState
 {
-	void Enter(Enemy& player) override;
-	void Update(Enemy& player) override;
-	void Exit(Enemy& player) override;
+public:
+	void Enter(Enemy& enemy) override;
+	void Update(Enemy& enemy) override;
+	void Exit(Enemy& enemy) override;
 
 	EnemyDeadState() {
 		StateName = "Dead";

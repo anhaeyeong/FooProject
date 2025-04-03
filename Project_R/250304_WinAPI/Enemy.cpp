@@ -36,19 +36,6 @@ void Enemy::Move()
 	}
 }
 
-void Enemy::ChangeAnimation(EnemyAnimType eAnimation)
-{
-	switch (eAnimation)
-	{
-	case EnemyAnimType::EIDLE:
-		image = ImageManager::GetInstance()->FindImage("Normal_Enemy");
-		break;
-	case EnemyAnimType::EDead:
-		image = ImageManager::GetInstance()->FindImage("Normal_Enemy_Dead");
-		break;
-	}
-}
-
 void Enemy::ChangeState(EnemyState* newState)
 {
 	if (eState->GetName() == newState->GetName())
@@ -89,7 +76,10 @@ void Enemy::Render(HDC hdc)
 {
 	if (isAlive)
 	{
-		image->FrameRender(hdc, pos.x, pos.y, 0, animationFrame);
+		if(eState->GetName() == "IDLE")
+			image->FrameRender(hdc, pos.x, pos.y, 0, animationFrame);
+		if(eState->GetName() == "Dead")
+			image->FrameRender(hdc, pos.x, pos.y, animationFrame, 0);
 	}
 }
 
@@ -107,7 +97,13 @@ void Enemy::UpdateAnimation(int maxFrame)
 		if (animationFrame >= maxFrame)
 		{
 			if (eState->GetName() != "Dead")
+			{
 				animationFrame = 0;
+			}
+			else
+			{
+				isAlive = false;
+			}
 		}
 		elapsedTime = 0.0f;
 	}
@@ -119,6 +115,19 @@ Enemy::Enemy()
 
 Enemy::~Enemy()
 {
+}
+
+void SmallEnemy::ChangeAnimation(EnemyAnimType eAnimation)
+{
+	switch (eAnimation)
+	{
+	case EnemyAnimType::EIDLE:
+		image = ImageManager::GetInstance()->FindImage("Normal_Enemy");
+		break;
+	case EnemyAnimType::EDead:
+		image = ImageManager::GetInstance()->FindImage("Normal_Enemy_Dead");
+		break;
+	}
 }
 
 void SmallEnemy::Notice()
@@ -147,7 +156,10 @@ void SmallEnemy::Render(HDC hdc)
 {
 	if (isAlive)
 	{
-		image->FrameRender(hdc, pos.x, pos.y, 0, animationFrame);
+		if (eState->GetName() == "IDLE")
+			image->FrameRender(hdc, pos.x, pos.y, 0, animationFrame);
+		if (eState->GetName() == "Dead")
+			image->FrameRender(hdc, pos.x, pos.y, animationFrame, 0);
 	}
 }
 
@@ -157,10 +169,23 @@ void SmallEnemy::loadImage()
 		"Normal_Enemy", TEXT("Image/MutaliskAnim.bmp"), 66, 365, 1, 5,
 		true, RGB(255, 255, 255));
 	ImageManager::GetInstance()->AddImage(
-		"Normal_Enemy_Dead", TEXT("Image/MutaliskAnim.bmp"), 66, 365, 1, 5,
+		"Normal_Enemy_Dead", TEXT("Image/MutaliskDeadAnim.bmp"), 621, 62, 9, 1,
 		true, RGB(255, 255, 255));
 	image = ImageManager::GetInstance()->FindImage("Normal_Enemy");
 	eState = new EnemyIDLEState();
+}
+
+void BigEnemy::ChangeAnimation(EnemyAnimType eAnimation)
+{
+	switch (eAnimation)
+	{
+	case EnemyAnimType::EIDLE:
+		image = ImageManager::GetInstance()->FindImage("Big_Enemy");
+		break;
+	case EnemyAnimType::EDead:
+		image = ImageManager::GetInstance()->FindImage("Big_enemy_Dead");
+		break;
+	}
 }
 
 void BigEnemy::Notice()
@@ -187,7 +212,10 @@ void BigEnemy::Render(HDC hdc)
 {
 	if (isAlive)
 	{
-		image->FrameRender(hdc, pos.x, pos.y, 0, animationFrame);
+		if (eState->GetName() == "IDLE")
+			image->FrameRender(hdc, pos.x, pos.y, 0, animationFrame);
+		if (eState->GetName() == "Dead")
+			image->FrameRender(hdc, pos.x, pos.y, animationFrame, 0);
 	}
 }
 
@@ -197,12 +225,25 @@ void BigEnemy::loadImage()
 		"Big_Enemy", TEXT("Image/GuardianAnimation.bmp"), 80, 504, 1, 7,
 		true, RGB(255, 255, 255));
 	ImageManager::GetInstance()->AddImage(
-		"Big_enemy_Dead", TEXT("Image/GuardianAnimation.bmp"), 80, 504, 1, 7,
+		"Big_enemy_Dead", TEXT("Image/GuardianDeadAnim.bmp"), 1035, 112, 9, 1,
 		true, RGB(255, 255, 255));
 	image = ImageManager::GetInstance()->FindImage("Big_Enemy");
 	eState = new EnemyIDLEState();
 }
 
+
+void BossEnemy::ChangeAnimation(EnemyAnimType eAnimation)
+{
+	switch (eAnimation)
+	{
+	case EnemyAnimType::EIDLE:
+		image = ImageManager::GetInstance()->FindImage("Boss_Enemy");
+		break;
+	case EnemyAnimType::EDead:
+		image = ImageManager::GetInstance()->FindImage("Boss_enemy_Dead");
+		break;
+	}
+}
 
 void BossEnemy::Notice()
 {
