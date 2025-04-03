@@ -282,12 +282,12 @@ void BossEnemy::Render(HDC hdc)
 void BossEnemy::loadImage()
 {
 	ImageManager::GetInstance()->AddImage(
-		"Normal_Enemy", TEXT("Image/MutaliskAnim.bmp"), 66, 365, 1, 5,
+		"Boss_Enemy", TEXT("Image/MutaliskAnim.bmp"), 66, 365, 1, 5,
 		true, RGB(255, 255, 255));
 	ImageManager::GetInstance()->AddImage(
-		"Normal_Enemy_Dead", TEXT("Image/MutaliskAnim.bmp"), 66, 365, 1, 5,
+		"Boss_enemy_Dead", TEXT("Image/MutaliskDeadAnim.bmp"), 621, 62, 9, 1,
 		true, RGB(255, 255, 255));
-	image = ImageManager::GetInstance()->FindImage("Normal_Enemy");
+	image = ImageManager::GetInstance()->FindImage("Boss_Enemy");
 	eState = new EnemyIDLEState();
 }
 
