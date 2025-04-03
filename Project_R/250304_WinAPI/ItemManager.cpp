@@ -10,7 +10,7 @@ void ItemManager::Init()
 
 	for (auto& item : vecItems)
 	{
-		int randNum = rand() % 2 ;
+		int randNum = rand() % 2 + 3;
 		switch (randNum)
 		{
 		case 3:

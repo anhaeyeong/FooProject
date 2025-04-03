@@ -39,6 +39,7 @@ void MineralItem::Init()
 			static_cast<float> (rand() % (WINSIZE_Y - 100)) };
 	size = 30;
 	isActived = true;
+	type = eItemType::MINERAL;
 	ImageManager::GetInstance()->AddImage(
 		"A_missile", TEXT("Image/mineral.bmp"), 14 * 2, 13 * 2,1,1,
 		true, RGB(89, 164, 81));
@@ -68,7 +69,7 @@ void GasItem::Init()
 			static_cast<float> (rand() % (WINSIZE_Y - 100)) };
 	size = 30;
 	isActived = true;
-
+	type = eItemType::GAS;
 	if (isActived)
 	{
 		ImageManager::GetInstance()->AddImage(
