@@ -19,7 +19,7 @@ void Enemy::Init(float posX, float posY, int pattern)
 		"Normal_Enemy", TEXT("Image/MutaliskAnim.bmp"), 66, 365, 1, 5,
 		true, RGB(255, 255, 255));
 	ImageManager::GetInstance()->AddImage(
-		"Normal_Enemy_Dead", TEXT("Image/MutaliskAnim.bmp"), 66, 365, 1, 5,
+		"Normal_Enemy_Dead", TEXT("Image/MutaliskDeadAnim.bmp"), 621, 62, 9, 1,
 		true, RGB(255, 255, 255));
 	image = ImageManager::GetInstance()->FindImage("Normal_Enemy");
 	eState = new EnemyIDLEState();

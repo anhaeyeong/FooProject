@@ -10,7 +10,7 @@ void EnemyManager::Init()
     spawnPattern = 0;  
 
 	vecEnemys.resize(maxEnemies);
-    SetSpawnPattern(1);
+    SetSpawnPattern(0);
 }
 
 void EnemyManager::Release()
