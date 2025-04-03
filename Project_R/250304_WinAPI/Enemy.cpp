@@ -82,9 +82,9 @@ void Enemy::Render(HDC hdc)
 {
 	if (isAlive)
 	{
-		if(eState->GetName() == "IDLE")
+		if (eState->GetName() == "IDLE")
 			image->FrameRender(hdc, pos.x, pos.y, 0, animationFrame);
-		if(eState->GetName() == "Dead")
+		if (eState->GetName() == "Dead")
 			image->FrameRender(hdc, pos.x, pos.y, animationFrame, 0);
 	}
 }
@@ -138,24 +138,14 @@ void SmallEnemy::ChangeAnimation(EnemyAnimType eAnimation)
 
 void SmallEnemy::Notice()
 {
-	moveSpeed = 100.0f;
+	moveSpeed = 0.2f;
 	angle = -90.0f;
-	isAlive = true;
-	size = 30;
-	animationFrame = 0;
-	elapsedFrame = 0;
-	elapsedTime = 0.0f;
+	size = 40;
 }
 
 void SmallEnemy::Move()
 {
-		pos.y += moveSpeed * TimerManager::GetInstance()->GetDeltaTime() * 500;
-		if (pos.y > WINSIZE_Y - size) {
-			moveSpeed = -abs(moveSpeed);
-		}
-		else if (pos.y < size) {
-			moveSpeed = abs(moveSpeed);
-		}
+	pos.y += moveSpeed * TimerManager::GetInstance()->GetDeltaTime() * 500;
 }
 
 void SmallEnemy::Render(HDC hdc)
@@ -196,22 +186,15 @@ void BigEnemy::ChangeAnimation(EnemyAnimType eAnimation)
 
 void BigEnemy::Notice()
 {
-	moveSpeed = 100.0f;
+	moveSpeed = 0.2f;
 	angle = -90.0f;
-	isAlive = true;
-	size = 30;
-	animationFrame = 0;
-	elapsedFrame = 0;
-	elapsedTime = 0.0f;
+	size = 50;
 }
 
 void BigEnemy::Move()
 {
-		pos.x += (rand() % 2 == 0 ? moveSpeed : -moveSpeed) * TimerManager::GetInstance()->GetDeltaTime() * 500;
-		pos.y += moveSpeed * TimerManager::GetInstance()->GetDeltaTime() * 500;
-		if (pos.x > WINSIZE_X - size) pos.x = WINSIZE_X - size;
-		if (pos.x < 0) pos.x = 0;
-		if (pos.y > WINSIZE_Y - size) pos.y = WINSIZE_Y - size;
+	pos.x += (rand() % 2 == 0 ? moveSpeed : -moveSpeed) * TimerManager::GetInstance()->GetDeltaTime() * 500;
+	pos.y += moveSpeed * TimerManager::GetInstance()->GetDeltaTime() * 500;
 }
 
 void BigEnemy::Render(HDC hdc)
@@ -255,35 +238,26 @@ void BossEnemy::Notice()
 {
 	moveSpeed = 0.4f;
 	angle = -90.0f;
-	isAlive = true;
-	size = 30;
-	animationFrame = 0;
-	elapsedFrame = 0;
-	elapsedTime = 0.0f;
+	size = 300;
 }
 
 void BossEnemy::Move()
 {
-	pos.x += (rand() % 2 == 0 ? moveSpeed : -moveSpeed);
-	pos.y += moveSpeed;
-	if (pos.x > WINSIZE_X - size) pos.x = WINSIZE_X - size;
-	if (pos.x < 0) pos.x = 0;
-	if (pos.y > WINSIZE_Y - size) pos.y = WINSIZE_Y - size;
 }
 
 void BossEnemy::Render(HDC hdc)
 {
 	if (isAlive)
 	{
-		image->FrameRender(hdc, pos.x, pos.y, 0, animationFrame);
+		image->FrameRender(hdc, pos.x, pos.y, animationFrame * 4 / 5, 0);
 	}
 }
 
 void BossEnemy::loadImage()
 {
 	ImageManager::GetInstance()->AddImage(
-		"Boss_Enemy", TEXT("Image/MutaliskAnim.bmp"), 66, 365, 1, 5,
-		true, RGB(255, 255, 255));
+		"Boss_Enemy", TEXT("Image/OverMind_faze1.bmp"), 832 * 1.5, 136 * 1.5, 4, 1,
+		true, RGB(35, 35, 255));
 	ImageManager::GetInstance()->AddImage(
 		"Boss_enemy_Dead", TEXT("Image/MutaliskDeadAnim.bmp"), 621, 62, 9, 1,
 		true, RGB(255, 255, 255));

@@ -108,7 +108,8 @@ void EnemyManager::SetSpawnPattern(int pattern)
 		{
 			SmallEnemy* enemy = new SmallEnemy();
 			enemy->Init(10.0f + 60.0f * (i % 5),
-				80.0f + 90.0f * (i / 5));
+				80.0f + 90.0f * (i / 5),0);
+            enemy->Notice();
 			enemy->UpdateCollisionRect();
 			ColliderManager::GetInstance()->AddEnemy(enemy);
 			vecEnemys.push_back(enemy);
@@ -120,6 +121,7 @@ void EnemyManager::SetSpawnPattern(int pattern)
 		{
 			BigEnemy* enemy = new BigEnemy();
 			enemy->Init(rand() % WINSIZE_X, 0, 1);
+            enemy->Notice();
 			enemy->loadImage();
 			enemy->UpdateCollisionRect();
 			ColliderManager::GetInstance()->AddEnemy(enemy);
@@ -131,7 +133,8 @@ void EnemyManager::SetSpawnPattern(int pattern)
 		for (int i = 0; i <1; i++)
 		{
 			BossEnemy* enemy = new BossEnemy();
-			enemy->Init(WINSIZE_X/2, WINSIZE_Y/2, 2);
+			enemy->Init(WINSIZE_X/2, 100, 2);
+            enemy->Notice();
             enemy->loadImage();
 			enemy->UpdateCollisionRect();
 			ColliderManager::GetInstance()->AddEnemy(enemy);
