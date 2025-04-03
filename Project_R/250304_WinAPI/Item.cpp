@@ -1,19 +1,7 @@
 #include "Item.h"
 
 void Item::Init()
-{
-	pos = { pos.x, pos.y };
-	int size{ 10 };
-	isActived = true;
-	type = {};
-	ImageManager::GetInstance()->AddImage(
-		"A_missile", TEXT("Image/mineral.bmp"), 14, 13,
-		true, RGB(82, 163, 87));
-	ImageManager::GetInstance()->AddImage(
-		"B_missile", TEXT("Image/gas.bmp"), 11, 14,
-		true, RGB(97, 167, 81));
-	image = ImageManager::GetInstance()->FindImage("A_missile");
-	image = ImageManager::GetInstance()->FindImage("B_missile");
+{	
 }
 
 void Item::Update()
@@ -30,23 +18,6 @@ void Item::Release()
 
 void Item::Render(HDC hdc)
 {
-	if (isActived)
-	{
-		if (type == eItemType::GAS)
-		{
-			image->Render(hdc, pos.x, pos.y);
-		}
-		else if (type == eItemType::MINERAL)
-		{
-			image->Render(hdc, pos.x, pos.y);
-		}
-	}
-}
-
-void Item::SpawnItem()
-{
-	pos.x = rand() % (WINSIZE_X - 30);
-	pos.y = rand() % (WINSIZE_Y - 30);
 }
 
 void Item::UpdateCollisionRect()
@@ -59,5 +30,66 @@ Item::Item()
 }
 
 Item::~Item()
+{
+}
+
+void MineralItem::Init()
+{
+	pos = { static_cast<float> (rand() % (WINSIZE_X - 100)),
+			static_cast<float> (rand() % (WINSIZE_Y - 100)) };
+	size = 30;
+	isActived = true;
+	ImageManager::GetInstance()->AddImage(
+		"A_missile", TEXT("Image/mineral.bmp"), 14 * 2, 13 * 2,1,1,
+		true, RGB(89, 164, 81));
+	image = ImageManager::GetInstance()->FindImage("A_missile");
+
+}
+
+void MineralItem::Render(HDC hdc)
+{
+	if (image && isActived == true)
+	{
+		image->FrameRender(hdc, pos.x, pos.y, 0, 0);
+	}
+}
+
+MineralItem::MineralItem()
+{
+}
+
+MineralItem::~MineralItem()
+{
+}
+
+void GasItem::Init()
+{
+	pos = { static_cast<float> (rand() % (WINSIZE_X - 100)), 
+			static_cast<float> (rand() % (WINSIZE_Y - 100)) };
+	size = 30;
+	isActived = true;
+
+	if (isActived)
+	{
+		ImageManager::GetInstance()->AddImage(
+			"B_missile", TEXT("Image/gas.bmp"), 11 * 2, 14 * 2, 1, 1,
+			true, RGB(89, 164, 81));
+		image = ImageManager::GetInstance()->FindImage("B_missile");
+	}
+}
+
+void GasItem::Render(HDC hdc)
+{
+	if (image && isActived == true)
+	{
+		image->FrameRender(hdc, pos.x, pos.y, 0, 0);
+	}
+}
+
+GasItem::GasItem()
+{
+}
+
+GasItem::~GasItem()
 {
 }

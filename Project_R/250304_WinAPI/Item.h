@@ -8,7 +8,7 @@ enum class eItemType
 
 class Item: public GameObject
 {
-private:
+protected:
 	FPOINT pos;
 	RECT rect;
 	int size;
@@ -17,12 +17,11 @@ private:
 	eItemType type;
 	Image* image;
 public:
-	void Init();
+	virtual void Init();
 	void Update();
 	void Release();
-	void Render(HDC hdc);
+	virtual void Render(HDC hdc);
 
-	void SpawnItem();
 	void UpdateCollisionRect();
 
 	RECT GetRect() const { return rect; }
@@ -39,6 +38,27 @@ public:
 	inline void UnactiveItem() { isActived = false; }
 
 	Item();
-	~Item();
+	virtual ~Item();
+};
+
+class MineralItem : public Item
+{
+private:
+public:
+
+	virtual void Init() override;
+	virtual void Render(HDC hdc) override;
+	MineralItem();
+	~MineralItem();
+};
+
+class GasItem : public Item
+{
+private:
+public:
+	virtual void Init() override;
+	virtual void Render(HDC hdc) override;
+	GasItem();
+	~GasItem();
 };
 

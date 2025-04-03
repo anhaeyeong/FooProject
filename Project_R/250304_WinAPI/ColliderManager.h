@@ -10,14 +10,14 @@
 class Missile;
 class Rocket;
 class Enemy;
-class ItemManager;
+class Item;
 class ColliderManager: public Singleton<ColliderManager>
 {
 private:
     Rocket* rocket;                 // 플레이어
     vector<Enemy*> enemies;         // 적 객체들
     vector<Missile*> missiles;      // 미사일 객체들
-    vector<ItemManager*> items;            // 아이템 객체들
+    vector<Item*> items;            // 아이템 객체들
     bool isCollision;               // 충돌 발생 여부
 
 public:
@@ -39,6 +39,7 @@ public:
     void CheckEnemyPlayerMissileCollision();        // 적-플레이어미사일 충돌
     void CheckPlayerItemCollision();
     void UpdateCollisionRects();
+    void AddItem(Item* item) { if (item) items.push_back(item); }
     bool GetIsCollision() { return isCollision; }
 };
 

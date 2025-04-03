@@ -49,6 +49,10 @@ void MainGame::Init()
 	
 	rocket = new Rocket();
 	rocket->Init();
+	
+	itemManager = new ItemManager();
+	itemManager->Init();
+
 	ColliderManager::GetInstance()->SetRocket(rocket);
 }
 
@@ -60,6 +64,13 @@ void MainGame::Release()
         delete enemyManager;
         enemyManager = nullptr;
     }
+
+	if (itemManager)
+	{
+		itemManager->Release();
+		delete itemManager;
+		itemManager = nullptr;
+	}
 
     if (rocket)
     {
@@ -127,7 +138,7 @@ void MainGame::Update()
 		}
 		EnemyManager::GetInstance()->Update();
 		rocket->Update();
-		item->Update();
+		itemManager->Update();
 		ColliderManager::GetInstance()->Update();
 		if (!rocket->GetIsAlive())
 		{
@@ -163,6 +174,7 @@ void MainGame::Render()
 
 		EnemyManager::GetInstance()->Render(hBackBufferDC);
 		rocket->Render(hBackBufferDC);
+		itemManager->Render(hBackBufferDC);
 		ColliderManager::GetInstance()->Render(hBackBufferDC);
 		TimerManager::GetInstance()->Render(hBackBufferDC);
 		break;

@@ -35,6 +35,7 @@ private:
 	float ElapsedTime;
 	float HitTime;
 	int animationFrame;
+	MissileType currentMissileType;
 
 	State* state;
 	Image* image;
@@ -71,6 +72,9 @@ public:
 	}
 	inline bool GetIsAlive() { return isAlive; }
 	string GetState();
+	void ChangeMissileType(MissileType newType);
+	// 현재 미사일 타입 가져오기
+	MissileType GetCurrentMissileType() const { return currentMissileType; }
 	Rocket();
 	~Rocket();
 };

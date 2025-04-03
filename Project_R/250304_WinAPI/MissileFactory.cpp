@@ -51,16 +51,6 @@ void MissileFactory::Init()
     vecMissiles.clear();
     missilePool.clear();
 
-    //// 초기 풀 생성 (사전에 일부 미사일 생성)
-    //for (int i = 0; i < 10; i++) // 초기에 10개만 미리 생성
-    //{
-    //    missile* missile = createmissile(missiletype::normal, { 0, 0 });
-    //    if (missile)
-    //    {
-    //        missile->isactived = false;
-    //        missilepool.push_back(missile);
-    //    }
-    //}
     // 초기 풀 생성 (사전에 일부 미사일 생성)
     // 각 타입별로 미사일 미리 생성
     for (int i = 0; i < 5; i++) {
@@ -161,13 +151,6 @@ void MissileFactory::loadImage()
 
 void MissileFactory::Update()
 {
-
-    //for (Missile* missile : vecMissiles) {
-    //    if (missile) {
-    //        missile->Update();
-    //    }
-    //}
-
     // 화면 밖으로 나간 미사일 회수
     UpdateMissilePool();
 

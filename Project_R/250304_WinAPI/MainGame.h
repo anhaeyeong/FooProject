@@ -34,7 +34,7 @@ private:
 	Image* backGround;
 	EnemyManager* enemyManager;
 	Rocket* rocket;
-	ItemManager* item;
+	ItemManager* itemManager;
 
 public:
 	void Init();	// override (�θ�Ŭ������ ���� �Լ��̸�, ������ �ٸ��� �����ϰ� ���� ��)

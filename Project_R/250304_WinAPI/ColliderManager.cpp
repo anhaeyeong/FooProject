@@ -5,6 +5,7 @@
 #include "Enemy.h"
 #include "State.h"
 #include "EnemyState.h"
+#include "ItemManager.h"
 #include "Item.h"
 
 void ColliderManager::Init()
@@ -12,12 +13,7 @@ void ColliderManager::Init()
     rocket = nullptr;
     EnemyManager::GetInstance()->Init();
     missiles.clear();
-
-    for (auto& i : items)
-    {
-        i->Init();
-    }
-
+    items.clear();
     isCollision = false;
 }
 
@@ -30,32 +26,32 @@ void ColliderManager::Release()
         rocket = nullptr;
     }
     
-    for (auto& i : items)
+    for (auto& item : items)
     {
-        if (i->GetIsActived() == false)
+        if (item->GetIsActived() == false)
         {
-            i->Release();
-            delete i;
-            i = nullptr;
+            item->Release();
+            delete item;
+            item = nullptr;
         }
     }
-    for (auto& e : enemies)
+    for (auto& enemy : enemies)
     {
-        if (e->GetIsAlive() == false)
+        if (enemy->GetIsAlive() == false)
         {
-            e->Release();
-            delete e;
-            e = nullptr;
+            enemy->Release();
+            delete enemy;
+            enemy = nullptr;
         }
     }
     EnemyManager::GetInstance()->Release();
 
-    for (auto& m : missiles)
+    for (auto& missile : missiles)
     {
-        if(m->GetIsOutOfScreen()== true)
-        m->Release();
-        delete m;
-        m = nullptr;
+        if(missile->GetIsOutOfScreen()== true)
+        missile->Release();
+        delete missile;
+        missile = nullptr;
     }
     missiles.clear();
 }
@@ -157,6 +153,8 @@ bool ColliderManager::CheckCollision()
     // 적과 플레이어 미사일 충돌 검사
     CheckEnemyPlayerMissileCollision();
 
+    // 플레이어와 아이템 충돌 검사
+    CheckPlayerItemCollision();
     return isCollision;
 }
 
@@ -276,18 +274,31 @@ void ColliderManager::CheckPlayerItemCollision()
 
     for (auto& item : items)
     {   
-        if (item == nullptr) continue;
+        if (item == nullptr || !item->GetIsActived()) continue;
 
-        if (RectInRect(rocket->GetRect(),item->GetRect()))
+        if (RectInRect(rocket->GetRect(), item->GetRect()))
         {
             string currState = rocket->GetState();
             if (currState != "Hit" && currState != "Dead")
             {
                 isCollision = true;
-                // 플레이어와 적의 충돌 처리
-                rocket->ChangeState(new HitState());
+
+                // 아이템 타입에 따라 미사일 타입 변경
+                eItemType itemType = item->GetType();
+
+                if (itemType == eItemType::MINERAL)
+                {
+                    rocket->ChangeMissileType(MissileType::SIGN);
+                 
+                }
+                else if (itemType == eItemType::GAS)
+                {
+                    rocket->ChangeMissileType(MissileType::LAZER);
+  
+                }
+
+                // 아이템 비활성화
                 item->UnactiveItem();
-                // 적의 체력 감소 또는 상태 변경 등 필요한 처리
             }
         }
     }

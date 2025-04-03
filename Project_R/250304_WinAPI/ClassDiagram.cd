@@ -1,2 +1,11 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<ClassDiagram /> 
+﻿itemmanager
+아이템 타입보고 골라서 스폰해줌
+
+item<부모 클래스>
+아이템 기본 정보
+
+MineralItem <사인 미사일>
+아이템 충돌시  플레이어 미사일 변경'
+
+GasItem<레이저 미사일>
+아이템 충돌시 레이저 미사일 변경

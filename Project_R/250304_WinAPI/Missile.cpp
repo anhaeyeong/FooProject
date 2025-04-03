@@ -92,7 +92,7 @@ void NormalMissile::loadImage() {
 //SignMissile
 void SignMissile::Render(HDC hdc) {
     if (image) {
-        image->FrameRender(hdc, pos.x, pos.y, 0, currFrame);
+        image->FrameRender(hdc, pos.x, pos.y, 1, 5);
     }
     else {
         RECT rc = GetRectAtCenter(pos.x, pos.y, size, size);

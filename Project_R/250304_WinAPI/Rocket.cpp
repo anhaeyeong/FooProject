@@ -20,6 +20,7 @@ void Rocket::Init()
 	ElapsedTime = 0.0f;
 	HitTime = 0.0f;
 	animationFrame = 0;
+	currentMissileType = MissileType::NORMAL;
 
 	missileFactory = PlayerMissileFactory::GetInstance();
 	missileFactory->Init();
@@ -166,7 +167,7 @@ void Rocket::HandleInput()
 
 void Rocket::Fire()
 {
-	missileFactory->AddMissile(MissileType::SIGN, { pos.x, pos.y });
+	missileFactory->AddMissile(currentMissileType, { pos.x, pos.y });
 }
 
 void Rocket::Hit()
@@ -243,6 +244,11 @@ void Rocket::ChangeState(State* newState)
 string Rocket::GetState()
 {
 	return state->GetName();
+}
+
+void Rocket::ChangeMissileType(MissileType newType)
+{
+	currentMissileType = newType;
 }
 
 Rocket::Rocket()
