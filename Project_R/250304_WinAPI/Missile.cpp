@@ -103,8 +103,8 @@ void SignMissile::Render(HDC hdc) {
 
 void SignMissile::Move() {
     float deltatime = TimerManager::GetInstance()->GetDeltaTime();
-    pos.y -= moveSpeed * deltatime * 100;
-    pos.x = initialPosX + 50 * sin(pos.y / 30.0f);
+    pos.y -= moveSpeed * deltatime * 50;
+    pos.x = initialPosX + 50 * sin(DEG_TO_RAD(pos.y));
 
     SignUpdate();
 }

@@ -8,8 +8,6 @@ class Missile : public GameObject
 protected:  
    MissileOwner owner;  
    MissileType type;  
-   int currFrame;
-   float animElapsedTime;
 public:  
    Missile(MissileOwner owner, MissileType type)  
        : image(nullptr), owner(owner), type(type), isActived(false), moveSpeed(3.0f), size(10), angle(90.0f), pos({0, 0}) {  
