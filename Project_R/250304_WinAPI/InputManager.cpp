@@ -3,7 +3,7 @@
 
 bool InputManager::isMoveLeft(void)
 {
-    if (KeyManager::GetInstance()->IsStayKeyDown(/*VK_NUMPAD4*/'A')) {
+    if (KeyManager::GetInstance()->IsStayKeyDown(VK_NUMPAD4)) {
         return true;
     }
 
@@ -12,7 +12,7 @@ bool InputManager::isMoveLeft(void)
 
 bool InputManager::isMoveRight(void)
 {
-    if (KeyManager::GetInstance()->IsStayKeyDown(/*VK_NUMPAD6*/'D')) {
+    if (KeyManager::GetInstance()->IsStayKeyDown(VK_NUMPAD6)) {
         return true;
     }
     return false;
@@ -20,7 +20,7 @@ bool InputManager::isMoveRight(void)
 
 bool InputManager::isMoveUp(void)
 {
-    if (KeyManager::GetInstance()->IsStayKeyDown(/*VK_NUMPAD8*/'W')) {
+    if (KeyManager::GetInstance()->IsStayKeyDown(VK_NUMPAD8)) {
         return true;
     }
     return false;
@@ -28,7 +28,7 @@ bool InputManager::isMoveUp(void)
 
 bool InputManager::isMoveDown(void)
 {
-    if (KeyManager::GetInstance()->IsStayKeyDown(/*VK_NUMPAD5*/'S')) {
+    if (KeyManager::GetInstance()->IsStayKeyDown(VK_NUMPAD5)) {
         return true;
     }
     return false;
