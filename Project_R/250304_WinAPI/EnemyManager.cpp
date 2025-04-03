@@ -1,6 +1,7 @@
 #include "EnemyManager.h"  
 #include "Enemy.h"  
-#include "ColliderManager.h"  
+#include "ColliderManager.h"
+#include "MissileFactory.h"
 
 void EnemyManager::Init()
 {
@@ -9,8 +10,11 @@ void EnemyManager::Init()
     maxEnemies = 10;
     spawnPattern = 0;
     count = 0;
-
+    
     eState = new EnemyIDLEState();
+
+    missileFactory = EnemyMissileFactory::GetInstance();
+    missileFactory->Init();
 
     SetSpawnPattern(0); // 적 초기 스폰
 }
@@ -29,6 +33,8 @@ void EnemyManager::Release()
         delete eState;
         eState = nullptr;
     }
+
+    missileFactory->Release();
 }
 
 void EnemyManager::Update()
@@ -63,6 +69,7 @@ void EnemyManager::Update()
         SetSpawnPattern(count);
         return;
     }
+    missileFactory->Update();
 }
 
 void EnemyManager::Render(HDC hdc)
@@ -74,6 +81,7 @@ void EnemyManager::Render(HDC hdc)
             vecEnemys[i]->Render(hdc);
         }
     }
+    missileFactory->Render(hdc);
 }
 
 void EnemyManager::AddEnemy()

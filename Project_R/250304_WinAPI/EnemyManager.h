@@ -4,6 +4,7 @@
 #include <ctime>  // 시간 관련 헤더
 #include "EnemyState.h"
 
+class MissileFactory;
 class Enemy;
 class EnemyState;
 class EnemyManager :  public Singleton<EnemyManager>
@@ -15,8 +16,10 @@ private:
     int maxEnemies;                 
     int spawnPattern;      
     int count;
+
     Enemy* enemy;
     EnemyState* eState;
+    MissileFactory* missileFactory;
 
 public:
     void Init();

@@ -221,5 +221,23 @@ Missile* PlayerMissileFactory::CreateMissile(MissileType type, FPOINT pos)
 
 Missile* EnemyMissileFactory::CreateMissile(MissileType type,FPOINT pos)
 {
-   return new NormalMissile(MissileOwner::ENEMY);
+    Missile* missile = 0;
+    switch (type)
+    {
+    case MissileType::NORMAL:
+        missile = new NormalMissile(MissileOwner::ENEMY);
+        break;
+    case MissileType::SIGN:
+        missile = new SignMissile(MissileOwner::ENEMY);
+        break;
+    case MissileType::LAZER:
+        missile = new LazerMissile(MissileOwner::ENEMY);
+        break;
+    default:
+        std::cerr << "Unknown MissileType: " << static_cast<int>(type) << std::endl;
+        break;
+    }
+    if (!missile)
+        std::cerr << "Missile creation failed for type: " << static_cast<int>(type) << std::endl;
+    return missile;
 }
