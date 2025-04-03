@@ -2,8 +2,10 @@
 #include "GameObject.h"
 #include <vector>
 #include <ctime>  // 시간 관련 헤더
+#include "EnemyState.h"
 
 class Enemy;
+class EnemyState;
 class EnemyManager :  public Singleton<EnemyManager>
 {
 private:
@@ -11,7 +13,9 @@ private:
     int spawnInterval;               
     float elapsedTime;               
     int maxEnemies;                 
-    int spawnPattern;                
+    int spawnPattern;      
+    Enemy* enemy;
+    EnemyState* eState;
 
 public:
     void Init();

@@ -23,6 +23,8 @@ protected:
 	int animationFrame;
 	int elapsedFrame;
 	float elapsedTime;
+	string name;
+
 	Image* image;
 	RECT rect;
 	EnemyState* eState;
@@ -30,6 +32,8 @@ protected:
 public:
 	Enemy();
 	virtual ~Enemy();
+
+	string GetName() const { return name; }
 
 	void SetPosition(float newX, float newY);
 
@@ -54,6 +58,7 @@ public:
 	int GetSize() const { return size; }
 	int GetHP() const { return hp; }
 	float GetDamage() const { return damage; }
+	EnemyState* GetState() const { return eState; }
 
 	static RECT GetRectAtCenter(int x, int y, int width, int height)
 	{

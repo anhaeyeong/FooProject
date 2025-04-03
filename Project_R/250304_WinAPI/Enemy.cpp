@@ -10,6 +10,7 @@ void Enemy::Init(float posX, float posY, int pattern)
 	angle = -90.0f;
 	isAlive = true;
 	size = 30;
+	hp = 1;
 	animationFrame = 0;
 	elapsedFrame = 0;
 	spawnPattern = pattern;
