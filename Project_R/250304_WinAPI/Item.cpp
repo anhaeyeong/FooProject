@@ -1,6 +1,4 @@
 #include "Item.h"
-#include "ColliderManager.h"
-#include "Image.h"
 
 void Item::Init()
 {
@@ -16,7 +14,6 @@ void Item::Init()
 		true, RGB(97, 167, 81));
 	image = ImageManager::GetInstance()->FindImage("A_missile");
 	image = ImageManager::GetInstance()->FindImage("B_missile");
-
 }
 
 void Item::Update()
@@ -46,16 +43,15 @@ void Item::Render(HDC hdc)
 	}
 }
 
+void Item::SpawnItem()
+{
+	pos.x = rand() % (WINSIZE_X - 30);
+	pos.y = rand() % (WINSIZE_Y - 30);
+}
+
 void Item::UpdateCollisionRect()
 {
 	rect = GetRectAtCenter(pos.x, pos.y, size, size);
-}
-
-void Item::SpawnItem()
-{
-    //WINSIZEX, WINSIZEY안에 랜덤한위치에 랜덤하게 아이템 생성
-	pos.x = rand() % (WINSIZE_X - 30);
-	pos.y = rand() % (WINSIZE_Y - 30);
 }
 
 Item::Item()

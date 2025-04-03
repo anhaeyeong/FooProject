@@ -5,7 +5,7 @@ class Image;
 class KOF_Iori;
 class EnemyManager;
 class Rocket;
-class Item;
+class ItemManager;
 
 enum SceneState
 {
@@ -34,7 +34,7 @@ private:
 	Image* backGround;
 	EnemyManager* enemyManager;
 	Rocket* rocket;
-	Item* item;
+	ItemManager* item;
 
 public:
 	void Init();	// override (�θ�Ŭ������ ���� �Լ��̸�, ������ �ٸ��� �����ϰ� ���� ��)

@@ -10,14 +10,14 @@
 class Missile;
 class Rocket;
 class Enemy;
-class Item;
+class ItemManager;
 class ColliderManager: public Singleton<ColliderManager>
 {
 private:
     Rocket* rocket;                 // 플레이어
     vector<Enemy*> enemies;         // 적 객체들
     vector<Missile*> missiles;      // 미사일 객체들
-    vector<Item*> items;            // 아이템 객체들
+    vector<ItemManager*> items;            // 아이템 객체들
     bool isCollision;               // 충돌 발생 여부
 
 public:
