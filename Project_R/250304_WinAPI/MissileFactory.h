@@ -9,12 +9,11 @@ protected:
     vector<Missile*> missilePool;  // 비활성화된 미사일 풀
     MissileOwner ownerType;          
     const size_t MAX_MISSILES = 50;
-
 public:
     MissileFactory(MissileOwner owner) : ownerType(owner) {}
     virtual ~MissileFactory();
 
-    void AddMissile(MissileType type, FPOINT pos);
+    void AddMissile(MissileType type, FPOINT pos, float angle = 90.0f);
     void Init();
     void Release();
     Missile* GetMissileFromPool(MissileType type, FPOINT pos);

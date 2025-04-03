@@ -10,17 +10,8 @@ MissileFactory::~MissileFactory()
 }
     
 // �̻��� �߰�
-void MissileFactory::AddMissile(MissileType type,FPOINT pos)
+void MissileFactory::AddMissile(MissileType type,FPOINT pos, float angle)
 {
-   /*Missile* missile = CreateMissile(type,pos);
-   if (missile)
-   {
-       vecMissiles.push_back(missile);
-       missile->Notice();
-       missile->loadImage();
-       ColliderManager::GetInstance()->AddMissile(missile);
-   }*/
-
    // 활성화된 미사일 + 풀의 미사일 수가 최대치에 도달했는지 확인
    if (vecMissiles.size() >= MAX_MISSILES)
    {
@@ -42,6 +33,12 @@ void MissileFactory::AddMissile(MissileType type,FPOINT pos)
    {
        vecMissiles.push_back(missile);
        missile->Notice();
+
+       if (type == MissileType::SIGN)
+       {
+           missile->SetAngle(0.0f);
+       }
+
        missile->loadImage();
        ColliderManager::GetInstance()->AddMissile(missile);
    }
@@ -51,21 +48,48 @@ void MissileFactory::AddMissile(MissileType type,FPOINT pos)
 
 void MissileFactory::Init()  
 {  
- vecMissiles.clear();
- missilePool.clear();
+    vecMissiles.clear();
+    missilePool.clear();
 
+    //// 초기 풀 생성 (사전에 일부 미사일 생성)
+    //for (int i = 0; i < 10; i++) // 초기에 10개만 미리 생성
+    //{
+    //    missile* missile = createmissile(missiletype::normal, { 0, 0 });
+    //    if (missile)
+    //    {
+    //        missile->isactived = false;
+    //        missilepool.push_back(missile);
+    //    }
+    //}
     // 초기 풀 생성 (사전에 일부 미사일 생성)
-for (int i = 0; i < 10; i++) // 초기에 10개만 미리 생성
-    {
-     Missile* missile = CreateMissile(MissileType::NORMAL, { 0, 0 });
-     if (missile)
-     {
-            missile->isActived = false;
-         missilePool.push_back(missile);
-     }
-}
-  PlayerMissileFactory::GetInstance();
-  EnemyMissileFactory::GetInstance();  
+    // 각 타입별로 미사일 미리 생성
+    for (int i = 0; i < 5; i++) {
+        // NORMAL 타입 미사일
+        Missile* normalMissile = CreateMissile(MissileType::NORMAL, { 0, 0 });
+        if (normalMissile) {
+            normalMissile->isActived = false;
+            missilePool.push_back(normalMissile);
+        }
+
+        // SIGN 타입 미사일
+        Missile* signMissile = CreateMissile(MissileType::SIGN, { 0, 0 });
+        if (signMissile) {
+            signMissile->isActived = false;
+            // 여기서 미리 이미지 로드를 시도해볼 수 있음
+            signMissile->loadImage();
+            missilePool.push_back(signMissile);
+        }
+
+        // LAZER 타입 미사일 
+        Missile* lazerMissile = CreateMissile(MissileType::LAZER, { 0, 0 });
+        if (lazerMissile) {
+            lazerMissile->isActived = false;
+            missilePool.push_back(lazerMissile);
+        }
+    }
+
+    PlayerMissileFactory::GetInstance();
+    EnemyMissileFactory::GetInstance();  
 }
 
 void MissileFactory::Release()
@@ -94,7 +118,6 @@ Missile* MissileFactory::GetMissileFromPool(MissileType type, FPOINT pos)
     {
         return CreateMissile(type, pos);
     }
-
     // 한계에 도달하면 null 반환
     return nullptr;
 }
@@ -110,30 +133,34 @@ void MissileFactory::ReturnMissileToPool(Missile* missile)
 
 void MissileFactory::UpdateMissilePool()
 {
-    // 화면 밖으로 나간 미사일이나 비활성화된 미사일을 풀로 반환
-        for (auto it = vecMissiles.begin(); it != vecMissiles.end();)
+ // 화면 밖으로 나간 미사일이나 비활성화된 미사일을 풀로 반환
+    for (auto it = vecMissiles.begin(); it != vecMissiles.end();)
+    {
+        if (*it && ((*it)->GetIsOutOfScreen() || !(*it)->isActived))
         {
-            if (*it && ((*it)->GetIsOutOfScreen() || !(*it)->isActived))
-            {
-                ReturnMissileToPool(*it);
-                it = vecMissiles.erase(it);
-            }
-            else
-            {
-                ++it;
-            }
+            ReturnMissileToPool(*it);
+            it = vecMissiles.erase(it);
         }
+        else
+        {
+            ++it;
+        }
+    }
 }
 
-void MissileFactory::loadImage() {
-    for (Missile* missile : vecMissiles) {
-        if (missile) {
+void MissileFactory::loadImage() 
+{
+    for (Missile* missile : vecMissiles) 
+    {
+        if (missile) 
+        {
             missile->loadImage();
         }
     }
 }
 
-void MissileFactory::Update() {
+void MissileFactory::Update()
+{
 
     //for (Missile* missile : vecMissiles) {
     //    if (missile) {
@@ -154,9 +181,12 @@ void MissileFactory::Update() {
     }
 }
 
-void MissileFactory::Render(HDC hdc) {
-    for (Missile* missile : vecMissiles) {
-        if (missile) {
+void MissileFactory::Render(HDC hdc) 
+{
+    for (Missile* missile : vecMissiles) 
+    {
+        if (missile) 
+        {
             missile->Render(hdc);
         }
     }
