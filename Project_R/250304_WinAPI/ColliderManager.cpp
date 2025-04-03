@@ -289,12 +289,13 @@ void ColliderManager::CheckPlayerItemCollision()
                 if (itemType == eItemType::MINERAL)
                 {
                     rocket->ChangeMissileType(MissileType::SIGN);
+                    UIManager::GetInstance()->ChangeMissileType((int)MissileType::SIGN);
                  
                 }
                 else if (itemType == eItemType::GAS)
                 {
                     rocket->ChangeMissileType(MissileType::LAZER);
-  
+                    UIManager::GetInstance()->ChangeMissileType((int)MissileType::LAZER);
                 }
 
                 // 아이템 비활성화

@@ -122,6 +122,8 @@ void MainGame::Update()
 	case SceneState::Start:
 		if (KeyManager::GetInstance()->IsOnceKeyDown(83))
 		{
+			UIManager::GetInstance()->Clear();
+			UIManager::GetInstance()->InitMainSceneUI();
 			sceneState = SceneState::Main;
 			PlaySound(TEXT("BGM.wav"), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP | SND_NODEFAULT);
 		}
@@ -178,6 +180,7 @@ void MainGame::Render()
 		EnemyManager::GetInstance()->Render(hBackBufferDC);
 		rocket->Render(hBackBufferDC);
 		itemManager->Render(hBackBufferDC);
+		UIManager::GetInstance()->Render(hBackBufferDC);
 		ColliderManager::GetInstance()->Render(hBackBufferDC);
 		TimerManager::GetInstance()->Render(hBackBufferDC);
 		break;

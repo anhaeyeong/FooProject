@@ -79,8 +79,10 @@ void HitState::Enter(Rocket& player)
     //Hit Animation
     player.ChangeAnimation(AnimationType::Hit);
     player.Hit();
+    UIManager::GetInstance()->Hit(player.GetHP());
     if (player.GetHP() <= 0)
         player.ChangeState(new DeadState());
+
 }
 
 void HitState::Update(Rocket& player)
