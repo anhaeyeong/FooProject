@@ -132,7 +132,7 @@ void SmallEnemy::ChangeAnimation(EnemyAnimType eAnimation)
 
 void SmallEnemy::Notice()
 {
-	moveSpeed = 0.4f;
+	moveSpeed = 100.0f;
 	angle = -90.0f;
 	isAlive = true;
 	size = 30;
@@ -143,7 +143,7 @@ void SmallEnemy::Notice()
 
 void SmallEnemy::Move()
 {
-		pos.y += moveSpeed;
+		pos.y += moveSpeed * TimerManager::GetInstance()->GetDeltaTime();
 		if (pos.y > WINSIZE_Y - size) {
 			moveSpeed = -abs(moveSpeed);
 		}
@@ -190,7 +190,7 @@ void BigEnemy::ChangeAnimation(EnemyAnimType eAnimation)
 
 void BigEnemy::Notice()
 {
-	moveSpeed = 0.4f;
+	moveSpeed = 100.0f;
 	angle = -90.0f;
 	isAlive = true;
 	size = 30;
@@ -201,8 +201,8 @@ void BigEnemy::Notice()
 
 void BigEnemy::Move()
 {
-		pos.x += (rand() % 2 == 0 ? moveSpeed : -moveSpeed);
-		pos.y += moveSpeed;
+		pos.x += (rand() % 2 == 0 ? moveSpeed : -moveSpeed) * TimerManager::GetInstance()->GetDeltaTime();
+		pos.y += moveSpeed * TimerManager::GetInstance()->GetDeltaTime();
 		if (pos.x > WINSIZE_X - size) pos.x = WINSIZE_X - size;
 		if (pos.x < 0) pos.x = 0;
 		if (pos.y > WINSIZE_Y - size) pos.y = WINSIZE_Y - size;

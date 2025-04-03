@@ -144,6 +144,7 @@ void ColliderManager::CheckPlayerEnemyCollision()
                 isCollision = true;
                 // 플레이어와 적의 충돌 처리
                 rocket->ChangeState(new HitState());
+                enemy->ChangeState(new EnemyDeadState());
                 // 적의 체력 감소 또는 상태 변경 등 필요한 처리
             }
         }

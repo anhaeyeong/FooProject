@@ -73,15 +73,14 @@ void HitState::Enter(Rocket& player)
     //Hit Animation
     player.ChangeAnimation(AnimationType::Hit);
     player.Hit();
-    //player.Hit(CollisionManager::GetInstance()->GetCollision());
-    //hp update
 }
 
 void HitState::Update(Rocket& player)
 {
+    player.Move();
     player.UpdateAnimation(1);
     zonya += TimerManager::GetInstance()->GetDeltaTime();
-    if (zonya >= 0.8f)
+    if (zonya >= 0.3f)
     {
         player.ChangeState(new IDLEState());
     }
