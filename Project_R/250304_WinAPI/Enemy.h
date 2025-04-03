@@ -31,6 +31,8 @@ public:
 	Enemy();
 	virtual ~Enemy();
 
+	void SetPosition(float newX, float newY);
+
 	void Init(float posX, float posY, int pattern = 0);
 	void Release();
 	void Update();

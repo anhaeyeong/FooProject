@@ -35,10 +35,15 @@ void EnemyManager::Update()
         }
     }
 
-     for (int i = 0; i < vecEnemys.size(); i++)
-     {
-         vecEnemys[i]->Update();
-     }
+    for (int i = 0; i < vecEnemys.size(); i++)
+    {
+        vecEnemys[i]->Update();
+
+        if (vecEnemys[i]->GetPos().y + 50> WINSIZE_Y)
+        {
+            vecEnemys[i]->SetPosition(vecEnemys[i]->GetPos().x, 0);
+        }
+    }
 }
 
 void EnemyManager::Render(HDC hdc)

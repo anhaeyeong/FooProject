@@ -51,6 +51,11 @@ void Enemy::ChangeState(EnemyState* newState)
 	}
 }
 
+void Enemy::SetPosition(float newX, float newY)
+{
+	pos.x = newX;
+	pos.y = newY;
+}
 
 void Enemy::Release()
 {
