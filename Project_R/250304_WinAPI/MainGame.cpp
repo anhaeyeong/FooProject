@@ -4,7 +4,7 @@
 #include "EnemyManager.h"
 #include "Rocket.h"
 #include "ColliderManager.h"
-
+#include "Item.h"
 
 void MainGame::Init()
 {
@@ -49,6 +49,8 @@ void MainGame::Init()
 	
 	rocket = new Rocket();
 	rocket->Init();
+	item = new Item();
+	item->Init();
 	ColliderManager::GetInstance()->SetRocket(rocket);
 }
 
@@ -61,6 +63,12 @@ void MainGame::Release()
         enemyManager = nullptr;
     }
 
+	if (item)
+	{
+		item->Release();
+		delete item;
+		item = nullptr;
+	}
     if (rocket)
     {
         rocket->Release();
@@ -129,6 +137,7 @@ void MainGame::Update()
 		}
 		EnemyManager::GetInstance()->Update();
 		rocket->Update();
+		item->Update();
 		ColliderManager::GetInstance()->Update();
 		if (!rocket->GetIsAlive())
 		{
@@ -164,6 +173,7 @@ void MainGame::Render()
 
 		EnemyManager::GetInstance()->Render(hBackBufferDC);
 		rocket->Render(hBackBufferDC);
+		item->Render(hBackBufferDC);
 		ColliderManager::GetInstance()->Render(hBackBufferDC);
 		TimerManager::GetInstance()->Render(hBackBufferDC);
 		break;

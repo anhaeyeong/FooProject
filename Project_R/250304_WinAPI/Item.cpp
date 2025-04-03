@@ -37,11 +37,11 @@ void Item::Render(HDC hdc)
 	{
 		if (type == eItemType::GAS)
 		{
-			image->Render(hdc, pos.x, pos.y);
+			//image->Render(hdc, pos.x, pos.y);
 		}
 		else if (type == eItemType::MINERAL)
 		{
-			image->Render(hdc, pos.x, pos.y);
+			//image->Render(hdc, pos.x, pos.y);
 		}
 	}
 }
