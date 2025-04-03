@@ -94,8 +94,6 @@ void MainGame::Release()
 	UIManager::GetInstance()->Release();
 	KeyManager::GetInstance()->Release();
 	ImageManager::GetInstance()->Release();
-    KeyManager::GetInstance()->Release();
-    ImageManager::GetInstance()->Release();
 }
 
 void MainGame::Update()

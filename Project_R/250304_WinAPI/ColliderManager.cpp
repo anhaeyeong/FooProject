@@ -30,6 +30,15 @@ void ColliderManager::Release()
         rocket = nullptr;
     }
     
+    for (auto& i : items)
+    {
+        if (i->GetIsActived() == false)
+        {
+            i->Release();
+            delete i;
+            i = nullptr;
+        }
+    }
     for (auto& e : enemies)
     {
         if (e->GetIsAlive() == false)
@@ -71,6 +80,14 @@ void ColliderManager::Render(HDC hdc)
         Rectangle(hdc, rc.left, rc.top, rc.right, rc.bottom);
     }
 
+    for (auto& item: items)
+    {
+        if (item == nullptr || item->GetIsActived() == false) continue;
+
+        RECT rc = item->GetRect();
+        Rectangle(hdc, rc.left, rc.top, rc.right, rc.bottom);
+    }
+
     for (auto& enemy : enemies)
     {
         if (enemy == nullptr || enemy->GetIsAlive() == false) continue;
@@ -109,6 +126,14 @@ void ColliderManager::UpdateCollisionRects()
         if (missile && missile->isActived)
         {
             missile->UpdateCollisionRect();
+        }
+    }
+
+    for (auto& item : items)
+    {
+        if (item && item->GetIsActived())
+        {
+            item->UpdateCollisionRect();
         }
     }
 
@@ -251,7 +276,15 @@ void ColliderManager::CheckPlayerItemCollision()
 
         if (RectInRect(rocket->GetRect(),item->GetRect()))
         {
-           
+            string currState = rocket->GetState();
+            if (currState != "Hit" && currState != "Dead")
+            {
+                isCollision = true;
+                // 플레이어와 적의 충돌 처리
+                rocket->ChangeState(new HitState());
+                item->UnactiveItem();
+                // 적의 체력 감소 또는 상태 변경 등 필요한 처리
+            }
         }
     }
 }

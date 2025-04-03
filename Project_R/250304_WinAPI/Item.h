@@ -26,7 +26,7 @@ public:
 	
 	void UpdateCollisionRect();
 	void SpawnItem();
-	
+
 	RECT GetRect() const{ return rect; }
 	inline FPOINT GetPos() const{ return pos; }
 	inline RECT GetRectAtCenter(int x, int y, int width, int height)
@@ -35,7 +35,9 @@ public:
 			x + (width / 2), y + (height / 2) };
 		return rc;
 	}
-
+	inline bool GetIsActived() const{ return isActived; }
+	inline void ActiveItem() { isActived = true; }
+	inline void UnactiveItem() { isActived = false; }
 	Item();
 	~Item();
 };
