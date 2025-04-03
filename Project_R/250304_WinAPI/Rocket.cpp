@@ -241,11 +241,6 @@ void Rocket::ChangeState(State* newState)
 	}
 }
 
-void Rocket::ChangeMissile(MissileType newMissileType)
-{
-	currMissile = newMissileType;
-}
-
 string Rocket::GetState()
 {
 	return state->GetName();
@@ -253,7 +248,7 @@ string Rocket::GetState()
 
 void Rocket::ChangeMissileType(MissileType newType)
 {
-	currMissilleType = newType;
+	currMissile = newType;
 }
 
 Rocket::Rocket()

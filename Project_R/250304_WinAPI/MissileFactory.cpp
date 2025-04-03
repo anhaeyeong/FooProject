@@ -177,7 +177,7 @@ void MissileFactory::Render(HDC hdc)
 
 Missile* PlayerMissileFactory::CreateMissile(MissileType type, FPOINT pos)  
 {  
-  Missile* missile = 0;  
+  Missile* missile = nullptr;  
   switch (type)  
   {  
   case MissileType::NORMAL:  

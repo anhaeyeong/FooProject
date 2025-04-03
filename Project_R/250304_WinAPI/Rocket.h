@@ -63,7 +63,6 @@ public:
 	inline int GetSize() const { return size; }
 	void ChangeAnimation(AnimationType anim);
 	void ChangeState(State* newState);
-	void ChangeMissile(MissileType newMissileType);
 	inline FPOINT GetPos() { return pos; }
 	inline RECT GetRectAtCenter(int x, int y, int width, int height)
 	{
@@ -75,7 +74,7 @@ public:
 	string GetState();
 	void ChangeMissileType(MissileType newType);
 	// ���� �̻��� Ÿ�� ��������
-	MissileType GetCurrentMissileType() const { return currentMissileType; }
+	MissileType GetCurrentMissileType() const { return currMissile; }
 	Rocket();
 	~Rocket();
 };

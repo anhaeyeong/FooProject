@@ -23,6 +23,7 @@ void Missile::Update() {
     if (isActived && IsOutofScreen()) {
         isActived = false;
     }
+
     UpdateCollisionRect();
 }
 
