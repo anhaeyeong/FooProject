@@ -119,6 +119,6 @@ private:
 	void BossUpdateAnim();
 
 public:
-	BossMissile(MissileOwner owner) : Missile(owner, MissileType::BOSS), animationFrame(0), elapsedTime(0.0f), remainTime(0.5f) {}
+	BossMissile(MissileOwner owner) : Missile(owner, MissileType::BOSS), animationFrame(0), elapsedTime(0.0f), remainTime(0.0f) {}
 	virtual ~BossMissile() {}
 };

@@ -86,6 +86,12 @@ void MissileFactory::Init()
             lazerMissile->isActived = false;
             missilePool.push_back(lazerMissile);
         }
+
+        Missile* BossMissile = CreateMissile(MissileType::BOSS, { 0, 0 });
+        if (BossMissile) {
+            BossMissile->isActived = false;
+            missilePool.push_back(BossMissile);
+        }
     }
 
     PlayerMissileFactory::GetInstance();

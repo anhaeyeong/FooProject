@@ -246,9 +246,32 @@ void BossMissile::Render(HDC hdc)
 void BossMissile::Move()
 {
 	float deltaTime = TimerManager::GetInstance()->GetDeltaTime();
+	int moveCount = 0;
+	// 시간이 지날수록 속도 증가
+	moveSpeed += (rand() % 10) * deltaTime;
+
+	// 부메랑 효과를 위한 곡선 이동 (sin 함수 활용)
+	float frequency = 3.0f; // 진동 빈도
+	float amplitude = 50.0f; // 진폭 (좌우 움직임 범위)
+
+	// x 좌표를 기준으로 sin 곡선을 적용하여 좌우 이동 추가
+	pos.x += sin(pos.y * 0.05f) * amplitude * deltaTime;
+
+	// y 방향 이동 (기본 이동)
 	pos.y += moveSpeed * deltaTime * 10;
-	angle += 15.0f * deltaTime;
+
+	// 일정 거리 도달하면 방향 반전 (왕복 운동 효과)
+	if (pos.y > WINSIZE_Y || pos.y < 0)
+	{
+		moveSpeed = -moveSpeed; // 속도 반전하여 되돌아옴
+		moveCount++; // 왕복 횟수 증가
+	}
+	isActived = false;
 }
+
+
+
+
 
 
 

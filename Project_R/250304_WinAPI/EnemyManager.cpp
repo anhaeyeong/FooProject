@@ -87,12 +87,7 @@ void EnemyManager::Render(HDC hdc)
 void EnemyManager::AddEnemy()
 {
     if (vecEnemys.size() >= maxEnemies) return;
-
-    float spawnX = 10.0f + (rand() % 5) * 60.0f;
-    float spawnY = 80.0f + (rand() % 3) * 90.0f;
-
     SmallEnemy* enemy = new SmallEnemy();
-    enemy->Init(spawnX, spawnY);
     enemy->UpdateCollisionRect();
     ColliderManager::GetInstance()->AddEnemy(enemy);
 
@@ -112,11 +107,11 @@ void EnemyManager::SetSpawnPattern(int pattern)
 	switch (pattern)
 	{
 	case 0:
-		for (int i = 0; i < maxEnemies; i++)
+		for (int i = 0; i < 60; i++)
 		{
 			SmallEnemy* enemy = new SmallEnemy();
-			enemy->Init(10.0f + 60.0f * (i % 5),
-				80.0f + 90.0f * (i / 5),0);
+			enemy->Init(WINSIZE_X/4 + 40.0f * (i % 12),
+				20.0f + 40.0f * (i % 10) ,0);
             enemy->Notice();
 			enemy->UpdateCollisionRect();
 			ColliderManager::GetInstance()->AddEnemy(enemy);
@@ -125,7 +120,7 @@ void EnemyManager::SetSpawnPattern(int pattern)
 		break;
 
 	case 1:
-		for (int i = 0; i < maxEnemies; i++)
+		for (int i = 0; i < 30; i++)
 		{
 			BigEnemy* enemy = new BigEnemy();
 			enemy->Init(rand() % WINSIZE_X, 0, 1);
