@@ -149,7 +149,7 @@ void SmallEnemy::Notice()
 
 void SmallEnemy::Move()
 {
-		pos.y += moveSpeed * TimerManager::GetInstance()->GetDeltaTime();
+		pos.y += moveSpeed * TimerManager::GetInstance()->GetDeltaTime() * 500;
 		if (pos.y > WINSIZE_Y - size) {
 			moveSpeed = -abs(moveSpeed);
 		}
@@ -207,8 +207,8 @@ void BigEnemy::Notice()
 
 void BigEnemy::Move()
 {
-		pos.x += (rand() % 2 == 0 ? moveSpeed : -moveSpeed) * TimerManager::GetInstance()->GetDeltaTime();
-		pos.y += moveSpeed * TimerManager::GetInstance()->GetDeltaTime();
+		pos.x += (rand() % 2 == 0 ? moveSpeed : -moveSpeed) * TimerManager::GetInstance()->GetDeltaTime() * 500;
+		pos.y += moveSpeed * TimerManager::GetInstance()->GetDeltaTime() * 500;
 		if (pos.x > WINSIZE_X - size) pos.x = WINSIZE_X - size;
 		if (pos.x < 0) pos.x = 0;
 		if (pos.y > WINSIZE_Y - size) pos.y = WINSIZE_Y - size;
