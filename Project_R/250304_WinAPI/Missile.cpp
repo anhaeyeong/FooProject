@@ -93,7 +93,7 @@ void NormalMissile::loadImage() {
 //SignMissile
 void SignMissile::Render(HDC hdc) {
     if (image) {
-        image->FrameRender(hdc, pos.x, pos.y, 0, currFrame);
+        image->FrameRender(hdc, pos.x, pos.y, currFrame, 0);
     }
     else {
         RECT rc = GetRectAtCenter(pos.x, pos.y, size, size);
@@ -104,7 +104,7 @@ void SignMissile::Render(HDC hdc) {
 
 void SignMissile::Move() {
     float deltatime = TimerManager::GetInstance()->GetDeltaTime();
-    pos.y -= moveSpeed * deltatime * 50;
+    pos.y -= moveSpeed * deltatime * 80;
     pos.x = initialPosX + 50 * sin(DEG_TO_RAD(pos.y));
 
     SignUpdate();
@@ -113,8 +113,8 @@ void SignMissile::Move() {
 void SignMissile::Notice() {
     if (owner == MissileOwner::PLAYER) {
         isActived = true;
-        moveSpeed = 50.0f;
-        size = 10;
+        moveSpeed = 5.0f;
+        size = 50;
         initialPosX = pos.x;
         currFrame = 0; 
         animElapsedTime = 0.0f;
@@ -122,12 +122,13 @@ void SignMissile::Notice() {
 }
 
 void SignMissile::loadImage() {  
-   string imageKey = (owner == MissileOwner::PLAYER) ? "player_civil_missile" : "enemy_civil_missile";  
-   wstring imagePath = (owner == MissileOwner::PLAYER) ? L"Image/civil.bmp" : L"Image/civil.bmp";  
+   string imageKey = (owner == MissileOwner::PLAYER) ? "player_sin_missile" : "enemy_sin_missile";  
+   wstring imagePath = (owner == MissileOwner::PLAYER) ? L"Image/arcon.bmp" : L"Image/ScurgeAnimation.bmp";  
    image = ImageManager::GetInstance()->AddImage(
-       imageKey, imagePath.c_str(), 21, 288, 1, 1,
+       imageKey, imagePath.c_str(), 1008, 92, 12, 1,
        true, RGB(255, 255, 255));
-   if (!image) {
+   if (!image) 
+   {
        std::cerr << "Failed to load image: " << std::string(imagePath.begin(), imagePath.end()) << std::endl;
    }
 }
@@ -138,7 +139,7 @@ void SignMissile::SignUpdate()
     if (animElapsedTime >= 0.1f)
     {
         currFrame++;
-        if (currFrame >= 5) {
+        if (currFrame >= 12) {
             currFrame = 0;
         }
         animElapsedTime = 0.0f;
