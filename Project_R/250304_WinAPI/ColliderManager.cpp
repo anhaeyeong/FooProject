@@ -114,7 +114,7 @@ void ColliderManager::UpdateCollisionRects()
     // 모든 적의 충돌 RECT 업데이트
     for (auto& enemy : enemies)
     {
-        if (enemy && enemy->GetIsAlive())
+        if (enemy && enemy->GetState()->GetName() != "Dead")
         {
             enemy->UpdateCollisionRect();
         }
@@ -171,7 +171,8 @@ void ColliderManager::CheckPlayerEnemyCollision()
         if (RectInRect(rocket->GetRect(), enemy->GetRect()))
         {
             string currState = rocket->GetState();
-            if (currState != "Hit" && currState != "Dead")
+            string enemyState = enemy->GetState()->GetName();
+            if (currState != "Hit" && currState != "Dead" && enemyState != "Dead")
             {
                 isCollision = true;
                 // 플레이어와 적의 충돌 처리
@@ -237,28 +238,31 @@ void ColliderManager::CheckEnemyPlayerMissileCollision()
 
                 if (RectInRect(missile->GetRect(), enemy->GetRect()))
                 {
-                    isCollision = true;
-                    missile->isActived = false;
-
-                    // 미사일 타입에 따른 적 처리
-                    switch (missile->GetType())
+                    if (enemy->GetState()->GetName() != "Dead")
                     {
-                    case MissileType::NORMAL:
-                        // 일반 미사일 처리
-                        enemy->ChangeState(new EnemyDeadState());
-                        //적 체력 감소
-                        break;
-                    case MissileType::SIGN:
-                        // 특수 미사일 처리 
-                        enemy->ChangeState(new EnemyDeadState());
-                        //범위 데미지
-                        break;
-                    case MissileType::LAZER:
-                        // 레이저 미사일 처리 
-                        enemy->ChangeState(new EnemyDeadState());
-                        missile->isActived = true;
-                        //관통효과
-                        break;
+                        isCollision = true;
+                        missile->isActived = false;
+
+                        // 미사일 타입에 따른 적 처리
+                        switch (missile->GetType())
+                        {
+                        case MissileType::NORMAL:
+                            // 일반 미사일 처리
+                            enemy->ChangeState(new EnemyDeadState());
+                            //적 체력 감소
+                            break;
+                        case MissileType::SIGN:
+                            // 특수 미사일 처리 
+                            enemy->ChangeState(new EnemyDeadState());
+                            //범위 데미지
+                            break;
+                        case MissileType::LAZER:
+                            // 레이저 미사일 처리 
+                            enemy->ChangeState(new EnemyDeadState());
+                            missile->isActived = true;
+                            //관통효과
+                            break;
+                        }
                     }
                 }
             }

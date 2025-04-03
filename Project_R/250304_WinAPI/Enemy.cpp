@@ -97,7 +97,7 @@ void Enemy::UpdateCollisionRect()
 void Enemy::UpdateAnimation(int maxFrame)
 {
 	elapsedTime += TimerManager::GetInstance()->GetDeltaTime();
-	if (elapsedTime > 0.1f)
+	if (elapsedTime > 0.05f)
 	{
 		animationFrame++;
 		if (animationFrame >= maxFrame)
@@ -149,7 +149,7 @@ void SmallEnemy::Notice()
 
 void SmallEnemy::Move()
 {
-		pos.y += moveSpeed * TimerManager::GetInstance()->GetDeltaTime();
+		pos.y += moveSpeed * TimerManager::GetInstance()->GetDeltaTime() * 500;
 		if (pos.y > WINSIZE_Y - size) {
 			moveSpeed = -abs(moveSpeed);
 		}
@@ -207,8 +207,8 @@ void BigEnemy::Notice()
 
 void BigEnemy::Move()
 {
-		pos.x += (rand() % 2 == 0 ? moveSpeed : -moveSpeed) * TimerManager::GetInstance()->GetDeltaTime();
-		pos.y += moveSpeed * TimerManager::GetInstance()->GetDeltaTime();
+		pos.x += (rand() % 2 == 0 ? moveSpeed : -moveSpeed) * TimerManager::GetInstance()->GetDeltaTime() * 500;
+		pos.y += moveSpeed * TimerManager::GetInstance()->GetDeltaTime() * 500;
 		if (pos.x > WINSIZE_X - size) pos.x = WINSIZE_X - size;
 		if (pos.x < 0) pos.x = 0;
 		if (pos.y > WINSIZE_Y - size) pos.y = WINSIZE_Y - size;
@@ -282,11 +282,11 @@ void BossEnemy::Render(HDC hdc)
 void BossEnemy::loadImage()
 {
 	ImageManager::GetInstance()->AddImage(
-		"Normal_Enemy", TEXT("Image/MutaliskAnim.bmp"), 66, 365, 1, 5,
+		"Boss_Enemy", TEXT("Image/MutaliskAnim.bmp"), 66, 365, 1, 5,
 		true, RGB(255, 255, 255));
 	ImageManager::GetInstance()->AddImage(
-		"Normal_Enemy_Dead", TEXT("Image/MutaliskAnim.bmp"), 66, 365, 1, 5,
+		"Boss_enemy_Dead", TEXT("Image/MutaliskDeadAnim.bmp"), 621, 62, 9, 1,
 		true, RGB(255, 255, 255));
-	image = ImageManager::GetInstance()->FindImage("Normal_Enemy");
+	image = ImageManager::GetInstance()->FindImage("Boss_Enemy");
 	eState = new EnemyIDLEState();
 }

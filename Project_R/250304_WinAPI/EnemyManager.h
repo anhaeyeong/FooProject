@@ -14,6 +14,7 @@ private:
     float elapsedTime;               
     int maxEnemies;                 
     int spawnPattern;      
+    int count;
     Enemy* enemy;
     EnemyState* eState;
 
