@@ -53,6 +53,9 @@
     <Filter Include="2D Framework\State">
       <UniqueIdentifier>{cc212a0e-73c8-4d70-bb9a-03a93fe56c2e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MainGame\Item">
+      <UniqueIdentifier>{63c6933d-eb96-4dd9-97a2-feafa0fe837f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -108,6 +111,9 @@
     </ClCompile>
     <ClCompile Include="EnemyState.cpp">
       <Filter>2D Framework\State</Filter>
+    </ClCompile>
+    <ClCompile Include="Item.cpp">
+      <Filter>MainGame\Item</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -170,6 +176,9 @@
     </ClInclude>
     <ClInclude Include="EnemyState.h">
       <Filter>2D Framework\State</Filter>
+    </ClInclude>
+    <ClInclude Include="Item.h">
+      <Filter>MainGame\Item</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

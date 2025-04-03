@@ -284,34 +284,3 @@ void BossEnemy::loadImage()
 	image = ImageManager::GetInstance()->FindImage("Normal_Enemy");
 	eState = new EnemyIDLEState();
 }
-
-
-//switch (spawnPattern)
-//{
-//case 0:
-//	pos.y += moveSpeed;
-//	if (pos.y > WINSIZE_Y - size) {
-//		moveSpeed = -abs(moveSpeed);
-//	}
-//	else if (pos.y < size) {
-//		moveSpeed = abs(moveSpeed);
-//	}
-//	break;
-//
-//case 1:
-//	pos.x += (rand() % 2 == 0 ? moveSpeed : -moveSpeed);
-//	pos.y += moveSpeed;
-//	if (pos.x > WINSIZE_X - size) pos.x = WINSIZE_X - size;
-//	if (pos.x < 0) pos.x = 0;
-//	if (pos.y > WINSIZE_Y - size) pos.y = WINSIZE_Y - size;
-//	break;
-//
-//case 2:
-//	pos.x += (rand() % 2 == 0 ? moveSpeed : -moveSpeed);
-//	pos.y += moveSpeed;
-//	if (pos.x > WINSIZE_X - size || pos.x < 0) {
-//		moveSpeed = -moveSpeed;
-//	}
-//	if (pos.y > WINSIZE_Y - size) pos.y = WINSIZE_Y - size;
-//	break;
-//}

@@ -5,12 +5,19 @@
 #include "Enemy.h"
 #include "State.h"
 #include "EnemyState.h"
+#include "Item.h"
 
 void ColliderManager::Init()
 {
     rocket = nullptr;
     EnemyManager::GetInstance()->Init();
     missiles.clear();
+
+    for (auto& i : items)
+    {
+        i->Init();
+    }
+
     isCollision = false;
 }
 
@@ -241,12 +248,9 @@ void ColliderManager::CheckPlayerItemCollision()
     {   
         if (item == nullptr) continue;
 
-        //if (RectInRect(rocket->GetRect(),item->GetRect()))
-        //{
-        //    isCollision = true;
-        //    // 플레이어와 적의 충돌 처리
-        //    rocket->ChangeState(new HitState());
-        //    // 적의 체력 감소 또는 상태 변경 등 필요한 처리
-        //}
+        if (RectInRect(rocket->GetRect(),item->GetRect()))
+        {
+           
+        }
     }
 }
