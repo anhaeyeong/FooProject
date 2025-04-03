@@ -97,7 +97,7 @@ void Enemy::UpdateCollisionRect()
 void Enemy::UpdateAnimation(int maxFrame)
 {
 	elapsedTime += TimerManager::GetInstance()->GetDeltaTime();
-	if (elapsedTime > 0.1f)
+	if (elapsedTime > 0.05f)
 	{
 		animationFrame++;
 		if (animationFrame >= maxFrame)

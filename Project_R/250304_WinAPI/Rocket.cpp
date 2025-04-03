@@ -157,10 +157,10 @@ void Rocket::HandleInput()
 	}*/
 
 	//Dead
-	if (hp <= 0)
+	/*if (hp <= 0)
 	{
 		ChangeState(new DeadState());
-	}
+	}*/
 }
 
 void Rocket::Fire()
