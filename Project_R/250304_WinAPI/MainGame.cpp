@@ -181,7 +181,7 @@ void MainGame::Render()
 		rocket->Render(hBackBufferDC);
 		itemManager->Render(hBackBufferDC);
 		UIManager::GetInstance()->Render(hBackBufferDC);
-		//ColliderManager::GetInstance()->Render(hBackBufferDC);
+		ColliderManager::GetInstance()->Render(hBackBufferDC);
 		TimerManager::GetInstance()->Render(hBackBufferDC);
 		break;
 	case SceneState::End:

@@ -59,7 +59,7 @@ void EnemyManager::Update()
     // 적이 전부 사라졌다면 새로운 패턴 설정
     if (vecEnemys.empty())
     {
-        count = rand() % 3;
+        count = rand() % 4;
         SetSpawnPattern(count);
         return;
     }
@@ -138,5 +138,18 @@ void EnemyManager::SetSpawnPattern(int pattern)
 			vecEnemys.push_back(enemy);
 		}
 		break;
+
+    case 3:  
+        for (int i = 0; i < 7; i++)
+        {
+            TrackingEnemy* enemy = new TrackingEnemy();
+            enemy->Init(rand() % WINSIZE_X, 50, 7);
+            enemy->loadImage();
+            enemy->UpdateCollisionRect();
+            enemy->Notice();
+            ColliderManager::GetInstance()->AddEnemy(enemy);
+            vecEnemys.push_back(enemy);
+        }
+        break;
 	}
 }

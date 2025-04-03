@@ -2,6 +2,7 @@
 #include "CommonFunction.h"
 #include "Image.h"
 #include "ColliderManager.h"
+#include "Rocket.h"
 
 void Enemy::Init(float posX, float posY, int pattern)
 {
@@ -288,5 +289,116 @@ void BossEnemy::loadImage()
 		"Boss_enemy_Dead", TEXT("Image/MutaliskDeadAnim.bmp"), 621, 62, 9, 1,
 		true, RGB(255, 255, 255));
 	image = ImageManager::GetInstance()->FindImage("Boss_Enemy");
+	eState = new EnemyIDLEState();
+}
+
+void TrackingEnemy::ChangeAnimation(EnemyAnimType eAnimation)
+{
+	switch (eAnimation)
+	{
+	case EnemyAnimType::EIDLE:
+		image = ImageManager::GetInstance()->FindImage("Tracking_Enemy");
+		break;
+	case EnemyAnimType::EDead:
+		image = ImageManager::GetInstance()->FindImage("Tracking_Enemy_Dead");
+		break;
+	}
+}
+
+void TrackingEnemy::Notice()
+{
+	moveSpeed = 150.0f;
+	angle = 0.0f;
+	isAlive = true;
+	size = 20;
+	hp = 1;  
+	trackingSpeed = 200.0f;
+	detectRange = 900.0f;  
+	animationFrame = 0;
+	elapsedFrame = 0;
+	elapsedTime = 0.0f;
+}
+
+void TrackingEnemy::Move()
+{
+	Rocket* rocket = ColliderManager::GetInstance()->GetRocket();
+	if (rocket && rocket->GetIsAlive())
+	{
+		FPOINT playerPos = rocket->GetPos();
+		TrackPlayer(playerPos);
+	}
+	else
+	{
+		pos.y += moveSpeed * TimerManager::GetInstance()->GetDeltaTime();
+
+		if (pos.x > WINSIZE_X - size)
+		{
+			pos.x = WINSIZE_X - size;
+		}
+		else if (pos.x < 0)
+		{
+			pos.x = 0;
+		}
+		else if (pos.y > WINSIZE_Y - size)
+		{
+			pos.y = WINSIZE_Y - size;
+		}
+		else if (pos.y < 0)
+		{
+			pos.y = 0;
+		}
+	}
+}
+
+void TrackingEnemy::TrackPlayer(const FPOINT& playerPos)
+{
+	float dx = playerPos.x - pos.x;
+	float dy = playerPos.y - pos.y;
+	float distance = sqrt(dx * dx + dy * dy);
+
+	if (distance < detectRange)
+	{
+		float dirX = (distance > 0) ? dx / distance : 0;
+		float dirY = (distance > 0) ? dy / distance : 0;
+
+		float deltaTime = TimerManager::GetInstance()->GetDeltaTime();
+		pos.x += dirX * trackingSpeed * deltaTime;
+		pos.y += dirY * trackingSpeed * deltaTime;
+
+		UpdateAnimation(5);
+	}
+	else
+	{
+		pos.y += moveSpeed * TimerManager::GetInstance()->GetDeltaTime();
+		UpdateAnimation(5);
+	}
+
+	if (pos.x > WINSIZE_X - size) pos.x = WINSIZE_X - size;
+	if (pos.x < 0) pos.x = 0;
+	if (pos.y > WINSIZE_Y - size) pos.y = WINSIZE_Y - size;
+	if (pos.y < 0) pos.y = 0;
+}
+
+void TrackingEnemy::Render(HDC hdc)
+{
+	if (isAlive)
+	{
+		if (eState->GetName() == "IDLE")
+			image->FrameRender(hdc, pos.x, pos.y, 0, animationFrame);
+		else if (eState->GetName() == "Dead")
+			image->FrameRender(hdc, pos.x, pos.y, animationFrame, 0);
+	}
+}
+
+void TrackingEnemy::loadImage()
+{
+	ImageManager::GetInstance()->AddImage(
+		"Tracking_Enemy", TEXT("Image/ScurgeAnimation.bmp"), 33, 140, 1, 5,
+		true, RGB(255, 255, 255));
+	ImageManager::GetInstance()->AddImage(
+		"Tracking_Enemy_Dead", TEXT("Image/ScurgeDeadAnim.bmp"), 621, 62, 9, 1,
+		true, RGB(255, 255, 255));
+
+	image = ImageManager::GetInstance()->FindImage("Tracking_Enemy");
 	eState = new EnemyIDLEState();
 }

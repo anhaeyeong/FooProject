@@ -109,3 +109,23 @@ public:
 	virtual void Render(HDC hdc) override;
 	virtual void loadImage() override;
 };
+
+class TrackingEnemy : public Enemy
+{
+private:
+	float trackingSpeed;   // 추적 속도
+	float detectRange;     // 감지 범위
+
+public:
+	TrackingEnemy() : Enemy() {}
+	virtual ~TrackingEnemy() {}
+
+	void ChangeAnimation(EnemyAnimType eAnimation) override;
+	virtual void Notice() override;
+	virtual void Move() override;
+	virtual void Render(HDC hdc) override;
+	virtual void loadImage() override;
+
+	// 플레이어 추적 로직
+	void TrackPlayer(const FPOINT& playerPos);
+};

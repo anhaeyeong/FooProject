@@ -41,5 +41,6 @@ public:
     void UpdateCollisionRects();
     void AddItem(Item* item) { if (item) items.push_back(item); }
     bool GetIsCollision() { return isCollision; }
+    Rocket* GetRocket() const { return rocket; }
 };
 
