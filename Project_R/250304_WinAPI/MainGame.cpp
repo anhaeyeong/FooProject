@@ -12,9 +12,12 @@ void MainGame::Init()
 	KeyManager::GetInstance()->Init();
 	UIManager::GetInstance()->Init();
 
-	UIManager::GetInstance()->AddText("Press 'S' to start", WINSIZE_X / 2 - 50, 300);
+	
 	hdc = GetDC(g_hWnd);
 	sceneState = SceneState::Lobby;
+	elapsedTime = 0.0f;
+	lobbyFrame = 0;
+	mainFrame = 0;
 
 	backBuffer = new Image();
 	if (FAILED(backBuffer->Init(WINSIZE_X, WINSIZE_Y)))
@@ -23,14 +26,20 @@ void MainGame::Init()
 			TEXT("BackBuffer Failed"), TEXT("Fail!"), MB_OK);
 	}
 	Lobby = new Image();
-	if (FAILED(Lobby->Init(TEXT("Image/mainmenu.bmp"), WINSIZE_X, WINSIZE_Y)))
+	if (FAILED(Lobby->Init(TEXT("Image/Cinematic.bmp"), WINSIZE_X * 40, WINSIZE_Y - 300, 40, 1)))
+	{
+		MessageBox(g_hWnd,
+			TEXT("Image/Cinematic.bmp"), TEXT("Fail!"), MB_OK);
+	}
+	startMenu = new Image();
+	if (FAILED(startMenu->Init(TEXT("Image/mainmenu.bmp"), WINSIZE_X, WINSIZE_Y)))
 	{
 		MessageBox(g_hWnd,
 			TEXT("Image/mainmenu.bmp"), TEXT("Fail!"), MB_OK);
 	}
-	ImageManager::GetInstance()->AddImage("Ending", TEXT("Image/mainmenu.bmp"), WINSIZE_X, WINSIZE_Y);
+	ImageManager::GetInstance()->AddImage("Ending", TEXT("Image/GameOver.bmp"), WINSIZE_X, WINSIZE_Y);
 	backGround = new Image();
-	if (FAILED(backGround->Init(TEXT("Image/background1.bmp"), WINSIZE_X, WINSIZE_Y)))
+	if (FAILED(backGround->Init(TEXT("Image/backgroundspace.bmp"), WINSIZE_X, WINSIZE_Y * 8, 1, 8)))
 	{
 		MessageBox(g_hWnd,
 			TEXT("Image/backGround.bmp"), TEXT("Fail!"), MB_OK);
@@ -83,24 +92,55 @@ void MainGame::Release()
 
 void MainGame::Update()
 {
-	if (KeyManager::GetInstance()->IsOnceKeyDown(83))
+	
+	switch (sceneState)
 	{
-		UIManager::GetInstance()->Clear();
-		sceneState = SceneState::Main;
-	}
-	if (sceneState == SceneState::Main)
-	{
+	case SceneState::Lobby:
+		elapsedTime += TimerManager::GetInstance()->GetDeltaTime();
+		if (elapsedTime >= 0.07f)
+		{
+			lobbyFrame++;
+			if (lobbyFrame >= 40)
+			{
+				UIManager::GetInstance()->Clear();
+				UIManager::GetInstance()->AddText("Press 'S' to start", WINSIZE_X / 2 - 50, 300);
+				sceneState = SceneState::Start;
+			}
+			elapsedTime = 0.0f;
+		}
+		break;
+	case SceneState::Start:
+		if (KeyManager::GetInstance()->IsOnceKeyDown(83))
+		{
+			sceneState = SceneState::Main;
+			PlaySound(TEXT("BGM.wav"), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP | SND_NODEFAULT);
+		}
+		break;
+	case SceneState::Main:
+		elapsedTime += TimerManager::GetInstance()->GetDeltaTime();
+		if (elapsedTime > 0.07f)
+		{
+			mainFrame++;
+			if (mainFrame >= 8)
+			{
+				mainFrame = 0;
+			}
+			elapsedTime = 0.0f;
+		}
 		EnemyManager::GetInstance()->Update();
 		rocket->Update();
 		ColliderManager::GetInstance()->Update();
-	}
-	if (!rocket->GetIsAlive())
-	{
-		sceneState = SceneState::End;
-		Lobby = ImageManager::GetInstance()->FindImage("Ending");
+		if (!rocket->GetIsAlive())
+		{
+			sceneState = SceneState::End;
+			Lobby = ImageManager::GetInstance()->FindImage("Ending");
+		}
+		break;
+	case SceneState::End:
+		break;
 	}
 	
-	ColliderManager::GetInstance()->Update();
+	
 	InvalidateRect(g_hWnd, NULL, false);
 }
 
@@ -110,11 +150,14 @@ void MainGame::Render()
 	switch (sceneState)
 	{
 	case SceneState::Lobby:
-		Lobby->Render(hBackBufferDC);
+		Lobby->FrameRender(hBackBufferDC, WINSIZE_X / 2, WINSIZE_Y / 2, lobbyFrame, 0);
+		break;
+	case SceneState::Start:
+		startMenu->Render(hBackBufferDC);
 		UIManager::GetInstance()->Render(hBackBufferDC);
 		break;
 	case SceneState::Main:
-		backGround->Render(hBackBufferDC);
+		backGround->FrameRender(hBackBufferDC, WINSIZE_X / 2, WINSIZE_Y / 2, 0, mainFrame);
 
 		wsprintf(szText, TEXT("Mouse X : %d, Y : %d"), mousePosX, mousePosY);
 		TextOut(hBackBufferDC, 20, 60, szText, wcslen(szText));

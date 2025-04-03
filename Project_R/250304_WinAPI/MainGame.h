@@ -9,6 +9,7 @@ class Rocket;
 enum SceneState
 {
 	Lobby,
+	Start,
 	Main,
 	End
 };
@@ -22,9 +23,13 @@ private:
 	FPOINT mousePos;
 	wchar_t szText[128];
 	SceneState sceneState;
+	float elapsedTime;
+	int lobbyFrame;
+	int mainFrame;
 
 	Image* backBuffer;
 	Image* Lobby;
+	Image* startMenu;
 	Image* backGround;
 	EnemyManager* enemyManager;
 	Rocket* rocket;

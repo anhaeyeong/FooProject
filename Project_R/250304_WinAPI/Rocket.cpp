@@ -111,7 +111,7 @@ void Rocket::HandleInput()
 {
 	if (InputManager::isMoveLeft())
 	{
-		if(state->GetName() != "Hit")
+		if (state->GetName() != "Hit")
 			ChangeState(new MovingState());
 	}
 	else if (InputManager::isMoveRight())
@@ -140,7 +140,7 @@ void Rocket::HandleInput()
 		if (state->GetName() != "Hit")
 			ChangeState(new IDLEState());
 	}
-	
+
 	if (InputManager::isFire())
 	{
 		ChangeState(new AttackState());
@@ -161,7 +161,6 @@ void Rocket::HandleInput()
 	{
 		ChangeState(new DeadState());
 	}
-
 }
 
 void Rocket::Fire()
@@ -195,7 +194,7 @@ void Rocket::UpdateAnimation(int maxFrame)
 				animationFrame = 0;
 			else
 			{
-				if (animationFrame >= maxFrame + 30)
+				if (animationFrame >= maxFrame + 10)
 					isAlive = false;
 			}
 		}
