@@ -65,7 +65,7 @@ void NormalMissile::Render(HDC hdc) {
 
 
 void NormalMissile::Move() {
-        pos.y -= moveSpeed * angle * TimerManager::GetInstance()->GetDeltaTime() * 100;
+        pos.y -= moveSpeed * angle * TimerManager::GetInstance()->GetDeltaTime() * 10;
 }
 
 void NormalMissile::Notice() {

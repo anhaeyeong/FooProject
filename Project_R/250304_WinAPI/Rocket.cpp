@@ -20,6 +20,7 @@ void Rocket::Init()
 	ElapsedTime = 0.0f;
 	HitTime = 0.0f;
 	animationFrame = 0;
+	currMissile = MissileType::NORMAL;
 
 	missileFactory = PlayerMissileFactory::GetInstance();
 	missileFactory->Init();
@@ -112,21 +113,21 @@ void Rocket::HandleInput()
 	if (state->GetName() == "Dead") return;
 	if (InputManager::isMoveLeft())
 	{
-		if (state->GetName() != "Hit")
+		if (state->GetName() != "Hit" && state->GetName() != "Attack")
 			ChangeState(new MovingState());
 	}
 	else if (InputManager::isMoveRight())
 	{
-		if (state->GetName() != "Hit")
+		if (state->GetName() != "Hit" && state->GetName() != "Attack")
 			ChangeState(new MovingState());
 	}
 	else if (InputManager::isMoveUp())
 	{
-		if (state->GetName() != "Hit")
+		if (state->GetName() != "Hit" && state->GetName() != "Attack")
 			ChangeState(new MovingState());
 	}
 	else if (InputManager::isMoveDown()) {
-		if (state->GetName() != "Hit")
+		if (state->GetName() != "Hit" && state->GetName() != "Attack")
 			ChangeState(new MovingState());
 		if (!pos.y > WINSIZE_Y)
 			pos.y = WINSIZE_Y - 100;
@@ -166,7 +167,7 @@ void Rocket::HandleInput()
 
 void Rocket::Fire()
 {
-	missileFactory->AddMissile(MissileType::LAZER, { pos.x, pos.y });
+	missileFactory->AddMissile(currMissile, { pos.x, pos.y });
 }
 
 void Rocket::Hit()
@@ -238,6 +239,11 @@ void Rocket::ChangeState(State* newState)
 		state = newState;
 		state->Enter(*this);
 	}
+}
+
+void Rocket::ChangeMissile(MissileType newMissileType)
+{
+	currMissile = newMissileType;
 }
 
 string Rocket::GetState()

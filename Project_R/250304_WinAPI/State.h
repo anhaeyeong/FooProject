@@ -55,11 +55,14 @@ public:
 
 class AttackState : public State
 {
+private:
+	float cooltime;
 public:
 	void Enter(Rocket& player) override;
 	void Update(Rocket& player) override;
 	void Exit(Rocket& player) override;
 	AttackState() {
+		cooltime = 0.1f;
 		StateName = "Attack";
 	};
 	virtual ~AttackState() {};

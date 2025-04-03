@@ -35,6 +35,7 @@ private:
 	float ElapsedTime;
 	float HitTime;
 	int animationFrame;
+	MissileType currMissile;
 
 	State* state;
 	Image* image;
@@ -62,6 +63,7 @@ public:
 	inline int GetSize() const { return size; }
 	void ChangeAnimation(AnimationType anim);
 	void ChangeState(State* newState);
+	void ChangeMissile(MissileType newMissileType);
 	inline FPOINT GetPos() { return pos; }
 	inline RECT GetRectAtCenter(int x, int y, int width, int height)
 	{
