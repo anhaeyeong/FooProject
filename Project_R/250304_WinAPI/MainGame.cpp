@@ -151,7 +151,13 @@ void MainGame::Update()
 			UIManager::GetInstance()->AddImage("Sign", TEXT("Image/Sign.bmp"), WINSIZE_X - 100, WINSIZE_Y - 80, 100, 80);
 			Lobby = ImageManager::GetInstance()->FindImage("Ending");
 		}
-
+		if (EnemyManager::GetInstance()->GetIsWin())
+		{
+			UIManager::GetInstance()->Clear();
+			sceneState = SceneState::End;
+			UIManager::GetInstance()->AddImage("Sign", TEXT("Image/Sign.bmp"), WINSIZE_X - 100, WINSIZE_Y - 80, 100, 80);
+			Lobby = ImageManager::GetInstance()->FindImage("WinEnding");
+		}
 		break;
 	case SceneState::End:
 		break;

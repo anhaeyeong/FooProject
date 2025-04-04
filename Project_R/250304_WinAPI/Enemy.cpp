@@ -154,6 +154,7 @@ void SmallEnemy::ChangeAnimation(EnemyAnimType eAnimation)
 
 void SmallEnemy::Notice()
 {
+	hp = 5.0f;
 	moveSpeed = 0.2f;
 	angle = -90.0f;
 	size = 40;
@@ -202,6 +203,7 @@ void BigEnemy::ChangeAnimation(EnemyAnimType eAnimation)
 
 void BigEnemy::Notice()
 {
+	hp = 20.0f;
 	moveSpeed = 0.2f;
 	angle = -90.0f;
 	size = 50;
@@ -277,7 +279,7 @@ void BossEnemy::CalcAttackPattern()
 
 void BossEnemy::Notice()
 {
-	hp = 300.0f;
+	hp = 700.0f;
 	moveSpeed = 200.0f;
 	angle = -90.0f;
 	size = 300;
