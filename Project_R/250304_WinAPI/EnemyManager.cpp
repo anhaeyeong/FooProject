@@ -65,18 +65,15 @@ void EnemyManager::Update()
 
     if (vecEnemys.empty())
     {
-
-
-        for (int i = 0; i < 10; i++) {
-            if (loopCounter == 10) {
-                count = 3;
-            }
-            else if(loopCounter < 5)
-            {
-                count = rand() % 3;
-                loopCounter++;
-            }
+        if (loopCounter >= 10) {
+            count = 3;
         }
+        else
+        {
+            count = rand() % 3;
+            loopCounter++;
+        }
+
         SetSpawnPattern(count);
     }
 
