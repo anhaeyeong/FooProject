@@ -70,20 +70,22 @@ void EnemyManager::Update()
         if (loopCounter == 10) {
             count = 3;
 			loopCounter++;
+            SetSpawnPattern(count);
         }
         else if(loopCounter < 10)
         {
             count = rand() % 3;
             loopCounter++;
+            SetSpawnPattern(count);
         }
         else
         {
-            winDelay += TimerManager::GetInstance()->GetDeltaTime();
-            if (winDelay >= 2.0f)
+			winDelay += TimerManager::GetInstance()->GetDeltaTime();
+            if (winDelay >= 1.0f)
                 isWin = true;
         }
 
-        SetSpawnPattern(count);
+        
     }
 
     missileFactory->Update();

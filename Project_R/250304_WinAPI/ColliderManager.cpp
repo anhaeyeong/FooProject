@@ -257,7 +257,7 @@ void ColliderManager::CheckEnemyPlayerMissileCollision()
                             break;
                         case MissileType::LAZER:
                             // 레이저 미사일 처리 
-                            enemy->Hit(0.08f);
+                            enemy->Hit(0.04f);
                             //missile->isActived = true;
                             //관통효과
                             break;
