@@ -175,7 +175,7 @@ void ColliderManager::CheckPlayerEnemyCollision()
                 isCollision = true;
                 // 플레이어와 적의 충돌 처리
                 rocket->ChangeState(new HitState());
-                enemy->ChangeState(new EnemyDeadState());
+                enemy->Hit(1.0f);
                 // 적의 체력 감소 또는 상태 변경 등 필요한 처리
             }
         }
@@ -246,19 +246,19 @@ void ColliderManager::CheckEnemyPlayerMissileCollision()
                         {
                         case MissileType::NORMAL:
                             // 일반 미사일 처리
-                            enemy->ChangeState(new EnemyDeadState());
+                            enemy->Hit(1.0f);
                             missile->isActived = false;
                             //적 체력 감소
                             break;
                         case MissileType::SIGN:
                             // 특수 미사일 처리 
-                            enemy->ChangeState(new EnemyDeadState());
+                            enemy->Hit(3.0f);
                             missile->isActived = false;
                             //범위 데미지
                             break;
                         case MissileType::LAZER:
                             // 레이저 미사일 처리 
-                            enemy->ChangeState(new EnemyDeadState());
+                            enemy->Hit(0.1f);
                             //missile->isActived = true;
                             //관통효과
                             break;

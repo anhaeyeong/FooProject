@@ -57,6 +57,11 @@ void Enemy::ChangeState(EnemyState* newState)
 	}
 }
 
+void Enemy::Hit(float damage)
+{
+	hp -= damage;
+}
+
 void Enemy::SetPosition(float newX, float newY)
 {
 	pos.x = newX;
@@ -80,6 +85,8 @@ void Enemy::Update()
 	missileFactory->Update();
 	if (isAlive)
 	{
+		if(hp <= 0.0f)
+			ChangeState(new EnemyDeadState());
 		UpdateCollisionRect();
 		eState->Update(*this);
 	}
@@ -245,24 +252,24 @@ void BossEnemy::ChangeAnimation(EnemyAnimType eAnimation)
 
 void BossEnemy::CalcAttackPattern()
 {
-	attackpattern = rand() % 4;
+	attackpattern = rand() % 3;
+	int randcount = rand() % 3 + 2;
 	switch (attackpattern)
 	{
 	case 0:
-		missileFactory->AddMissile(MissileType::NORMAL, { pos.x, 120 });
+		missileFactory->AddMissile(MissileType::SIGN, { pos.x - 40, 120 });
+		missileFactory->AddMissile(MissileType::SIGN, { pos.x + 40, 120 });
 		break;
 	case 1:
 		missileFactory->AddMissile(MissileType::SIGN, { pos.x, 120 });
 		break;
 	case 2:
-		missileFactory->AddMissile(MissileType::LAZER, { pos.x, 120 });
-		break;
-	case 3:
-		for (int i = 0; i < 4; i++)
+		for (int i = -randcount + 1; i < randcount; i++)
 		{
-			missileFactory->AddMissile(MissileType::BOSS, { pos.x, 120 });
+			missileFactory->AddMissile(MissileType::BOSS, { pos.x + (20 * i), 120});
 		}
 		break;
+	
 	default:
 		break;
 	}
@@ -270,6 +277,7 @@ void BossEnemy::CalcAttackPattern()
 
 void BossEnemy::Notice()
 {
+	hp = 300.0f;
 	moveSpeed = 200.0f;
 	angle = -90.0f;
 	size = 300;
