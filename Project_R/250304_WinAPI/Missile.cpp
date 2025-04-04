@@ -1,21 +1,21 @@
 #include "Missile.h"
 
 void Missile::Init() {
-    pos = { 0, 0 };
-    isActived = false;
-    moveSpeed = 3.0f;
-    size = 10;
-    angle = 90.0f;
+	pos = { 0, 0 };
+	isActived = false;
+	moveSpeed = 3.0f;
+	size = 10;
+	angle = 90.0f;
 }
 
 void Missile::Release()
 {
-    if (image)
-    {
-        image->Release();
-        delete image;
-        image = nullptr;
-    }
+	if (image)
+	{
+		image->Release();
+		delete image;
+		image = nullptr;
+	}
 }
 
 void Missile::Update() {
@@ -28,68 +28,72 @@ void Missile::Update() {
 }
 
 void Missile::Render(HDC hdc) {
-    if (image) {
-        image->Render(hdc, pos.x, pos.y);
-    }
-    else {
-        std::cerr << "." << std::endl;
-    }
+	if (image) {
+		image->Render(hdc, pos.x, pos.y);
+	}
+	else {
+		std::cerr << "." << std::endl;
+	}
 }
 
 bool Missile::IsOutofScreen()
 {
-    float right = pos.x + size / 2;
-    float left = pos.x - size / 2;
-    float top = pos.y - size / 2;
-    float bottom = pos.y + size / 2;
+	float right = pos.x + size / 2;
+	float left = pos.x - size / 2;
+	float top = pos.y - size / 2;
+	float bottom = pos.y + size / 2;
 
-    if (right < 0 || left > WINSIZE_X
-        || bottom < 0 || top > WINSIZE_Y)
-        return true;
+	if (right < 0 || left > WINSIZE_X
+		|| bottom < 0 || top > WINSIZE_Y)
+		return true;
 
-    return false;
+	return false;
 }
 
 void Missile::UpdateCollisionRect()
 {
-    rect = GetRectAtCenter(pos.x, pos.y, size, size);
+	rect = GetRectAtCenter(pos.x, pos.y, size, size);
 }
 
 void NormalMissile::Render(HDC hdc) {
-    if (image) {
-        image->Render(hdc, pos.x, pos.y);
-    }
-    else {
-        std::cerr << "ÀÌ¹ÌÁö°¡ ·ÎµåµÇÁö ¾Ê¾Ò½À´Ï´Ù." << std::endl;
-    }
+	if (image) {
+		image->Render(hdc, pos.x, pos.y);
+	}
+	else {
+		std::cerr << "ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Îµï¿½ï¿½ï¿½ï¿½ ï¿½Ê¾Ò½ï¿½ï¿½Ï´ï¿½." << std::endl;
+	}
 }
 
 
 void NormalMissile::Move() {
-        pos.y -= moveSpeed * angle * TimerManager::GetInstance()->GetDeltaTime() * 10;
+	pos.y -= moveSpeed * angle * TimerManager::GetInstance()->GetDeltaTime() * 10;
 }
 
 void NormalMissile::Notice() {
-    if (owner == MissileOwner::PLAYER) {
-        isActived = true;
-        moveSpeed = 3.0f;
-        size = 10;
-        angle = 90.0f;
-    }
+	if (owner == MissileOwner::PLAYER) {
+		moveSpeed = 3.0f;
+		size = 10;
+		angle = 90.0f;
+	}
+	else if (owner == MissileOwner::ENEMY) {
+		moveSpeed = 3.0f;
+		size = 10;
+		angle = -90.0f;
+	}
 
 }
 
-void NormalMissile::loadImage() {  
-   string imageKey = (owner == MissileOwner::PLAYER) ? "player_normal" : "enemy_normal";  
-   wstring imagePath = (owner == MissileOwner::PLAYER) ? L"Image/bullet.bmp" : L"Image/.bmp";
-   image = ImageManager::GetInstance()->AddImage(  
-       imageKey, imagePath.c_str(), 21, 21, 1, 1,  
-       true, RGB(255, 0, 255));  
+void NormalMissile::loadImage() {
+	string imageKey = (owner == MissileOwner::PLAYER) ? "player_normal" : "enemy_normal";
+	wstring imagePath = (owner == MissileOwner::PLAYER) ? L"Image/bullet.bmp" : L"Image/bullet.bmp";
+	image = ImageManager::GetInstance()->AddImage(
+		imageKey, imagePath.c_str(), 21, 21, 1, 1,
+		true, RGB(255, 0, 255));
 
-   if (!image) {
-       std::cerr << "Failed to load image: " << std::string(imagePath.begin(), imagePath.end()) << std::endl;
-   }
-}  
+	if (!image) {
+		std::cerr << "Failed to load image: " << std::string(imagePath.begin(), imagePath.end()) << std::endl;
+	}
+}
 //SignMissile
 void SignMissile::Render(HDC hdc) {
     if (image) {
@@ -98,7 +102,7 @@ void SignMissile::Render(HDC hdc) {
     else {
         RECT rc = GetRectAtCenter(pos.x, pos.y, size, size);
         Rectangle(hdc, rc.left, rc.top, rc.right, rc.bottom);
-        std::cerr << "ÀÌ¹ÌÁö°¡ ·ÎµåµÇÁö ¾Ê¾Ò½À´Ï´Ù." << std::endl;
+        std::cerr << "ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Îµï¿½ï¿½ï¿½ï¿½ ï¿½Ê¾Ò½ï¿½ï¿½Ï´ï¿½." << std::endl;
     }
 }
 
@@ -107,7 +111,7 @@ void SignMissile::Move() {
     pos.y -= moveSpeed * deltatime * 80;
     pos.x = initialPosX + 50 * sin(DEG_TO_RAD(pos.y));
 
-    SignUpdate();
+	SignUpdate();
 }
 
 void SignMissile::Notice() {
@@ -151,76 +155,161 @@ void SignMissile::SignUpdate()
 }
 
 void LazerMissile::Render(HDC hdc) {
-    if (image) {
-        image->FrameRender(hdc, pos.x, pos.y - 630, animationFrame, 0);
-    }
-    else {
-        std::cerr << "ÀÌ¹ÌÁö°¡ ·ÎµåµÇÁö ¾Ê¾Ò½À´Ï´Ù." << std::endl;
-    }
+	if (image) {
+		image->FrameRender(hdc, pos.x, pos.y - 630, animationFrame, 0);
+	}
+	else {
+		std::cerr << "ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Îµï¿½ï¿½ï¿½ï¿½ ï¿½Ê¾Ò½ï¿½ï¿½Ï´ï¿½." << std::endl;
+	}
 }
 
 void LazerMissile::Move() {
-    UpdateAnim();
-    if (InputManager::isMoveLeft())
-    {
-        pos.x -= TimerManager::GetInstance()->GetDeltaTime() * 500;
-    }
+	UpdateAnim();
+	if (InputManager::isMoveLeft())
+	{
+		pos.x -= TimerManager::GetInstance()->GetDeltaTime() * 500;
+	}
 
-    if (InputManager::isMoveRight())
-    {
-        pos.x += TimerManager::GetInstance()->GetDeltaTime() * 500;
-    }
+	if (InputManager::isMoveRight())
+	{
+		pos.x += TimerManager::GetInstance()->GetDeltaTime() * 500;
+	}
 
-    if (InputManager::isMoveUp())
-    {
-        pos.y -= TimerManager::GetInstance()->GetDeltaTime() * 500;
-    }
-    if (InputManager::isMoveDown())
-    {
-        pos.y += TimerManager::GetInstance()->GetDeltaTime() * 500;
-    }
-    
+	if (InputManager::isMoveUp())
+	{
+		pos.y -= TimerManager::GetInstance()->GetDeltaTime() * 500;
+	}
+	if (InputManager::isMoveDown())
+	{
+		pos.y += TimerManager::GetInstance()->GetDeltaTime() * 500;
+	}
+
 }
 
 void LazerMissile::Notice() {
-    if (owner == MissileOwner::PLAYER) {
-        isActived = true;
-        moveSpeed = 3.5f;
-        size = 50;
-    }
+	if (owner == MissileOwner::PLAYER) {
+		isActived = true;
+		moveSpeed = 3.5f;
+		size = 50;
+	}
+	else if (owner == MissileOwner::ENEMY) {
+		isActived = true;
+		moveSpeed = 3.5f;
+		size = 50;
+		angle = -90;
+	}
 }
 
 void LazerMissile::loadImage() {
-    std::string imageKey = (owner == MissileOwner::PLAYER) ? "player_Lazer_missile" : "enemy_Lazer_missile";
-    std::wstring imagePath = (owner == MissileOwner::PLAYER) ? L"Image/LongLazer.bmp" : L"Image/LongLazer.bmp";
-    image = ImageManager::GetInstance()->AddImage(
-        imageKey, imagePath.c_str(), 345, 1259, 5, 1,
-        true, RGB(255, 255, 255));
+	std::string imageKey = (owner == MissileOwner::PLAYER) ? "player_Lazer_missile" : "enemy_Lazer_missile";
+	std::wstring imagePath = (owner == MissileOwner::PLAYER) ? L"Image/LongLazer.bmp" : L"Image/LongLazer.bmp";
+	image = ImageManager::GetInstance()->AddImage(
+		imageKey, imagePath.c_str(), 345, 1259, 5, 1,
+		true, RGB(255, 255, 255));
 }
 
 void LazerMissile::UpdateCollisionRect()
 {
-    rect = GetRectAtCenter(pos.x, pos.y - 630, size, size * 25);
+	rect = GetRectAtCenter(pos.x, pos.y - 630, size, size * 25);
 }
 
 void LazerMissile::UpdateAnim()
 {
-    elapsedTime += TimerManager::GetInstance()->GetDeltaTime();
-    if (elapsedTime >= 0.1f)
-    {
-        animationFrame++;
-        if (animationFrame >= 5)
-        {
-            animationFrame = 0;
-            isActived = false;
-        }
-            
-        elapsedTime = 0.0f;
-    }
-    /*remainTime -= TimerManager::GetInstance()->GetDeltaTime();
-    if (remainTime <= 0.0f)
-    {
-        isActived = false;
-        remainTime = 0.5f;
-    }*/
+	elapsedTime += TimerManager::GetInstance()->GetDeltaTime();
+	if (elapsedTime >= 0.1f)
+	{
+		animationFrame++;
+		if (animationFrame >= 5)
+		{
+			animationFrame = 0;
+			isActived = false;
+		}
+
+		elapsedTime = 0.0f;
+	}
+	/*remainTime -= TimerManager::GetInstance()->GetDeltaTime();
+	if (remainTime <= 0.0f)
+	{
+		isActived = false;
+		remainTime = 0.5f;
+	}*/
+}
+
+void BossMissile::Render(HDC hdc)
+{
+	if (image) {
+		image->Render(hdc, pos.x, pos.y);
+	}
+	else {
+		std::cerr << "ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Îµï¿½ï¿½ï¿½ï¿½ ï¿½Ê¾Ò½ï¿½ï¿½Ï´ï¿½." << std::endl;
+	}
+}
+
+void BossMissile::Move()
+{
+	float deltaTime = TimerManager::GetInstance()->GetDeltaTime();
+	int moveCount = 0;
+	// ï¿½Ã°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Óµï¿½ ï¿½ï¿½ï¿½ï¿½
+	moveSpeed += (rand() % 10) * deltaTime;
+
+	// ï¿½Î¸Þ¶ï¿½ È¿ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½î¼± ï¿½Ìµï¿½ (sin ï¿½Ô¼ï¿½ È°ï¿½ï¿½)
+	float frequency = 3.0f; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
+	float amplitude = 50.0f; // ï¿½ï¿½ï¿½ï¿½ (ï¿½Â¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½)
+
+	// x ï¿½ï¿½Ç¥ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ sin ï¿½î¼±ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¿ï¿½ ï¿½Â¿ï¿½ ï¿½Ìµï¿½ ï¿½ß°ï¿½
+	pos.x += sin(pos.y * 0.05f) * amplitude * deltaTime;
+
+	// y ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ (ï¿½âº» ï¿½Ìµï¿½)
+	pos.y += moveSpeed * deltaTime * 10;
+
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½Å¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ (ï¿½Õºï¿½ ï¿½îµ¿ È¿ï¿½ï¿½)
+	if (pos.y > WINSIZE_Y || pos.y < 0)
+	{
+		moveSpeed = -moveSpeed; // ï¿½Óµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¿ï¿½ ï¿½Çµï¿½ï¿½Æ¿ï¿½
+		moveCount++; // ï¿½Õºï¿½ È½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	}
+	//isActived = false;
+}
+
+
+
+
+
+
+
+void BossMissile::Notice()
+{
+	if (owner == MissileOwner::PLAYER) {
+		moveSpeed = 3.0f;
+		size = 10;
+		angle = 90.0f;
+	}
+	else if (owner == MissileOwner::ENEMY) {
+		moveSpeed = 3.0f;
+		size = 10;
+		angle = -90.0f;
+	}
+}
+
+void BossMissile::loadImage()
+{
+	string imageKey = (owner == MissileOwner::PLAYER) ? "player_normal" : "enemy_normal";
+	wstring imagePath = (owner == MissileOwner::PLAYER) ? L"Image/bullet.bmp" : L"Image/bullet.bmp";
+	image = ImageManager::GetInstance()->AddImage(
+		imageKey, imagePath.c_str(), 21, 21, 1, 1,
+		true, RGB(255, 0, 255));
+
+	if (!image) {
+		std::cerr << "Failed to load image: " << std::string(imagePath.begin(), imagePath.end()) << std::endl;
+	}
+}
+
+void BossMissile::UpdateCollisionRect()
+{
+	rect = GetRectAtCenter(pos.x, pos.y, size, size);
+}
+
+void BossMissile::BossUpdateAnim()
+{
+
 }

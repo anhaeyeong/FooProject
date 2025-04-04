@@ -8,7 +8,7 @@ enum EnemyAnimType
 	EIDLE,
 	EDead
 };
-
+class MissileFactory;
 class Enemy : public GameObject
 {
 protected:
@@ -25,6 +25,7 @@ protected:
 	float elapsedTime;
 	string name;
 
+	MissileFactory* missileFactory;
 	Image* image;
 	RECT rect;
 	EnemyState* eState;
