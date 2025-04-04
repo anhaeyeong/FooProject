@@ -20,7 +20,7 @@ void Rocket::Init()
 	ElapsedTime = 0.0f;
 	HitTime = 0.0f;
 	animationFrame = 0;
-	currMissile = MissileType::LAZER;
+	currMissile = MissileType::NORMAL;
 
 	missileFactory = PlayerMissileFactory::GetInstance();
 	missileFactory->Init();

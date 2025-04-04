@@ -10,7 +10,7 @@ void EnemyManager::Init()
     maxEnemies = 10;
     spawnPattern = 0;
     count = 0;
-    
+    loopCounter = 0;
     eState = new EnemyIDLEState();
 
     missileFactory = EnemyMissileFactory::GetInstance();
@@ -57,18 +57,29 @@ void EnemyManager::Update()
     {
         if (vecEnemys[i] && vecEnemys[i]->GetIsAlive()==false)
         {
-            //delete vecEnemys[i];
             vecEnemys.erase(vecEnemys.begin() + i);
         }
     }
 
-    // 적이 전부 사라졌다면 새로운 패턴 설정
+
+
     if (vecEnemys.empty())
     {
-        count = rand() % 4;
+
+        for (int i = 0; i < 10; i++) {
+            if (loopCounter == 10) {
+                count = 3;
+            }
+            else if(loopCounter < 5)
+            {
+                count = rand() % 3;
+                loopCounter++;
+            }
+        }
         SetSpawnPattern(count);
-        return;
+
     }
+
     missileFactory->Update();
 }
 
@@ -132,20 +143,7 @@ void EnemyManager::SetSpawnPattern(int pattern)
 		}
 		break;
 
-	case 2:
-		for (int i = 0; i <1; i++)
-		{
-			BossEnemy* enemy = new BossEnemy();
-			enemy->Init(WINSIZE_X/2, 100, 2);
-            enemy->Notice();
-            enemy->loadImage();
-			enemy->UpdateCollisionRect();
-			ColliderManager::GetInstance()->AddEnemy(enemy);
-			vecEnemys.push_back(enemy);
-		}
-		break;
-
-    case 3:  
+    case 2:  
         for (int i = 0; i < 7; i++)
         {
             TrackingEnemy* enemy = new TrackingEnemy();
@@ -153,6 +151,19 @@ void EnemyManager::SetSpawnPattern(int pattern)
             enemy->loadImage();
             enemy->UpdateCollisionRect();
             enemy->Notice();
+            ColliderManager::GetInstance()->AddEnemy(enemy);
+            vecEnemys.push_back(enemy);
+        }
+        break;
+
+    case 3:
+        for (int i = 0; i < 1; i++)
+        {
+            BossEnemy* enemy = new BossEnemy();
+            enemy->Init(WINSIZE_X / 2, 100, 2);
+            enemy->Notice();
+            enemy->loadImage();
+            enemy->UpdateCollisionRect();
             ColliderManager::GetInstance()->AddEnemy(enemy);
             vecEnemys.push_back(enemy);
         }

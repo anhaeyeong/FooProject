@@ -16,7 +16,7 @@ private:
     int maxEnemies;                 
     int spawnPattern;      
     int count;
-
+    int loopCounter;
     Enemy* enemy;
     EnemyState* eState;
     MissileFactory* missileFactory;
