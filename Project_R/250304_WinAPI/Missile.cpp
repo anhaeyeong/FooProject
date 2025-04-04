@@ -57,7 +57,7 @@ void Missile::UpdateCollisionRect()
 
 void NormalMissile::Render(HDC hdc) {
 	if (image) {
-		image->Render(hdc, pos.x, pos.y);
+		image->FrameRender(hdc, pos.x, pos.y, 0, 0);
 	}
 	else {
 		std::cerr << "�̹����� �ε���� �ʾҽ��ϴ�." << std::endl;

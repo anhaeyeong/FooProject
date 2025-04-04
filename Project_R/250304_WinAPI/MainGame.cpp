@@ -38,6 +38,7 @@ void MainGame::Init()
 			TEXT("Image/mainmenu.bmp"), TEXT("Fail!"), MB_OK);
 	}
 	ImageManager::GetInstance()->AddImage("Ending", TEXT("Image/GameOver.bmp"), WINSIZE_X, WINSIZE_Y);
+	ImageManager::GetInstance()->AddImage("WinEnding", TEXT("Image/Win.bmp"), WINSIZE_X, WINSIZE_Y);
 	backGround = new Image();
 	if (FAILED(backGround->Init(TEXT("Image/backgroundspace.bmp"), WINSIZE_X, WINSIZE_Y * 8, 1, 8)))
 	{
@@ -149,6 +150,13 @@ void MainGame::Update()
 			sceneState = SceneState::End;
 			UIManager::GetInstance()->AddImage("Sign", TEXT("Image/Sign.bmp"), WINSIZE_X - 100, WINSIZE_Y - 80, 100, 80);
 			Lobby = ImageManager::GetInstance()->FindImage("Ending");
+		}
+		if (EnemyManager::GetInstance()->GetIsWin())
+		{
+			UIManager::GetInstance()->Clear();
+			sceneState = SceneState::End;
+			UIManager::GetInstance()->AddImage("Sign", TEXT("Image/Sign.bmp"), WINSIZE_X - 100, WINSIZE_Y - 80, 100, 80);
+			Lobby = ImageManager::GetInstance()->FindImage("WinEnding");
 		}
 		break;
 	case SceneState::End:

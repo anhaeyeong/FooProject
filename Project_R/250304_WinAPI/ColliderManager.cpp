@@ -251,13 +251,13 @@ void ColliderManager::CheckEnemyPlayerMissileCollision()
                             break;
                         case MissileType::SIGN:
                             // 특수 미사일 처리 
-                            enemy->Hit(3.0f);
+                            enemy->Hit(5.0f);
                             missile->isActived = false;
                             //범위 데미지
                             break;
                         case MissileType::LAZER:
                             // 레이저 미사일 처리 
-                            enemy->Hit(0.1f);
+                            enemy->Hit(0.08f);
                             //missile->isActived = true;
                             //관통효과
                             break;

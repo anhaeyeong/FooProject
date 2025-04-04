@@ -7,10 +7,12 @@ void EnemyManager::Init()
 {
     spawnInterval = 2;
     elapsedTime = 0.0f;
+    winDelay = 0.0f;
     maxEnemies = 10;
     spawnPattern = 0;
     count = 0;
     loopCounter = 0;
+    isWin = false;
     eState = new EnemyIDLEState();
 
     missileFactory = EnemyMissileFactory::GetInstance();
@@ -65,13 +67,20 @@ void EnemyManager::Update()
 
     if (vecEnemys.empty())
     {
-        if (loopCounter >= 10) {
+        if (loopCounter == 10) {
             count = 3;
+			loopCounter++;
         }
-        else
+        else if(loopCounter < 10)
         {
             count = rand() % 3;
             loopCounter++;
+        }
+        else
+        {
+            winDelay += TimerManager::GetInstance()->GetDeltaTime();
+            if (winDelay >= 2.0f)
+                isWin = true;
         }
 
         SetSpawnPattern(count);

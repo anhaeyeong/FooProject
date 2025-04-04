@@ -105,6 +105,7 @@ private:
 	float Lazercooltime;
 	int attackpattern;
 	int dir;
+	
 public:
 	BossEnemy() : Enemy(), cooltime(0.0f), Lazercooltime(0.0f), attackpattern(0), dir(1) {}
 	virtual ~BossEnemy() {}
