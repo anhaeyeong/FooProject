@@ -355,7 +355,7 @@ void TrackingEnemy::Notice()
 	isAlive = true;
 	size = 20;
 	hp = 1;  
-	trackingSpeed = 200.0f;
+	trackingSpeed = 400.0f;
 	detectRange = 900.0f;  
 	animationFrame = 0;
 	elapsedFrame = 0;

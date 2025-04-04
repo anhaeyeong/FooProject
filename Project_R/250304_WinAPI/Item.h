@@ -13,7 +13,7 @@ protected:
 	RECT rect;
 	int size;
 	bool isActived; //아이템상자 활성화여부
-
+	float moveSpeed;
 	eItemType type;
 	Image* image;
 public:
@@ -21,7 +21,7 @@ public:
 	void Update();
 	void Release();
 	virtual void Render(HDC hdc);
-
+	void Move();
 	void UpdateCollisionRect();
 
 	RECT GetRect() const { return rect; }

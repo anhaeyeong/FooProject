@@ -181,6 +181,24 @@ void MissileFactory::Render(HDC hdc)
     }
 }
 
+void MissileFactory::DeactivateAllMissiles()
+{
+    for (auto& missile : vecMissiles) {
+        if (missile) {
+            missile->isActived = false;
+        }
+    }
+}
+
+void MissileFactory::DeactivateMissilesByType(MissileType type)
+{
+    for (auto& missile : vecMissiles) {
+        if (missile && missile->GetType() == type) {
+            missile->isActived = false;
+        }
+    }
+}
+
 Missile* PlayerMissileFactory::CreateMissile(MissileType type, FPOINT pos)  
 {  
   Missile* missile = nullptr;  

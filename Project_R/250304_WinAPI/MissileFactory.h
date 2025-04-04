@@ -22,6 +22,8 @@ public:
     void loadImage();
     void Update();
     void Render(HDC hdc);
+    void DeactivateAllMissiles(); // 모든 미사일 비활성화
+    void DeactivateMissilesByType(MissileType type); // 특정 타입의 미사일만 비활성화
     virtual Missile* CreateMissile(MissileType type,FPOINT pos) = 0;
 };
 
