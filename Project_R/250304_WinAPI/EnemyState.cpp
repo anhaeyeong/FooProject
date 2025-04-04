@@ -19,12 +19,13 @@ void EnemyIDLEState::Exit(Enemy& enemy)
 
 void EnemyDeadState::Enter(Enemy& enemy)  
 {  
-   enemy.ChangeAnimation(EnemyAnimType::EDead);  
+   enemy.ChangeAnimation(EnemyAnimType::EDead);
 }  
 
 void EnemyDeadState::Update(Enemy& enemy)  
 {  
    enemy.UpdateAnimation(9);   
+   
 }  
 
 void EnemyDeadState::Exit(Enemy& enemy)  

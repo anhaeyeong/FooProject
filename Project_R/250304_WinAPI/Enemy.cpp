@@ -243,16 +243,68 @@ void BossEnemy::ChangeAnimation(EnemyAnimType eAnimation)
 	}
 }
 
+void BossEnemy::CalcAttackPattern()
+{
+	attackpattern = rand() % 4;
+	switch (attackpattern)
+	{
+	case 0:
+		missileFactory->AddMissile(MissileType::NORMAL, { pos.x, 120 });
+		break;
+	case 1:
+		missileFactory->AddMissile(MissileType::SIGN, { pos.x, 120 });
+		break;
+	case 2:
+		missileFactory->AddMissile(MissileType::LAZER, { pos.x, 120 });
+		break;
+	case 3:
+		for (int i = 0; i < 4; i++)
+		{
+			missileFactory->AddMissile(MissileType::BOSS, { pos.x, 120 });
+		}
+		break;
+	default:
+		break;
+	}
+}
+
 void BossEnemy::Notice()
 {
-	moveSpeed = 0.4f;
+	moveSpeed = 200.0f;
 	angle = -90.0f;
 	size = 300;
 }
 
 void BossEnemy::Move()
 {
-	missileFactory->AddMissile(MissileType::BOSS, { WINSIZE_X / 2  , 120 });
+	cooltime -= TimerManager::GetInstance()->GetDeltaTime();
+	if (cooltime <= 0.0f)
+	{
+		CalcAttackPattern();
+		cooltime = 0.7f;
+	}
+	Lazercooltime -= TimerManager::GetInstance()->GetDeltaTime();
+	if (Lazercooltime <= 0.0f)
+	{
+		missileFactory->AddMissile(MissileType::LAZER, { 0  , 0 });
+		missileFactory->AddMissile(MissileType::LAZER, { WINSIZE_X  , 0 });
+		missileFactory->AddMissile(MissileType::LAZER, { 50  , 0 });
+		missileFactory->AddMissile(MissileType::LAZER, { WINSIZE_X - 50  , 0 });
+		missileFactory->AddMissile(MissileType::LAZER, { 100  , 0 });
+		missileFactory->AddMissile(MissileType::LAZER, { WINSIZE_X - 100  , 0 });
+		Lazercooltime = 0.3f;
+	}
+	int randSpeed = rand() % 200 + 150;
+	moveSpeed = (float)randSpeed;
+	pos.x += TimerManager::GetInstance()->GetDeltaTime() * moveSpeed * dir;
+	if (pos.x > WINSIZE_X - 300)
+	{
+		dir = -1;
+	}
+	else if (pos.x < 300)
+	{
+		dir = 1;
+	}
 }
 
 void BossEnemy::Render(HDC hdc)
