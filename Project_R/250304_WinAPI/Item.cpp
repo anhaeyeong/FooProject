@@ -6,6 +6,16 @@ void Item::Init()
 
 void Item::Update()
 {
+	if (pos.x > WINSIZE_X || pos.y > WINSIZE_Y || pos.x < 0 || pos.y <0)
+	{
+		pos = { static_cast<float>(rand() % (WINSIZE_X - 50)),
+			static_cast<float>(rand() % (WINSIZE_Y - 50)) }; 
+	}
+	else
+	{
+		Move();
+	}
+
 	if (isActived)
 	{
 		UpdateCollisionRect();
@@ -18,6 +28,13 @@ void Item::Release()
 
 void Item::Render(HDC hdc)
 {
+}
+
+void Item::Move()
+{
+	pos.x += (rand() % 2 == 0 ? moveSpeed : -moveSpeed) * TimerManager::GetInstance()->GetDeltaTime() * 500;
+	pos.y += moveSpeed * TimerManager::GetInstance()->GetDeltaTime() * 500;
+
 }
 
 void Item::UpdateCollisionRect()
@@ -35,6 +52,7 @@ Item::~Item()
 
 void MineralItem::Init()
 {
+	moveSpeed = 0.1f;
 	pos = { static_cast<float> (rand() % (WINSIZE_X - 100)),
 			static_cast<float> (rand() % (WINSIZE_Y - 100)) };
 	size = 30;
@@ -65,6 +83,7 @@ MineralItem::~MineralItem()
 
 void GasItem::Init()
 {
+	moveSpeed = 0.1f;
 	pos = { static_cast<float> (rand() % (WINSIZE_X - 100)), 
 			static_cast<float> (rand() % (WINSIZE_Y - 100)) };
 	size = 30;
