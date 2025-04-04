@@ -8,6 +8,7 @@ void UIManager::Init()
 
 void UIManager::Render(HDC hdc)
 {
+    SetBkMode(hdc, TRANSPARENT);
     if (hdc == nullptr) return;
 
     // 이미지 UI 렌더링
@@ -17,6 +18,7 @@ void UIManager::Render(HDC hdc)
 
     // 텍스트 UI 렌더링
     for (auto& text : textUI) {
+        SetTextColor(hdc, RGB(0, 150, 0));
         TextOutA(hdc, text.second.x, text.second.y, text.first.c_str(), text.first.length());
     }
     // 미사일타입

@@ -174,14 +174,14 @@ void MainGame::Render()
 	case SceneState::Main:
 		backGround->FrameRender(hBackBufferDC, WINSIZE_X / 2, WINSIZE_Y / 2, 0, mainFrame);
 
-		wsprintf(szText, TEXT("Mouse X : %d, Y : %d"), mousePosX, mousePosY);
-		TextOut(hBackBufferDC, 20, 60, szText, wcslen(szText));
+		//wsprintf(szText, TEXT("Mouse X : %d, Y : %d"), mousePosX, mousePosY);
+		//TextOut(hBackBufferDC, 20, 60, szText, wcslen(szText));
 
 		EnemyManager::GetInstance()->Render(hBackBufferDC);
 		rocket->Render(hBackBufferDC);
 		itemManager->Render(hBackBufferDC);
 		UIManager::GetInstance()->Render(hBackBufferDC);
-		ColliderManager::GetInstance()->Render(hBackBufferDC);
+		//ColliderManager::GetInstance()->Render(hBackBufferDC);
 		TimerManager::GetInstance()->Render(hBackBufferDC);
 		break;
 	case SceneState::End:
