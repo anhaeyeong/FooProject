@@ -127,7 +127,7 @@ void SignMissile::Notice() {
 
 void SignMissile::loadImage() {  
    string imageKey = (owner == MissileOwner::PLAYER) ? "player_sin_missile" : "enemy_sin_missile";  
-   wstring imagePath = (owner == MissileOwner::PLAYER) ? L"Image/arcon.bmp" : L"Image/ScurgeAnimation.bmp";  
+   wstring imagePath = (owner == MissileOwner::PLAYER) ? L"Image/arcon.bmp" : L"Image/arcon.bmp";  
    image = ImageManager::GetInstance()->AddImage(
        imageKey, imagePath.c_str(), 1008, 92, 12, 1,
        true, RGB(255, 255, 255));

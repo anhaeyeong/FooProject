@@ -1,6 +1,7 @@
 #include "EnemyState.h"  
 #include "Enemy.h"  
 #include "EnemyManager.h"  
+#include "MissileFactory.h"
 
 void EnemyIDLEState::Enter(Enemy& enemy)  
 {  
@@ -20,6 +21,9 @@ void EnemyIDLEState::Exit(Enemy& enemy)
 void EnemyDeadState::Enter(Enemy& enemy)  
 {  
    enemy.ChangeAnimation(EnemyAnimType::EDead);  
+   if (enemy.GetName() == "BossEnemy") {
+       EnemyMissileFactory::GetInstance()->DeactivateMissilesByType(MissileType::BOSS);
+   }
 }  
 
 void EnemyDeadState::Update(Enemy& enemy)  
