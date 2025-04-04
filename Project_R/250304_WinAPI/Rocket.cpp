@@ -33,8 +33,8 @@ void Rocket::Init()
 		"AttackRocket", TEXT("Image/SCV_Attack.bmp"), 40 * 2, 41 * 2, 1, 1,
 		true, RGB(48, 64, 47));
 	ImageManager::GetInstance()->AddImage(
-		"HitRocket", TEXT("Image/ufo.bmp"), 530, 32, 10, 1,
-		true, RGB(255, 0, 255));
+		"HitRocket", TEXT("Image/SCV_IDLE.bmp"), 35 * 2, 30 * 2, 1, 1,
+		true, RGB(48, 64, 47));
 	ImageManager::GetInstance()->AddImage(
 		"DeadRocket", TEXT("Image/SCV_Dead.bmp"), 435, 97, 5, 1, true, RGB(255, 255, 255));
 	image = ImageManager::GetInstance()->FindImage("rocket");
