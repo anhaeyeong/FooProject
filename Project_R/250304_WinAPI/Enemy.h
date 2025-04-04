@@ -17,7 +17,7 @@ protected:
 	float angle;
 	float damage;
 	int size;
-	int hp;
+	float hp;
 	bool isAlive;
 	int spawnPattern;
 	int animationFrame;
@@ -43,6 +43,7 @@ public:
 	void Update();
 	virtual void ChangeAnimation(EnemyAnimType eAnimation) = 0;
 	void ChangeState(EnemyState* newState);
+	void Hit(float damage);
 
 	virtual void Notice() = 0;
 	virtual void Move() = 0;
