@@ -65,8 +65,8 @@ void EnemyManager::Update()
     // 적이 전부 사라졌다면 새로운 패턴 설정
     if (vecEnemys.empty())
     {
-        count = rand() % 4;
-        SetSpawnPattern(count);
+        //count = rand() % 4;
+        SetSpawnPattern(2);
         return;
     }
     missileFactory->Update();

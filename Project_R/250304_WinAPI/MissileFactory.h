@@ -39,4 +39,12 @@ class EnemyMissileFactory : public MissileFactory, public Singleton<EnemyMissile
 public:
     EnemyMissileFactory() : MissileFactory(MissileOwner::ENEMY) {}
     virtual Missile* CreateMissile(MissileType type,FPOINT pos) override;
+	void ClearVector()
+	{
+		for (auto& missile : vecMissiles)
+		{
+			delete missile;
+		}
+		vecMissiles.clear();
+	}
 };

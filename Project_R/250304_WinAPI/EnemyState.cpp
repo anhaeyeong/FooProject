@@ -29,6 +29,7 @@ void EnemyDeadState::Enter(Enemy& enemy)
 void EnemyDeadState::Update(Enemy& enemy)  
 {  
    enemy.UpdateAnimation(9);   
+   
 }  
 
 void EnemyDeadState::Exit(Enemy& enemy)  

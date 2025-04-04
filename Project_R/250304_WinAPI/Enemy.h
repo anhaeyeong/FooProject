@@ -99,11 +99,17 @@ public:
 
 class BossEnemy : public Enemy
 {
+private:
+	float cooltime;
+	float Lazercooltime;
+	int attackpattern;
+	int dir;
 public:
-	BossEnemy() : Enemy() {}
+	BossEnemy() : Enemy(), cooltime(0.0f), Lazercooltime(0.0f), attackpattern(0), dir(1) {}
 	virtual ~BossEnemy() {}
 
 	void ChangeAnimation(EnemyAnimType eAnimation) override;
+	void CalcAttackPattern();
 
 	virtual void Notice() override;
 	virtual void Move() override;

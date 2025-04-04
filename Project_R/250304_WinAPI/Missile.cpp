@@ -108,7 +108,10 @@ void SignMissile::Render(HDC hdc) {
 
 void SignMissile::Move() {
     float deltatime = TimerManager::GetInstance()->GetDeltaTime();
-    pos.y -= moveSpeed * deltatime * 80;
+	if (owner == MissileOwner::PLAYER)
+		pos.y -= moveSpeed * deltatime * 80;
+	else if (owner == MissileOwner::ENEMY)
+		pos.y += moveSpeed * deltatime * 80;
     pos.x = initialPosX + 50 * sin(DEG_TO_RAD(pos.y));
 
 	SignUpdate();
@@ -122,7 +125,16 @@ void SignMissile::Notice() {
         initialPosX = pos.x;
         currFrame = 0; 
         animElapsedTime = 0.0f;
-    }
+	}
+	else if (owner == MissileOwner::ENEMY) {
+		isActived = true;
+		moveSpeed = 5.0f;
+		size = 50;
+		initialPosX = pos.x;
+		currFrame = 0;
+		animElapsedTime = 0.0f;
+		angle = -90.0f;
+	}
 }
 
 void SignMissile::loadImage() {  
@@ -156,7 +168,10 @@ void SignMissile::SignUpdate()
 
 void LazerMissile::Render(HDC hdc) {
 	if (image) {
-		image->FrameRender(hdc, pos.x, pos.y - 630, animationFrame, 0);
+		if (this->GetOwner() == MissileOwner::PLAYER)
+			image->FrameRender(hdc, pos.x, pos.y - 630, animationFrame, 0);
+		else if (this->GetOwner() == MissileOwner::ENEMY)
+			image->FrameRender(hdc, pos.x, pos.y + 630, animationFrame, 0);
 	}
 	else {
 		std::cerr << "�̹����� �ε���� �ʾҽ��ϴ�." << std::endl;
@@ -165,25 +180,27 @@ void LazerMissile::Render(HDC hdc) {
 
 void LazerMissile::Move() {
 	UpdateAnim();
-	if (InputManager::isMoveLeft())
+	if (this->GetOwner() == MissileOwner::PLAYER)
 	{
-		pos.x -= TimerManager::GetInstance()->GetDeltaTime() * 500;
-	}
+		if (InputManager::isMoveLeft())
+		{
+			pos.x -= TimerManager::GetInstance()->GetDeltaTime() * 500;
+		}
 
-	if (InputManager::isMoveRight())
-	{
-		pos.x += TimerManager::GetInstance()->GetDeltaTime() * 500;
-	}
+		if (InputManager::isMoveRight())
+		{
+			pos.x += TimerManager::GetInstance()->GetDeltaTime() * 500;
+		}
 
-	if (InputManager::isMoveUp())
-	{
-		pos.y -= TimerManager::GetInstance()->GetDeltaTime() * 500;
+		if (InputManager::isMoveUp())
+		{
+			pos.y -= TimerManager::GetInstance()->GetDeltaTime() * 500;
+		}
+		if (InputManager::isMoveDown())
+		{
+			pos.y += TimerManager::GetInstance()->GetDeltaTime() * 500;
+		}
 	}
-	if (InputManager::isMoveDown())
-	{
-		pos.y += TimerManager::GetInstance()->GetDeltaTime() * 500;
-	}
-
 }
 
 void LazerMissile::Notice() {
@@ -210,7 +227,10 @@ void LazerMissile::loadImage() {
 
 void LazerMissile::UpdateCollisionRect()
 {
-	rect = GetRectAtCenter(pos.x, pos.y - 630, size, size * 25);
+	if (this->GetOwner() == MissileOwner::PLAYER)
+		rect = GetRectAtCenter(pos.x, pos.y - 630, size, size * 25);
+	else if (this->GetOwner() == MissileOwner::ENEMY)
+		rect = GetRectAtCenter(pos.x, pos.y + 630, size, size * 25);
 }
 
 void LazerMissile::UpdateAnim()
