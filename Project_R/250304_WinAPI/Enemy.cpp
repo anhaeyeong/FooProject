@@ -279,7 +279,7 @@ void BossEnemy::CalcAttackPattern()
 
 void BossEnemy::Notice()
 {
-	hp = 700.0f;
+	hp = 2000.0f;
 	moveSpeed = 200.0f;
 	angle = -90.0f;
 	size = 300;
