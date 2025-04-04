@@ -3,7 +3,7 @@
 
 bool InputManager::isMoveLeft(void)
 {
-    if (KeyManager::GetInstance()->IsStayKeyDown(0x41)) { 
+    if (KeyManager::GetInstance()->IsStayKeyDown(0x41)) {
         return true;
     }
 
@@ -12,7 +12,7 @@ bool InputManager::isMoveLeft(void)
 
 bool InputManager::isMoveRight(void)
 {
-    if (KeyManager::GetInstance()->IsStayKeyDown(0x44)) {  // 0x44 is the virtual key code for 'D'
+    if (KeyManager::GetInstance()->IsStayKeyDown(0x44)) {
         return true;
     }
     return false;
@@ -20,7 +20,7 @@ bool InputManager::isMoveRight(void)
 
 bool InputManager::isMoveUp(void)
 {
-    if (KeyManager::GetInstance()->IsStayKeyDown(0x57)) {  // 0x57 is the virtual key code for 'W'
+    if (KeyManager::GetInstance()->IsStayKeyDown(0x57)) {
         return true;
     }
     return false;
@@ -28,7 +28,7 @@ bool InputManager::isMoveUp(void)
 
 bool InputManager::isMoveDown(void)
 {
-    if (KeyManager::GetInstance()->IsStayKeyDown(0x53)) {  // 0x53 is the virtual key code for 'S'
+    if (KeyManager::GetInstance()->IsStayKeyDown(0x53)) {
         return true;
     }
     return false;

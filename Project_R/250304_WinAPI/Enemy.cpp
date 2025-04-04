@@ -252,7 +252,6 @@ void BossEnemy::Notice()
 void BossEnemy::Move()
 {
 	missileFactory->AddMissile(MissileType::BOSS, { WINSIZE_X / 2  , 120 });
-
 }
 
 void BossEnemy::Render(HDC hdc)

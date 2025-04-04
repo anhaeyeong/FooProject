@@ -266,7 +266,7 @@ void BossMissile::Move()
 		moveSpeed = -moveSpeed; // 속도 반전하여 되돌아옴
 		moveCount++; // 왕복 횟수 증가
 	}
-	isActived = false;
+	//isActived = false;
 }
 
 
