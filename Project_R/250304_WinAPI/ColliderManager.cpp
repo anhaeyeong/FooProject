@@ -239,7 +239,7 @@ void ColliderManager::CheckEnemyPlayerMissileCollision()
                     if (enemy->GetState()->GetName() != "Dead")
                     {
                         isCollision = true;
-                        missile->isActived = false;
+                        
 
                         // 미사일 타입에 따른 적 처리
                         switch (missile->GetType())
@@ -247,17 +247,19 @@ void ColliderManager::CheckEnemyPlayerMissileCollision()
                         case MissileType::NORMAL:
                             // 일반 미사일 처리
                             enemy->ChangeState(new EnemyDeadState());
+                            missile->isActived = false;
                             //적 체력 감소
                             break;
                         case MissileType::SIGN:
                             // 특수 미사일 처리 
                             enemy->ChangeState(new EnemyDeadState());
+                            missile->isActived = false;
                             //범위 데미지
                             break;
                         case MissileType::LAZER:
                             // 레이저 미사일 처리 
                             enemy->ChangeState(new EnemyDeadState());
-                            missile->isActived = true;
+                            //missile->isActived = true;
                             //관통효과
                             break;
                         }

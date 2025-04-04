@@ -136,8 +136,12 @@ void Rocket::HandleInput()
 	if (KeyManager::GetInstance()->IsOnceKeyUp(VK_NUMPAD4) ||
 		KeyManager::GetInstance()->IsOnceKeyUp(VK_NUMPAD5) ||
 		KeyManager::GetInstance()->IsOnceKeyUp(VK_NUMPAD6) ||
-		KeyManager::GetInstance()->IsOnceKeyUp(VK_NUMPAD8) ||
-		KeyManager::GetInstance()->IsOnceKeyUp(VK_SPACE))
+		KeyManager::GetInstance()->IsOnceKeyUp(VK_NUMPAD8))
+	{
+		if (state->GetName() != "Hit" && state->GetName() != "Attack")
+			ChangeState(new IDLEState());
+	}
+	if(KeyManager::GetInstance()->IsOnceKeyUp(VK_SPACE))
 	{
 		if (state->GetName() != "Hit")
 			ChangeState(new IDLEState());

@@ -64,7 +64,10 @@ void AttackState::Update(Rocket& player)
     if (cooltime <= 0)
     {
         player.Fire();
-        cooltime = 0.1f;
+        if (player.GetCurrentMissileType() == MissileType::LAZER)
+            cooltime = 1.2f;
+        else
+            cooltime = 0.1f;
     }
     player.UpdateAnimation(1);
 }

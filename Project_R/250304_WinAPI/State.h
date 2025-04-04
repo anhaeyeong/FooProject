@@ -62,7 +62,7 @@ public:
 	void Update(Rocket& player) override;
 	void Exit(Rocket& player) override;
 	AttackState() {
-		cooltime = 0.1f;
+		cooltime = 0.0f;
 		StateName = "Attack";
 	};
 	virtual ~AttackState() {};
